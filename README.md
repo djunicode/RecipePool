@@ -16,7 +16,7 @@ __*NOBODY SHOULD DIRECTLY PUSH TO THE MAIN REPO.*__
 
 There will be 2 branches
 - main
-- andorid
+- android
 - backend
 
 _Apart from the 2 branches above you can create as many branches as you want._
