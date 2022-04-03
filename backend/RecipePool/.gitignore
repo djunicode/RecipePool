@@ -1,8 +1,15 @@
-.eslintcache
+# Django #
+*.log
+*.pot
 *.pyc
-__pycache__/
-.env
-.venv
-env/
-venv/
-.DS_Store
+__pycache__
+db.sqlite3
+.env 
+.venv 
+env/ 
+venv/ 
+ENV/ 
+env.bak/ 
+venv.bak/
+**/.DS_Store
+virtual/
