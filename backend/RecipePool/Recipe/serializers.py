@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Ingredient,IngredientList,Recipe,Likes,Favourite,Inventory,ShoppingList,DietLog
+from .models import Ingredient,IngredientList,Recipe,Likes,Favourite,Inventory
 
 class IngredientSerializer(serializers.ModelSerializer):
 
@@ -40,18 +40,4 @@ class InventorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Inventory
-        fields = '__all__'
-
-
-class ShoppingListSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = ShoppingList
-        fields = '__all__'
-
-
-class DietLogSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = DietLog
         fields = '__all__'

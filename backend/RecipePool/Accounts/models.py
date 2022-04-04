@@ -3,6 +3,9 @@ from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from django.conf import settings
+from Recipe.models import Ingredient
+
 # Create your models here.
 
 def upload_path_handler(instance, filename):
@@ -99,3 +102,23 @@ class User(AbstractBaseUser):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
+
+class Inventory(models.Model):
+    user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_inventory')
+    ingredient      = models.ForeignKey(Ingredient,on_delete=models.CASCADE,related_name='inventory_ingredient')
+    quantity        = models.FloatField(default = 1.0)
+
+    class Meta:
+        verbose_name_plural = 'Inventories'
+    
+    def __str__(self):
+        return f"{self.ingredient} - {self.quantity}"
+
+
+class ShoppingList(models.Model):
+    user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_shopping_list')
+    ingredient      = models.ForeignKey(Ingredient,on_delete=models.CASCADE,related_name='list_ingredient')
+    quantity        = models.FloatField(default = 1.0)
+    
+    def __str__(self):
+        return f"{self.ingredient} - {self.quantity}"

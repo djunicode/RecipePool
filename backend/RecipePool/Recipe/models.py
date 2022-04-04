@@ -26,14 +26,14 @@ class Recipe(models.Model):
     totalTime          = models.TimeField()
     url                = models.URLField(null=True)
     image              = models.ImageField(upload_to = upload_path_handler)
-    healthLabels       = models.JSONField()
-    totalNutrients     = models.JSONField()
+    healthLabels       = models.CharField(max_length=100)
+    totalNutrients     = models.CharField(max_length=100)
     calories           = models.IntegerField()
     cuisineType        = models.CharField(max_length=50)
     mealType           = models.CharField(max_length=50)
     dishType           = models.CharField(max_length=50)
     likes              = models.PositiveIntegerField(default = 0)
-    missingIngredients = models.JSONField(null = True)
+    missingIngredients = models.CharField(max_length=100, null = True)
 
     def __str__(self):
         return self.label
@@ -63,25 +63,8 @@ class Favourite(models.Model):
     def __str__(self):
         return f"{self.recipe} for {self.user}"
 
-class Inventory(models.Model):
-    user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_inventory')
-    ingredient      = models.ForeignKey(Ingredient,on_delete=models.CASCADE,related_name='inventory_ingredient')
-    quantity        = models.FloatField(default = 1.0)
-
-    class Meta:
-        verbose_name_plural = 'Inventories'
-    
-    def __str__(self):
-        return f"{self.ingredient} - {self.quantity}"
-
-class ShoppingList(models.Model):
-    user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_shopping_list')
-    ingredient      = models.ForeignKey(Ingredient,on_delete=models.CASCADE,related_name='list_ingredient')
-    quantity        = models.FloatField(default = 1.0)
-    
-    def __str__(self):
-        return f"{self.ingredient} - {self.quantity}"
-
+#To be done later
+'''
 class DietLog(models.Model):
     user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_log')
     recipe          = models.ForeignKey(Recipe,on_delete=models.CASCADE,related_name='recipe_log')
@@ -94,3 +77,4 @@ class DietLog(models.Model):
 
     def __str__(self):
         return f"{self.user} on {self.date}"
+'''

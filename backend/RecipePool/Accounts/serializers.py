@@ -9,6 +9,7 @@ from django.utils.encoding import force_str, smart_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.urls import reverse
 
+from .models import ShoppingList, Inventory
 from .utils import Util
 from django.conf import settings
 
@@ -90,3 +91,15 @@ class LogoutSerializer(serializers.Serializer):
 
         except TokenError:
             self.fail('bad_token')
+
+class InventorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Inventory
+        fields = '__all__'
+
+class ShoppingListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ShoppingList
+        fields = '__all__'
