@@ -34,10 +34,3 @@ class FavouriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favourite
         fields = '__all__'
-
-
-class InventorySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Inventory
-        fields = '__all__'
