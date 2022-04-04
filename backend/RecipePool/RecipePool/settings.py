@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     #thirdparty
     'Accounts',
+    'Recipe',
 ]
 
 AUTH_USER_MODEL = 'Accounts.User'
