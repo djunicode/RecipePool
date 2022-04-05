@@ -8,7 +8,7 @@ from django.http.response import HttpResponse, JsonResponse
 import jwt
 from rest_framework.views import APIView
 from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import (mixins, generics, status, permissions)
 from rest_framework.response import Response
 
@@ -47,9 +47,9 @@ class VerifyEmail(APIView):
 
     serializer_class = EmailVerificationSerializer
 
-    token_param_config = openapi.Parameter('token',in_=openapi.IN_QUERY, type=openapi.TYPE_STRING, description="Enter token here")
+    token_param_config = OpenApiParameter('token',location=openapi.IN_QUERY, description="Enter token here")
 
-    @swagger_auto_schema(manual_parameters=[token_param_config])
+    @extend_schema(parameters=[token_param_config],)
     def get(self, request, *args, **kwargs):
         token = request.GET.get('token')
 
