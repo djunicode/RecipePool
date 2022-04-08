@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'drf_spectacular',
 
     #thirdparty
     'Accounts',
@@ -97,10 +98,19 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     'NON_FIELD_ERRORS_KEY': 'error',
+    'DEFAULT_SCHEMA_CLASS': "drf_spectacular.openapi.AutoSchema",
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication'
     )
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Recipe Pool API',
+    'DESCRIPTION': 'This is the API documentation for the Recipe pool app!',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
 
 SIMPLE_JWT = {
@@ -163,4 +173,4 @@ EMAIL_HOST_USER= config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
 FRONT_END_HOST="http://localhost:3000"
 DEFAULT_FROM_EMAIL =config('DEFAULT_FROM_EMAIL')
-SERVER_EMAIL = config('SERVER_EMAIL')
+#SERVER_EMAIL = config('SERVER_EMAIL')
