@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RecipePool</string>
+    <string name="open">Open Navigation drawer</string>
+    <string name="close">Close Navigation drawer</string>
 </resources>
