@@ -1,29 +1,39 @@
 package com.example.recipepool
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.recipepool.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var toggle: ActionBarDrawerToggle
-    lateinit var drawer: DrawerLayout
+    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var drawer: DrawerLayout
     private lateinit var toolbar: Toolbar
-    lateinit var nav: NavigationView
-    lateinit var binding : ActivityMainBinding
+    private lateinit var nav: NavigationView
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         nav = binding.leftNav
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+                as NavHostFragment
+        navController = navHostFragment.navController
+
+        binding.bottomNavigation.setupWithNavController(navController)
 
         toolbar = binding.toolbar
         setSupportActionBar(toolbar)
@@ -32,15 +42,15 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toggle.isDrawerIndicatorEnabled = true
-        toggle.drawerArrowDrawable.color = resources.getColor(R.color.black)
+        toggle.drawerArrowDrawable.color = ContextCompat.getColor(this, R.color.black)
         drawer.addDrawerListener(toggle)
         toggle.syncState()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search, menu)
-        val search_btn = menu.findItem(R.id.search)
-        val search = search_btn?.actionView as SearchView
+        val searchBtn = menu.findItem(R.id.search)
+        val search = searchBtn?.actionView as SearchView
         search.queryHint = "Search Here"
         return true
     }
