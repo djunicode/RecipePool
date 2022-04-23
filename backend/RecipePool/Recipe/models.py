@@ -33,7 +33,7 @@ class Recipe(models.Model):
     mealType           = models.CharField(max_length=50)
     dishType           = models.CharField(max_length=50)
     likes              = models.PositiveIntegerField(default = 0)
-    missingIngredients = models.CharField(max_length=100, null = True)
+    missingIngredients = models.CharField(max_length=100, null = True, blank = True)
 
     def __str__(self):
         return self.label
