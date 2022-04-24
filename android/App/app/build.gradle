@@ -53,7 +53,11 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.13.1'
 
-    // Chip Navigation Bar
+    //retrofit api
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    //chip navigation bar
     implementation 'com.github.ismaeldivita:chip-navigation-bar:1.4.0'
 
 

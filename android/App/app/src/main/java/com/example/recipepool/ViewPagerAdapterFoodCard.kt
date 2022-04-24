@@ -3,8 +3,8 @@ package com.example.recipepool
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipepool.data.FoodList
 import com.example.recipepool.databinding.LayerListCardBinding
 
 class ViewPagerAdapterFoodCard(private val context: Context, private val data: List<FoodList>) :
@@ -22,7 +22,7 @@ class ViewPagerAdapterFoodCard(private val context: Context, private val data: L
             with(data[position]) {
                 binding.time.text = this.time
                 binding.foodNameText.text = this.name
-                binding.ratingBar.rating = this.rating
+                binding.ratingBar.rating = this.rating!!
             }
         }
     }
