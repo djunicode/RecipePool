@@ -61,7 +61,7 @@ class SignUp : AppCompatActivity() {
         }
 
         // on click sing up button
-        binding.btSignup.setOnClickListener {
+        binding.viewSignUP.setOnClickListener {
 
             // if NAME is empty
             if (binding.etName.text.toString().trim().isEmpty()) {

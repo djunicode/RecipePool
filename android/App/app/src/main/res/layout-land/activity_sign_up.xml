@@ -8,7 +8,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="94dp"
+        tools:layout_editor_absoluteY="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -31,8 +33,9 @@
                 android:id="@+id/et_name"
                 android:layout_width="320dp"
                 android:layout_height="44dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
                 android:ems="10"
+                android:gravity=""
                 android:hint="Name"
                 android:inputType="textPersonName"
                 android:textColorHint="#99000000"
@@ -180,11 +183,10 @@
                 android:layout_height="42dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/rectangle_7"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/radioGroup"
                 app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
             <TextView
@@ -201,44 +203,21 @@
                 app:layout_constraintStart_toStartOf="@+id/view_signUP"
                 app:layout_constraintTop_toTopOf="@+id/view_signUP" />
 
-            <View
-                android:id="@+id/line"
-                android:layout_width="150dp"
-                android:layout_height="1dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="28dp"
-                android:background="@drawable/vector_6"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_signUP" />
-
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins"
                 android:gravity="center_horizontal"
                 android:text="or"
                 android:textColor="#000000"
                 android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/line"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view_signUP" />
 
-            <View
-                android:id="@+id/vector_6_2"
-                android:layout_width="150dp"
-                android:layout_height="1dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="4dp"
-                android:background="@drawable/vector_6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.107"
-                app:layout_constraintStart_toEndOf="@+id/textView8"
-                app:layout_constraintTop_toTopOf="@+id/line" />
+
 
             <Button
                 android:id="@+id/bt_signUpGoogle"
@@ -257,30 +236,30 @@
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="52dp"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/poppins"
                 android:text="Already a user?"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/bt_signUpGoogle"
-                app:layout_constraintHorizontal_bias="0.359"
                 app:layout_constraintStart_toStartOf="@+id/bt_signUpGoogle"
                 app:layout_constraintTop_toBottomOf="@+id/bt_signUpGoogle"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.058" />
 
             <TextView
                 android:id="@+id/tv_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginBottom="12dp"
                 android:fontFamily="@font/poppins"
                 android:text="Login"
                 android:textColor="#0026FD"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView9"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.011"
                 app:layout_constraintStart_toEndOf="@+id/textView9"
                 app:layout_constraintTop_toTopOf="@+id/textView9"
                 app:layout_constraintVertical_bias="0.0" />
