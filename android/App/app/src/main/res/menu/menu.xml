@@ -34,7 +34,10 @@
         app:icon="@color/white"
         app:cnb_iconColor="@color/white"
         app:cnb_textColor="@color/black" />
-
+    <item
+        android:id="@+id/Logout"
+        android:title="Logout"
+        android:icon="@drawable/ic_logout"/>
 
 
 </menu>

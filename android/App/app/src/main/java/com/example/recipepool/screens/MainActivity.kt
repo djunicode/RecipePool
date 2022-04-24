@@ -1,5 +1,7 @@
 package com.example.recipepool.screens
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -8,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -29,6 +32,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //code for setting status bar white
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
+        // shared preferences to
+        val pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = pref.edit()
+
         nav = binding.leftNav
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
@@ -48,11 +60,24 @@ class MainActivity : AppCompatActivity() {
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        // left nav navigation
+        nav.setNavigationItemSelectedListener {
+            drawer.closeDrawer(GravityCompat.START)
+            when(it.itemId){
+                R.id.Logout -> {
+                    val intent = Intent(this,Login::class.java)
+                    editor.clear()
+                    editor.apply()
+                    startActivity(intent)
+                    finish()
+                }
+            }
+            true
+        }
 
     }
 
+    // search bar
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search, menu)
         val searchBtn = menu.findItem(R.id.search)
@@ -60,4 +85,5 @@ class MainActivity : AppCompatActivity() {
         search.queryHint = "Search Here"
         return true
     }
+
 }
