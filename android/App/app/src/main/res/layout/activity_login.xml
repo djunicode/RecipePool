@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/et_name"
         android:layout_width="291dp"
         android:layout_height="46dp"
         android:layout_marginTop="72dp"
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/et_password"
         android:layout_width="291dp"
         android:layout_height="45dp"
         android:layout_marginTop="36dp"
@@ -46,10 +46,10 @@
         android:textColorHint="#99000000"
         android:inputType="textPassword"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/et_name"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintStart_toStartOf="@+id/et_name"
+        app:layout_constraintTop_toBottomOf="@+id/et_name" />
 
     <TextView
         android:id="@+id/textView2"
@@ -64,7 +64,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rectangle_7" />
+        app:layout_constraintTop_toBottomOf="@+id/bt_login" />
 
     <TextView
         android:id="@+id/textView3"
@@ -83,17 +83,17 @@
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
     <View
-        android:id="@+id/rectangle_7"
+        android:id="@+id/bt_login"
         android:layout_width="291dp"
         android:layout_height="42dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="60dp"
         android:background="@drawable/rectangle_7"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
+        app:layout_constraintEnd_toEndOf="@+id/et_password"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintStart_toStartOf="@+id/et_password"
+        app:layout_constraintTop_toBottomOf="@+id/et_password" />
 
     <TextView
         android:id="@+id/textView4"
@@ -104,9 +104,9 @@
         android:fontFamily="@font/poppins"
         android:textColor="#000000"
         android:textSize="19sp"
-        app:layout_constraintBottom_toBottomOf="@+id/rectangle_7"
-        app:layout_constraintEnd_toEndOf="@+id/rectangle_7"
-        app:layout_constraintStart_toStartOf="@+id/rectangle_7"
-        app:layout_constraintTop_toTopOf="@+id/rectangle_7" />
+        app:layout_constraintBottom_toBottomOf="@+id/bt_login"
+        app:layout_constraintEnd_toEndOf="@+id/bt_login"
+        app:layout_constraintStart_toStartOf="@+id/bt_login"
+        app:layout_constraintTop_toTopOf="@+id/bt_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
