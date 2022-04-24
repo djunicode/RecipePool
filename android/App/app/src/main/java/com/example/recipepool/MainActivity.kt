@@ -3,9 +3,11 @@ package com.example.recipepool
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipepool.databinding.ActivityMainBinding
@@ -35,6 +37,10 @@ class MainActivity : AppCompatActivity() {
         toggle.drawerArrowDrawable.color = resources.getColor(R.color.black)
         drawer.addDrawerListener(toggle)
         toggle.syncState()
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

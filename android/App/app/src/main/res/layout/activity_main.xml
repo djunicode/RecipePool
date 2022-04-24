@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -30,10 +30,10 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
             android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:title="    "
             app:titleTextColor="@color/black" />
 <!--        </com.google.android.material.appbar.AppBarLayout>-->
@@ -44,12 +44,17 @@
             android:layout_height="24dp"
             android:layout_below="@+id/toolbar"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="30px"
-            android:layout_marginTop="56px"
+            android:layout_marginLeft="21px"
+            android:layout_marginRight="266px"
+            android:layout_marginTop="180px"
             android:fontFamily="@font/poppins"
             android:text="Hey, You!"
             android:textColor="@color/black"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.047"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text2"
@@ -57,23 +62,29 @@
             android:layout_height="95dp"
             android:layout_below="@+id/text1"
             android:layout_alignStart="@+id/text1"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="5px"
+            android:layout_marginRight="266px"
             android:fontFamily="@font/poppins_bold"
             android:text="There's No WE in Food, mind it!"
             android:textColor="@color/black"
-            android:textSize="32dp" />
+            android:textSize="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/text1"
+            app:layout_constraintTop_toBottomOf="@+id/text1" />
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text2"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="0dp"
 
-            android:layout_marginTop="0dp"
+            android:layout_alignParentStart="true"
             android:padding="8dp"
-            app:chipSpacingHorizontal="35dp"
+            app:chipSpacingHorizontal="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text2"
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
@@ -108,16 +119,21 @@
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="53dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="38px"
+            android:layout_marginRight="38px"
             android:background="@drawable/bottomnav_round"
             android:elevation="2dp"
             app:itemIconTint="@color/black"
             app:itemTextColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+            app:layout_constraintVertical_bias="0.904"
             app:menu="@menu/bottom_nav" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/left_nav"
