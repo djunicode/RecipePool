@@ -5,23 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".screens.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-<!--        <com.google.android.material.appbar.AppBarLayout-->
-<!--            android:id="@+id/appBar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            android:layout_alignParentStart="true"-->
-<!--            android:layout_alignParentTop="true"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_marginStart="0dp"-->
-<!--            android:layout_marginTop="0dp"-->
-<!--            android:layout_marginEnd="0dp"-->
-<!--            android:backgroundTint="@color/white">-->
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -36,82 +24,103 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="    "
             app:titleTextColor="@color/black" />
-<!--        </com.google.android.material.appbar.AppBarLayout>-->
 
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="73dp"
-            android:layout_height="24dp"
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@+id/bottom_navigation"
             android:layout_below="@+id/toolbar"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="21px"
-            android:layout_marginRight="266px"
-            android:layout_marginTop="180px"
-            android:fontFamily="@font/poppins"
-            android:text="Hey, You!"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.047"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_alignParentEnd="true"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="316dp"
-            android:layout_height="95dp"
-            android:layout_below="@+id/text1"
-            android:layout_alignStart="@+id/text1"
-            android:layout_marginTop="5px"
-            android:layout_marginRight="266px"
-            android:fontFamily="@font/poppins_bold"
-            android:text="There's No WE in Food, mind it!"
-            android:textColor="@color/black"
-            android:textSize="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/text1"
-            app:layout_constraintTop_toBottomOf="@+id/text1" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text2"
+                <TextView
+                    android:id="@+id/text1"
+                    android:layout_width="73dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="30px"
+                    android:layout_marginTop="21dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="Hey, You!"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
 
-            android:layout_alignParentStart="true"
-            android:padding="8dp"
-            app:chipSpacingHorizontal="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text2"
-            app:singleSelection="true">
+                <TextView
+                    android:id="@+id/text2"
+                    android:layout_width="316dp"
+                    android:layout_height="95dp"
+                    android:layout_below="@+id/text1"
+                    android:layout_alignStart="@+id/text1"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="17dp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="There's No WE in Food, mind it!"
+                    android:textColor="@color/black"
+                    android:textSize="32dp" />
 
-            <com.google.android.material.chip.Chip
-                style="@style/CustomChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Breakfast"
-                android:theme="@style/CustomChip" />
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text2"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:padding="8dp"
+                    app:chipSpacingHorizontal="35dp"
+                    app:singleSelection="true">
 
-            <com.google.android.material.chip.Chip
-                style="@style/CustomChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lunch" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/CustomChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Breakfast"
+                        android:theme="@style/CustomChip" />
 
-            <com.google.android.material.chip.Chip
-                style="@style/CustomChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Snacks" />
+                    <com.google.android.material.chip.Chip
+                        style="@style/CustomChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lunch" />
 
-            <com.google.android.material.chip.Chip
-                style="@style/CustomChip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dinner" />
-        </com.google.android.material.chip.ChipGroup>
+                    <com.google.android.material.chip.Chip
+                        style="@style/CustomChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Snacks" />
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/CustomChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dinner" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentContainerView"
+                    android:name="androidx.navigation.fragment.NavHostFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/chip_group"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="0dp"
+                    app:defaultNavHost="true"
+                    app:navGraph="@navigation/nav_graph" />
+
+            </RelativeLayout>
+
+        </ScrollView>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
@@ -119,8 +128,8 @@
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="38px"
-            android:layout_marginRight="38px"
+            android:layout_marginStart="53dp"
+            android:layout_marginBottom="25dp"
             android:background="@drawable/bottomnav_round"
             android:elevation="2dp"
             app:itemIconTint="@color/black"
@@ -129,7 +138,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chipGroup"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView2"
             app:layout_constraintVertical_bias="0.904"
             app:menu="@menu/bottom_nav" />
 
@@ -143,3 +152,4 @@
         app:menu="@menu/menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
+

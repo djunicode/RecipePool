@@ -1,4 +1,4 @@
-package com.example.recipepool.api_data
+package com.example.recipepool.data
 
 data class login(
     var email:String?,
