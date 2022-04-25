@@ -1,5 +1,6 @@
 package com.example.recipepool
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -26,6 +27,12 @@ class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
                     0 -> binding.foodCard.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.card_color_1))
                     1 -> binding.foodCard.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.card_color_2))
                     2 -> binding.foodCard.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.card_color_3))
+                }
+
+                binding.foodCard.setOnClickListener {
+                    val intent = Intent(itemView.context, RecipePageActivity::class.java)
+                    intent.putExtra("recipe_name", this.name)
+                    itemView.context.startActivity(intent)
                 }
             }
         }

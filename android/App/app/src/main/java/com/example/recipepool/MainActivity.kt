@@ -15,12 +15,12 @@ import com.example.recipepool.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
 
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var drawer: DrawerLayout
     private lateinit var toolbar: Toolbar
     private lateinit var nav: NavigationView
-    private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
