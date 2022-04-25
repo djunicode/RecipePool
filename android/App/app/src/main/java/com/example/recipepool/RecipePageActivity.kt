@@ -27,6 +27,9 @@ class RecipePageActivity : AppCompatActivity() {
         binding = ActivityRecipePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val recipeName = intent.getStringExtra("recipe_name")
+        binding.textRecipeName.text = recipeName
+
         binding.recyclerViewIngredients.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = RecyclerAdapterIngredients(ingredientList)
