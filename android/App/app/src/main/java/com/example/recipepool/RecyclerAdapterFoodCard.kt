@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipepool.data.FoodList
 import com.example.recipepool.databinding.LayerListCardBinding
 
 class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
@@ -21,7 +22,7 @@ class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
             with(data[position]) {
                 binding.time.text = this.time
                 binding.foodNameText.text = this.name
-                binding.ratingBar.rating = this.rating
+                binding.ratingBar.rating = this.rating!!
 
                 when (position % 3) {
                     0 -> binding.foodCard.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.card_color_1))

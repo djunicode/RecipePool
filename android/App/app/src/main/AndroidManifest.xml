@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.recipepool">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,12 +11,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RecipePool">
         <activity
-            android:name=".RecipePageActivity"
+            android:name=".screens.SignUp"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name=".screens.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".screens.Login"
             android:exported="true">
-            <intent-filter>
+           <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />

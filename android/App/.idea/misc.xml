@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/bottomnav_round.xml" value="0.1" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_login.xml" value="0.4" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/menu/bottom_nav.xml" value="0.1" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/menu/menu.xml" value="0.136" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_baseline_star_24_black.xml" value="0.1945" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_baseline_star_24_white.xml" value="0.1945" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_fav.xml" value="0.1" />
@@ -16,6 +21,10 @@
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/layer_list_card.xml" value="0.25" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/layout_ingredients.xml" value="0.33" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/layout_steps.xml" value="0.22" />
+        <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/drawable/vector_6.xml" value="0.1785" />
+        <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/layout/activity_login.xml" value="0.234375" />
+        <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/layout/activity_main.xml" value="0.20652173913043478" />
+        <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/layout/activity_sign_up.xml" value="0.234375" />
       </map>
     </option>
   </component>
