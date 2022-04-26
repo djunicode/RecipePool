@@ -16,9 +16,11 @@
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/layer_list_card.xml" value="0.25" />
         <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/drawable/vector_6.xml" value="0.1785" />
-        <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/layout/activity_login.xml" value="0.234375" />
+        <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/layout-land/activity_login.xml" value="0.4" />
+        <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/layout-land/activity_sign_up.xml" value="0.264" />
+        <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/layout/activity_main.xml" value="0.20652173913043478" />
-        <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/layout/activity_sign_up.xml" value="0.234375" />
+        <entry key="..\:/Users/asus/OneDrive/Desktop/RecipePool/android/App/app/src/main/res/layout/activity_sign_up.xml" value="0.4" />
       </map>
     </option>
   </component>

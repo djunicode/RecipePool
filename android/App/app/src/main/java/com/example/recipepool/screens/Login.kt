@@ -56,7 +56,7 @@ class Login : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
         // code for login to sign up intent
-        binding.tSignUp.setOnClickListener {
+        binding.tvSignUp.setOnClickListener {
             val intent = Intent(this,SignUp::class.java)
             startActivity(intent)
         }
