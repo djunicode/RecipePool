@@ -62,20 +62,22 @@ class SignUp : AppCompatActivity() {
             ).show()
         }
 
-        // on click sign up button
-        binding.btSignUp.setOnClickListener {
 
-            binding.btSignUp.isEnabled = false
+        // on click sign up button
+        binding.viewSignUp.setOnClickListener {
+
+            binding.viewSignUp.isEnabled = false
             binding.pBSignUp.visibility = View.VISIBLE
 
             Log.d("clicked","Hello world")
+
 
             // if NAME is empty
             if (binding.etName.text.toString().trim().isEmpty()) {
 
                 binding.etName.error = "Name Required"
                 binding.etName.requestFocus()
-                binding.btSignUp.isEnabled = true
+                binding.viewSignUp.isEnabled = true
                 binding.pBSignUp.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
@@ -86,7 +88,7 @@ class SignUp : AppCompatActivity() {
             if (password.isEmpty() || password.length < 6) {
                 binding.etPassword.error = "Minimum 6 characters required"
                 binding.etPassword.requestFocus()
-                binding.btSignUp.isEnabled = true
+                binding.viewSignUp.isEnabled = true
                 binding.pBSignUp.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
@@ -98,7 +100,7 @@ class SignUp : AppCompatActivity() {
             if (confirm_password != password) {
                 binding.etConfirmpass.error = "Passwords don,t match"
                 binding.etConfirmpass.requestFocus()
-                binding.btSignUp.isEnabled = true
+                binding.viewSignUp.isEnabled = true
                 binding.pBSignUp.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
@@ -111,7 +113,7 @@ class SignUp : AppCompatActivity() {
 
                 binding.etEmail.error = "Invalid email"
                 binding.etEmail.requestFocus()
-                binding.btSignUp.isEnabled = true
+                binding.viewSignUp.isEnabled = true
                 binding.pBSignUp.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
@@ -123,7 +125,7 @@ class SignUp : AppCompatActivity() {
 
                 binding.etDate.error = "Date of Birth required"
                 binding.etDate.requestFocus()
-                binding.btSignUp.isEnabled = true
+                binding.viewSignUp.isEnabled = true
                 binding.pBSignUp.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
@@ -134,7 +136,7 @@ class SignUp : AppCompatActivity() {
             if (number.isEmpty() || number.length != 10) {
                 binding.etPhone.error = "Invalid phone number"
                 binding.etPhone.requestFocus()
-                binding.btSignUp.isEnabled = true
+                binding.viewSignUp.isEnabled = true
                 binding.pBSignUp.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
@@ -171,7 +173,7 @@ class SignUp : AppCompatActivity() {
                         editor.putString("email",response.body()!!.email.toString())
                         editor.putString("name",binding.etName.text.toString())
                         editor.apply()
-                        binding.btSignUp.isEnabled = true
+                        binding.viewSignUp.isEnabled = true
                         binding.pBSignUp.visibility = View.INVISIBLE
                         Log.d("response",response.message().toString())
                         startActivity(intent)
@@ -185,7 +187,7 @@ class SignUp : AppCompatActivity() {
                     binding.pBSignUp.visibility = View.INVISIBLE
                     Toast.makeText(this@SignUp,"Some problem please try again",Toast.LENGTH_SHORT).show()
                     Log.d("Some sign up error occurred",t.message.toString())
-                    binding.btSignUp.isEnabled = true
+                    binding.viewSignUp.isEnabled = true
                 }
             })
 
