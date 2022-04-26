@@ -175,7 +175,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/et_date" />
 
             <View
+
                 android:id="@+id/view_signUP"
+
                 android:layout_width="290dp"
                 android:layout_height="42dp"
                 android:layout_alignParentStart="true"
@@ -211,7 +213,9 @@
                 android:layout_marginTop="28dp"
                 android:background="@drawable/vector_6"
                 app:layout_constraintStart_toStartOf="parent"
+
                 app:layout_constraintTop_toBottomOf="@+id/view_signUP" />
+
 
             <TextView
                 android:id="@+id/textView8"
@@ -224,6 +228,7 @@
                 android:text="or"
                 android:textColor="#000000"
                 android:textSize="12sp"
+
                 app:layout_constraintStart_toEndOf="@+id/line"
                 app:layout_constraintTop_toBottomOf="@+id/view_signUP" />
 
@@ -240,6 +245,7 @@
                 app:layout_constraintStart_toEndOf="@+id/textView8"
                 app:layout_constraintTop_toTopOf="@+id/line" />
 
+
             <Button
                 android:id="@+id/bt_signUpGoogle"
                 android:layout_width="290dp"
@@ -250,7 +256,9 @@
                 android:text="Sign-up with Google"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
+
                 app:layout_constraintStart_toStartOf="@+id/view_signUP"
+
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
             <TextView
@@ -285,6 +293,15 @@
                 app:layout_constraintTop_toTopOf="@+id/textView9"
                 app:layout_constraintVertical_bias="0.0" />
 
+            <ProgressBar
+                android:id="@+id/pB_SignUp"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
