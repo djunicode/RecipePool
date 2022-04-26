@@ -22,7 +22,7 @@ from Accounts.views import index
 from Accounts.views import index
 
 urlpatterns = [
-    path('',index, name = "index.html"),
+    # path('',index, name = "index.html"),
     path('admin/', admin.site.urls),
     path('account/', include('Accounts.urls')),
     path('api/', include('Recipe.urls')),
