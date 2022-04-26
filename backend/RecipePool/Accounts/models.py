@@ -58,6 +58,11 @@ class UserManager(BaseUserManager):
 
 AUTH_PROVIDERS = {'facebook':'facebook', 'google':'google', 'twitter':'twitter', 'email':'email'}
 
+GENDER = (
+    ('--', '--'),
+    ('Male', 'Male'),
+    ('Female', 'Female'),
+)
 
 class User(AbstractBaseUser):
     email = models.EmailField(
@@ -67,6 +72,9 @@ class User(AbstractBaseUser):
     )
     firstname         = models.CharField(max_length=60)
     lastname          = models.CharField(max_length=60)
+    phone_number      = models.DecimalField(max_digits = 10, decimal_places = 0)
+    gender            = models.CharField(max_length = 100,choices = GENDER, default = '--')
+    DOB               = models.DateField()
     is_active         = models.BooleanField(default=False)
     staff             = models.BooleanField(default=False)
     admin             = models.BooleanField(default=False)
@@ -102,6 +110,14 @@ class User(AbstractBaseUser):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
+
+
+
+
+
+
+
+
 
 class Inventory(models.Model):
     user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_inventory')

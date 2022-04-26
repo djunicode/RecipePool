@@ -18,12 +18,12 @@ from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnico
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.sites.shortcuts import get_current_site
 from decouple import config
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 import os
 # Create your views here.
 
 from .utils import Util
-from .serializers import UserSerializer, EmailVerificationSerializer, LoginSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer, LogoutSerializer
+from .serializers import UserSerializer, EmailVerificationSerializer, LoginSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer, LogoutSerializer,GoogleSocialAuthSerializer
 
 User = get_user_model()
 
@@ -155,3 +155,23 @@ class LogoutAPIView(generics.GenericAPIView):
         serializer.save()
 
         return Response({'message':'Logged out successfully'},status=status.HTTP_204_NO_CONTENT)
+
+
+
+##############SOCIAL AUTH#######################
+
+class GoogleAuth(generics.GenericAPIView):
+
+    serializer_class = GoogleSocialAuthSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = ((serializer.validated_data)['auth_token'])
+        return Response(data, status=status.HTTP_200_OK)
+
+def index(request):
+    GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID')
+    content = {'GOOGLE_CLIENT_ID': GOOGLE_CLIENT_ID}
+    return render(request, 'index.html', content)
+    
