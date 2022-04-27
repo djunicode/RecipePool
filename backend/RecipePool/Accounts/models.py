@@ -43,13 +43,16 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, firstname, lastname, password):
+    def create_user(self, email, firstname, lastname, password,phone_number,gender,DOB):
         user = self.create_superuser(
             email,
             firstname,
             lastname,
             password=password
         )
+        user.phone_number=phone_number
+        user.gender=gender
+        user.DOB=DOB
         user.staff = False
         user.admin = False
         user.is_active = False
@@ -72,9 +75,9 @@ class User(AbstractBaseUser):
     )
     firstname         = models.CharField(max_length=60)
     lastname          = models.CharField(max_length=60)
-    phone_number      = models.DecimalField(max_digits = 10, decimal_places = 0)
+    phone_number      = models.DecimalField(max_digits = 10, decimal_places = 0,null = True,blank=True)
     gender            = models.CharField(max_length = 100,choices = GENDER, default = '--')
-    DOB               = models.DateField()
+    DOB               = models.DateField(null=True,blank=True)
     is_active         = models.BooleanField(default=False)
     staff             = models.BooleanField(default=False)
     admin             = models.BooleanField(default=False)

@@ -170,8 +170,8 @@ class GoogleAuth(generics.GenericAPIView):
         data = ((serializer.validated_data)['auth_token'])
         return Response(data, status=status.HTTP_200_OK)
 
-# def index(request):
-#     GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID')
-#     content = {'GOOGLE_CLIENT_ID': GOOGLE_CLIENT_ID}
-#     return render(request, 'index.html', content)
+def index(request):
+    GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID')
+    content = {'GOOGLE_CLIENT_ID': GOOGLE_CLIENT_ID}
+    return render(request, 'index.html', content)
     
