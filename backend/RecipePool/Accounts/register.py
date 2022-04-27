@@ -6,7 +6,7 @@ from decouple import config
 
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 #makes sure all usernames are unique
-
+from .serializers import *
 
 User = get_user_model()
 
@@ -40,7 +40,7 @@ def register_social_user(provider, user_id, email, first_name,last_name):
             raise AuthenticationFailed(detail='Please continue your login using ' + filtered_user_by_email[0].auth_provider)  
     else:
         user = {
-             'email':email,'password':config('SOCIAL_SECRET'),'firstname':first_name,"lastname":last_name
+             'email':email,'password':config('SOCIAL_SECRET'),'firstname':first_name,"lastname":last_name,"phone_number":0000000000,"gender":'--',"DOB":"2022-04-26"
             }
         user = User.objects.create_user(**user) 
         user.is_active = True
