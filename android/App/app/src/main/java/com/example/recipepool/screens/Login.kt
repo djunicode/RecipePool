@@ -47,6 +47,9 @@ class Login : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.pBLogin.visibility = View.INVISIBLE
+
+
         // shared preferences to store user token
         val pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = pref.edit()
@@ -56,23 +59,30 @@ class Login : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
         // code for login to sign up intent
-        binding.tSignUp.setOnClickListener {
+        binding.tvSignUp.setOnClickListener {
             val intent = Intent(this,SignUp::class.java)
             startActivity(intent)
         }
 
         binding.btLogin.setOnClickListener {
 
-            if (binding.etEmail.text.toString().trim().isEmpty()){
+            binding.btLogin.isEnabled = false
 
+            binding.pBLogin.visibility = View.VISIBLE
+
+            if (binding.etEmail.text.toString().trim().isEmpty()){
                 binding.etEmail.error = "Email Required"
                 binding.etEmail.requestFocus()
+                binding.btLogin.isEnabled = true
+                binding.pBLogin.visibility = View.INVISIBLE
                 return@setOnClickListener
             }
-            if (binding.etPassword.text.toString().trim().isEmpty()){
 
+            if (binding.etPassword.text.toString().trim().isEmpty()){
                 binding.etPassword.error = "Password Required"
                 binding.etPassword.requestFocus()
+                binding.btLogin.isEnabled = true
+                binding.pBLogin.visibility = View.INVISIBLE
                 return@setOnClickListener
             }
 
@@ -96,18 +106,22 @@ class Login : AppCompatActivity() {
             loginRequest.enqueue(object: Callback<login> {
                 override fun onResponse(call: Call<login>, response: Response<login>) {
                     if(response.code() == 200){
-                        Toast.makeText(this@Login,"Thank you for signing up", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@Login,"Welcome to Recipe Pool", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@Login,MainActivity::class.java)
                         editor.putString("access token",response.body()!!.access.toString())
                         editor.putString("refresh token",response.body()!!.refresh.toString())
                         editor.putString("email",binding.etEmail.text.toString())
                         editor.apply()
+                        binding.btLogin.isEnabled = true
+                        binding.pBLogin.visibility = View.INVISIBLE
                         startActivity(intent)
                         finish()
                     }
                 }
                 override fun onFailure(call: Call<login>, t: Throwable) {
+                    binding.pBLogin.visibility = View.INVISIBLE
                     Toast.makeText(this@Login,"Please check your email id or sign up",Toast.LENGTH_SHORT).show()
+                    binding.btLogin.isEnabled = true
                     Log.d("Some sign up error occurred",t.message.toString())
                 }
             })
