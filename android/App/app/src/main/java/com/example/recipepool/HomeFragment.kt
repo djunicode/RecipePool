@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.data.FoodList
 import com.example.recipepool.databinding.FragmentHomeBinding
+import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding

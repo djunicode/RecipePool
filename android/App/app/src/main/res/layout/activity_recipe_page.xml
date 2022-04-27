@@ -2,8 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,7 +9,8 @@
         android:id="@+id/appbar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:gravity="center_vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_recipe_page"
@@ -25,31 +24,28 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_vector_bookmark"
                 android:layout_gravity="end"
-                android:paddingStart="27.5dp"
-                android:paddingEnd="27.5dp"
-                android:paddingTop="14dp"/>
+                android:layout_marginEnd="27.5dp"
+                android:layout_marginStart="27.5dp"/>
 
             <ImageView
                 android:id="@+id/image_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_vector_back"
-                android:paddingTop="20.5dp"
-                android:paddingStart="19dp"
-                android:paddingEnd="19dp"
-                android:visibility="gone"/>
+                android:layout_marginStart="19dp"
+                android:layout_marginEnd="19dp"/>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".RecipePageActivity">
+            tools:context=".screens.RecipePageActivity">
 
             <TextView
                 android:id="@+id/text_recipe_name"
@@ -96,8 +92,8 @@
                 app:layout_constraintTop_toBottomOf="@id/text_recipe_name"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <ImageView
-                android:id="@+id/recipe_image"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recipe_image_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="213dp"
                 android:layout_marginTop="11dp"
@@ -244,6 +240,32 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/bottomnav_round"
+            android:elevation="2dp"
+            app:itemIconTint="@color/black"
+            app:itemTextColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1"
+            app:menu="@menu/bottom_nav" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

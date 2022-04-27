@@ -1,4 +1,4 @@
-package com.example.recipepool
+package com.example.recipepool.recycleradapter
 
 import android.graphics.Paint
 import android.view.LayoutInflater
@@ -19,7 +19,7 @@ class RecyclerAdapterSteps(private var data: List<String>) :
         with(holder) {
             with(data[position]) {
                 binding.stepText.text = this
-                if(binding.stepCheck.isActivated) {
+                if(binding.stepCheck.isChecked) {
                     binding.stepText.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 }
             }
