@@ -22,14 +22,17 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'password', 'firstname', 'lastname']
-    
+        fields = ['email', 'password', 'firstname', 'lastname','phone_number','gender','DOB']
+       
     def save_user(self, validated_data):
         user = User.objects.create_user( 
                                 password=validated_data.get('password'), 
                                 email=validated_data.get('email'),
                                 firstname=validated_data.get('firstname'),
-                                lastname=validated_data.get('lastname')
+                                lastname=validated_data.get('lastname'),
+                                phone_number=validated_data.get('phone_number'),
+                                gender=validated_data.get('gender'),
+                                DOB=validated_data.get('DOB')
                                 )
         user.save()
         return user
@@ -132,6 +135,35 @@ class LogoutSerializer(serializers.Serializer):
 
         except TokenError:
             self.fail('bad_token')
+
+
+from . import google
+from .register import register_social_user
+import os
+from rest_framework.exceptions import AuthenticationFailed
+from decouple import config
+
+class GoogleSocialAuthSerializer(serializers.Serializer):
+    auth_token = serializers.CharField()
+
+    def validate_auth_token(self, auth_token):
+        user_data = google.Google.validate(auth_token)
+        try:
+            user_data['sub']
+        except:
+            raise serializers.ValidationError('The token is invalid or expired. Please login again')
+        
+        if user_data['aud'] != config('GOOGLE_CLIENT_ID'):
+            raise AuthenticationFailed('oops, who are you?')
+        
+        user_id = user_data['sub']
+        email = user_data['email']
+        first_name = user_data['given_name']
+        last_name = user_data['family_name']
+        provider = 'google'
+
+        return register_social_user(provider = provider, user_id = user_id, email = email, first_name=first_name,last_name=last_name)
+
 
 
 class InventorySerializer(serializers.ModelSerializer):

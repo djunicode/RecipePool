@@ -18,9 +18,9 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-
+from Accounts.views import index
 urlpatterns = [
-    
+    path('',index, name = "index.html"),
     path('admin/', admin.site.urls),
     path('account/', include('Accounts.urls')),
     path('api/', include('Recipe.urls')),
