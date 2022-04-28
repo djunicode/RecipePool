@@ -63,6 +63,19 @@ class Favourite(models.Model):
     def __str__(self):
         return f"{self.recipe} for {self.user}"
 
+
+def upload_path_handler(instance, filename):
+    return "images/cuisines/{label}/{file}".format(
+        label=instance.label, file=filename
+    )
+
+class Cuisine(models.Model):
+    recipe          = models.ForeignKey(Recipe,on_delete=models.CASCADE,related_name='recipe_cuisine')
+    cuisine_name    = models.CharField(max_length=50,primary_key=True)
+    image           = models.ImageField(upload_to = upload_path_handler,blank=True,null=True)
+    likes           = models.PositiveIntegerField(default = 0)
+    
+
 #To be done later
 '''
 class DietLog(models.Model):

@@ -28,3 +28,13 @@ class RecipeSearchAND(generics.ListAPIView):
             ingredient_list = ingredient_list.objects.filter(ingredientÍ = query_ingredient) #Filter Ingredient Lists with the given query ingredients 
         recipe = Recipe.objects.filter(id__in = ingredient_list) #List the recipes related to the ingredients in the ingredient list
         return recipe
+    
+class TrendingRecipes(generics.ListAPIView):
+    """
+    Returns the first 5 recipes with highest rating
+    """
+    serializer_class = RecipeSerializer
+
+    def get_queryset(self):
+        trending_recipes = Recipe.objects.order_by('-likes')[:5]
+        return trending_recipes

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Ingredient,IngredientList,Recipe,Likes,Favourite
+from .models import Cuisine, Ingredient,IngredientList,Recipe,Likes,Favourite
 
 class IngredientSerializer(serializers.ModelSerializer):
 
@@ -33,4 +33,10 @@ class FavouriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Favourite
+        fields = '__all__'
+
+class CuisineSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Cuisine
         fields = '__all__'
