@@ -17,12 +17,13 @@ interface RetrofitApi {
         @Body params: login
     ):Call<login>
 
-    @POST("account/email-verify/")
+
+    @GET("account/email-verify/?token=")
     fun emailVerify(
-        @Body params:token
+        @Query("token") token:String?
     ):Call<token>
 
-    @POST("account/token-refresh/?token=")
+    @GET("account/email-verify/?token=")
     fun refresh(
         @Query("token") token:String?
     ):Call<token>
