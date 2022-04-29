@@ -74,6 +74,9 @@ class Cuisine(models.Model):
     cuisine_name    = models.CharField(max_length=50,primary_key=True)
     image           = models.ImageField(upload_to = upload_path_handler,blank=True,null=True)
     likes           = models.PositiveIntegerField(default = 0)
+
+    def __str__(self):
+        return self.cuisine_name
     
 
 #To be done later

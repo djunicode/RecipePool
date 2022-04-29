@@ -1,7 +1,8 @@
 from rest_framework import generics
 from rest_framework.response import Response
-from .models import Ingredient, IngredientList, Recipe
-from .serializers import RecipeSerializer
+from rest_framework.permissions import IsAuthenticated
+from .models import Cuisine, Favourite, Ingredient, IngredientList, Recipe
+from .serializers import CuisineSerializer, FavouriteSerializer, RecipeSerializer
 
 # Create your views here.
 
@@ -36,5 +37,29 @@ class TrendingRecipes(generics.ListAPIView):
     serializer_class = RecipeSerializer
 
     def get_queryset(self):
-        trending_recipes = Recipe.objects.order_by('-likes')[:5]
+        trending_recipes = Recipe.objects.order_by('-likes')[:12]
         return trending_recipes
+
+class TrendingCuisines(generics.ListAPIView):
+    """
+    Returns the cuisines in decreasing order of rating
+    """
+    serializer_class = CuisineSerializer
+
+    def get_queryset(self):
+        trending_cuisine = Cuisine.objects.order_by('-likes')
+        return trending_cuisine
+
+class FavouriteRecipes(generics.ListAPIView):
+    """
+    Returns the favourite recipes of current user
+    """
+    serializer_class = RecipeSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def get_queryset(self):
+        favourites = Favourite.objects.filter(user=self.request.user)
+        list = []
+        for item in favourites:
+            list.append(Recipe.objects.get(id = item.recipe.id))
+        return list
