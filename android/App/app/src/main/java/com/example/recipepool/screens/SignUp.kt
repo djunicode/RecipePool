@@ -12,7 +12,10 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.recipepool.R
 import com.example.recipepool.apis.RetrofitApi
+import com.example.recipepool.constants.ApiConstants.rf
+import com.example.recipepool.data.login
 import com.example.recipepool.data.signup
+import com.example.recipepool.data.token
 import com.example.recipepool.databinding.ActivitySignUpBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,14 +29,14 @@ class SignUp : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
     var cal: Calendar = Calendar.getInstance()
-    var baseUrl = "https://therecipepool.pythonanywhere.com/"
+    lateinit var gender:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.pBSignUp.visibility = View.INVISIBLE
+        binding.pBSignUp!!.visibility = View.INVISIBLE
 
         // shared preferences to store user token
         val pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
@@ -64,10 +67,10 @@ class SignUp : AppCompatActivity() {
 
 
         // on click sign up button
-        binding.viewSignUp.setOnClickListener {
+        binding.viewSignUp!!.setOnClickListener {
 
-            binding.viewSignUp.isEnabled = false
-            binding.pBSignUp.visibility = View.VISIBLE
+            binding.viewSignUp!!.isEnabled = false
+            binding.pBSignUp!!.visibility = View.VISIBLE
 
             Log.d("clicked","Hello world")
 
@@ -77,8 +80,8 @@ class SignUp : AppCompatActivity() {
 
                 binding.etName.error = "Name Required"
                 binding.etName.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUp!!.isEnabled = true
+                binding.pBSignUp!!.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
             }
@@ -88,8 +91,8 @@ class SignUp : AppCompatActivity() {
             if (password.isEmpty() || password.length < 6) {
                 binding.etPassword.error = "Minimum 6 characters required"
                 binding.etPassword.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUp!!.isEnabled = true
+                binding.pBSignUp!!.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
             }
@@ -100,8 +103,8 @@ class SignUp : AppCompatActivity() {
             if (confirm_password != password) {
                 binding.etConfirmpass.error = "Passwords don,t match"
                 binding.etConfirmpass.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUp!!.isEnabled = true
+                binding.pBSignUp!!.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
             }
@@ -113,8 +116,8 @@ class SignUp : AppCompatActivity() {
 
                 binding.etEmail.error = "Invalid email"
                 binding.etEmail.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUp!!.isEnabled = true
+                binding.pBSignUp!!.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
 
@@ -125,8 +128,8 @@ class SignUp : AppCompatActivity() {
 
                 binding.etDate.error = "Date of Birth required"
                 binding.etDate.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUp!!.isEnabled = true
+                binding.pBSignUp!!.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
             }
@@ -136,58 +139,104 @@ class SignUp : AppCompatActivity() {
             if (number.isEmpty() || number.length != 10) {
                 binding.etPhone.error = "Invalid phone number"
                 binding.etPhone.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUp!!.isEnabled = true
+                binding.pBSignUp!!.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
             }
 
-            // retrofit builder for apis
-            val rf = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(RetrofitApi::class.java)
+            if(binding.radioFemale.isActivated){
+                gender = "Female"
+            }else if(binding.radioMale.isActivated){
+                gender = "Male"
+            }else{
+                gender= "Other"
+            }
 
-            val userData = signup(
+            // retrofit builder for apis
+            val list = binding.etName.text.split(" ")
+
+            lateinit var lname:String
+            if(list[1].isNotEmpty()){
+               lname = list[1]
+            }
+            val userDataSignUp = signup(
                 binding.etEmail.text.toString(),
                 binding.etPassword.text.toString(),
-                binding.etName.text.toString(),
-                "None",""
+                list[0],
+                lname,
+                binding.etPhone.text.toString(),
+                gender,binding.etDate.text.toString(),""
+            )
+
+            val userDataLogin = login(
+                binding.etEmail.text.toString(),
+                binding.etPassword.text.toString(),
+                "",""
             )
 
             //handling sign up requests
-            val signupRequest = rf.signup(userData)
+            val signupRequest = rf.signup(userDataSignUp)
 
-            print(binding.etEmail.text.toString())
-            print(binding.etName.text.toString())
-            print(binding.etPassword.text.toString())
-            print("None")
+
+            val loginRequest = rf.login(userDataLogin)
 
             signupRequest.enqueue(object:Callback<signup>{
                 override fun onResponse(call: Call<signup>, response: Response<signup>) {
                     if(response.code() == 201){
-                        Toast.makeText(this@SignUp,"Thank you for signing up",Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this@SignUp,MainActivity::class.java)
-                        editor.putString("token",response.body()!!.token.toString())
-                        editor.putString("email",response.body()!!.email.toString())
-                        editor.putString("name",binding.etName.text.toString())
-                        editor.apply()
-                        binding.viewSignUp.isEnabled = true
-                        binding.pBSignUp.visibility = View.INVISIBLE
-                        Log.d("response",response.message().toString())
-                        startActivity(intent)
-                        finish()
+                        Log.d("signup api successful",response.message().toString())
+
+                        //verifying user email
+                        val t = token(response.body()!!.token.toString())
+                        val verify = rf.emailVerify(t)
+                        verify.enqueue(object :Callback<token>{
+                            override fun onResponse(call: Call<token>, response: Response<token>) {
+                                if(response.code() == 200){
+                                    Log.d("email verified successfully",response.message().toString())
+
+                                    //logging user in
+                                    loginRequest.enqueue(object: Callback<login> {
+                                        override fun onResponse(call: Call<login>, response: Response<login>) {
+                                            if(response.code() == 200){
+                                                Toast.makeText(this@SignUp,"Thank you for signing up",Toast.LENGTH_SHORT).show()
+                                                editor.putString("access token",response.body()!!.access.toString())
+                                                editor.putString("refresh token",response.body()!!.refresh.toString())
+                                                editor.putString("email",binding.etEmail.text.toString())
+                                                editor.apply()
+                                                val intent = Intent(this@SignUp,MainActivity::class.java)
+                                                binding.viewSignUp!!.isEnabled = true
+                                                binding.pBSignUp!!.visibility = View.INVISIBLE
+                                                startActivity(intent)
+                                                finish()
+                                            }
+                                            else{
+                                                Log.d("Signup Login response error",response.message().toString())
+                                            }
+                                        }
+                                        override fun onFailure(call: Call<login>, t: Throwable) {
+                                            Toast.makeText(this@SignUp,"Please check your email id and password",Toast.LENGTH_SHORT).show()
+                                            Log.d("SignUp Login failure error",t.message.toString())
+                                        }
+                                    })
+                                }
+                                else{
+                                    Log.d("email verify response error",response.message().toString())
+                                }
+                            }
+                            override fun onFailure(call: Call<token>, t: Throwable) {
+                                Log.d("email verify failure error",t.message.toString())
+                            }
+                        })
                     }
                     else{
-                        Log.d("response",response.message().toString())
+                        Log.d("signup response error",response.message().toString())
                     }
                 }
                 override fun onFailure(call: Call<signup>, t: Throwable) {
-                    binding.pBSignUp.visibility = View.INVISIBLE
+                    binding.pBSignUp!!.visibility = View.INVISIBLE
                     Toast.makeText(this@SignUp,"Some problem please try again",Toast.LENGTH_SHORT).show()
-                    Log.d("Some sign up error occurred",t.message.toString())
-                    binding.viewSignUp.isEnabled = true
+                    Log.d("signup failure error",t.message.toString())
+                    binding.viewSignUp!!.isEnabled = true
                 }
             })
 
@@ -196,6 +245,7 @@ class SignUp : AppCompatActivity() {
         binding.tvLogin.setOnClickListener {
             val intent = Intent(this, Login::class.java)
             startActivity(intent)
+            finish()
         }
 
     }

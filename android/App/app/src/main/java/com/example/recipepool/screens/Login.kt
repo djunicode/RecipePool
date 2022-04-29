@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.recipepool.R
 import com.example.recipepool.apis.RetrofitApi
+import com.example.recipepool.constants.ApiConstants.rf
 import com.example.recipepool.data.login
 import com.example.recipepool.databinding.ActivityLoginBinding
 import retrofit2.Call
@@ -21,8 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Login : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    var baseUrl = "https://therecipepool.pythonanywhere.com/"
-
 
     // start function to switch between login and main
     override fun onStart() {
@@ -47,7 +46,7 @@ class Login : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.pBLogin.visibility = View.INVISIBLE
+        binding.pBLogin!!.visibility = View.INVISIBLE
 
 
         // shared preferences to store user token
@@ -62,19 +61,20 @@ class Login : AppCompatActivity() {
         binding.tvSignUp.setOnClickListener {
             val intent = Intent(this,SignUp::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.btLogin.setOnClickListener {
 
             binding.btLogin.isEnabled = false
 
-            binding.pBLogin.visibility = View.VISIBLE
+            binding.pBLogin!!.visibility = View.VISIBLE
 
             if (binding.etEmail.text.toString().trim().isEmpty()){
                 binding.etEmail.error = "Email Required"
                 binding.etEmail.requestFocus()
                 binding.btLogin.isEnabled = true
-                binding.pBLogin.visibility = View.INVISIBLE
+                binding.pBLogin!!.visibility = View.INVISIBLE
                 return@setOnClickListener
             }
 
@@ -82,17 +82,11 @@ class Login : AppCompatActivity() {
                 binding.etPassword.error = "Password Required"
                 binding.etPassword.requestFocus()
                 binding.btLogin.isEnabled = true
-                binding.pBLogin.visibility = View.INVISIBLE
+                binding.pBLogin!!.visibility = View.INVISIBLE
                 return@setOnClickListener
             }
 
             // retrofit builder for apis
-            val rf = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(RetrofitApi::class.java)
-
             val userData = login(
                 binding.etEmail.text.toString(),
                 binding.etPassword.text.toString(),
@@ -113,16 +107,19 @@ class Login : AppCompatActivity() {
                         editor.putString("email",binding.etEmail.text.toString())
                         editor.apply()
                         binding.btLogin.isEnabled = true
-                        binding.pBLogin.visibility = View.INVISIBLE
+                        binding.pBLogin!!.visibility = View.INVISIBLE
                         startActivity(intent)
                         finish()
                     }
+                    else{
+                        Log.d("Login response error",response.message().toString())
+                    }
                 }
                 override fun onFailure(call: Call<login>, t: Throwable) {
-                    binding.pBLogin.visibility = View.INVISIBLE
-                    Toast.makeText(this@Login,"Please check your email id or sign up",Toast.LENGTH_SHORT).show()
+                    binding.pBLogin!!.visibility = View.INVISIBLE
+                    Toast.makeText(this@Login,"Please check your email id and password",Toast.LENGTH_SHORT).show()
                     binding.btLogin.isEnabled = true
-                    Log.d("Some sign up error occurred",t.message.toString())
+                    Log.d("Login failure error",t.message.toString())
                 }
             })
         }

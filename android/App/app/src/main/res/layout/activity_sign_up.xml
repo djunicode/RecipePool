@@ -176,8 +176,7 @@
 
             <View
 
-                android:id="@+id/view_signUP"
-
+                android:id="@+id/view_signUp"
                 android:layout_width="290dp"
                 android:layout_height="42dp"
                 android:layout_alignParentStart="true"
@@ -250,15 +249,13 @@
                 android:id="@+id/bt_signUpGoogle"
                 android:layout_width="290dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="176dp"
                 android:backgroundTint="#0463FF"
                 android:drawableLeft="@drawable/ic_google"
                 android:text="Sign-up with Google"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-
-                app:layout_constraintStart_toStartOf="@+id/view_signUP"
-
+                app:layout_constraintHorizontal_bias="0.016"
+                app:layout_constraintStart_toStartOf="@id/view_signUp"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
             <TextView
