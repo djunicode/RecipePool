@@ -47,7 +47,7 @@ class Login : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.pBLogin.visibility = View.INVISIBLE
+        binding.pBLogin!!.visibility = View.INVISIBLE
 
 
         // shared preferences to store user token
@@ -64,17 +64,41 @@ class Login : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //email error check
+        binding.etEmail.setOnFocusChangeListener { view, b ->
+            if (b)return@setOnFocusChangeListener
+            if (binding.etEmail.text.toString().trim().isEmpty()){
+
+                binding.etEmail.error = "Email Required"
+                //binding.etEmail.requestFocus()
+
+            }
+        }
+
+        //password error check
+
+        binding.etPassword.setOnFocusChangeListener { view, b ->
+            if (b)return@setOnFocusChangeListener
+            if (binding.etPassword.text.toString().trim().isEmpty()){
+
+                binding.etPassword.error = "Password Required"
+                //binding.etPassword.requestFocus()
+
+            }
+
+        }
+
         binding.btLogin.setOnClickListener {
 
             binding.btLogin.isEnabled = false
 
-            binding.pBLogin.visibility = View.VISIBLE
+            binding.pBLogin!!.visibility = View.VISIBLE
 
             if (binding.etEmail.text.toString().trim().isEmpty()){
                 binding.etEmail.error = "Email Required"
                 binding.etEmail.requestFocus()
                 binding.btLogin.isEnabled = true
-                binding.pBLogin.visibility = View.INVISIBLE
+                binding.pBLogin!!.visibility = View.INVISIBLE
                 return@setOnClickListener
             }
 
@@ -82,7 +106,7 @@ class Login : AppCompatActivity() {
                 binding.etPassword.error = "Password Required"
                 binding.etPassword.requestFocus()
                 binding.btLogin.isEnabled = true
-                binding.pBLogin.visibility = View.INVISIBLE
+                binding.pBLogin!!.visibility = View.INVISIBLE
                 return@setOnClickListener
             }
 
@@ -113,13 +137,13 @@ class Login : AppCompatActivity() {
                         editor.putString("email",binding.etEmail.text.toString())
                         editor.apply()
                         binding.btLogin.isEnabled = true
-                        binding.pBLogin.visibility = View.INVISIBLE
+                        binding.pBLogin!!.visibility = View.INVISIBLE
                         startActivity(intent)
                         finish()
                     }
                 }
                 override fun onFailure(call: Call<login>, t: Throwable) {
-                    binding.pBLogin.visibility = View.INVISIBLE
+                    binding.pBLogin!!.visibility = View.INVISIBLE
                     Toast.makeText(this@Login,"Please check your email id or sign up",Toast.LENGTH_SHORT).show()
                     binding.btLogin.isEnabled = true
                     Log.d("Some sign up error occurred",t.message.toString())
