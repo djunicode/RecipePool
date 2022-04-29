@@ -12,5 +12,4 @@ object ApiConstants {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(RetrofitApi::class.java)
-
 }
