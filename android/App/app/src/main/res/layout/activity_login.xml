@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.Login">
-
 
     <TextView
         android:id="@+id/textView"
@@ -23,9 +22,11 @@
 
     <EditText
         android:id="@+id/et_email"
-        android:layout_width="291dp"
+        android:layout_width="match_parent"
         android:layout_height="46dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginTop="72dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
         android:fontFamily="@font/poppins"
         android:hint="Email"
@@ -39,18 +40,19 @@
 
     <EditText
         android:id="@+id/et_password"
-        android:layout_width="291dp"
+        android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginTop="36dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
         android:fontFamily="@font/poppins"
         android:hint="Password"
         android:inputType="textPassword"
         android:textColorHint="#99000000"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/et_email"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/et_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
     <TextView
@@ -80,45 +82,40 @@
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
+    <View
+        android:id="@+id/bt_login"
+        android:layout_width="291dp"
+        android:layout_height="42dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/rectangle_7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_password" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:gravity="center_horizontal|top"
+        android:text="Login"
+        android:textColor="#000000"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="@+id/bt_login"
+        app:layout_constraintEnd_toEndOf="@+id/bt_login"
+        app:layout_constraintStart_toStartOf="@+id/bt_login"
+        app:layout_constraintTop_toTopOf="@+id/bt_login" />
+    <ProgressBar
+        android:id="@+id/pB_Login"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-        <View
-            android:id="@+id/bt_login"
-            android:layout_width="291dp"
-            android:layout_height="42dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="60dp"
-            android:background="@drawable/rectangle_7"
-            app:layout_constraintEnd_toEndOf="@+id/et_password"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/et_password"
-            app:layout_constraintTop_toBottomOf="@+id/et_password" />
-  
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins"
-            android:gravity="center_horizontal|top"
-            android:text="Login"
-            android:textColor="#000000"
-            android:textSize="19sp"
-            app:layout_constraintBottom_toBottomOf="@+id/bt_login"
-            app:layout_constraintEnd_toEndOf="@+id/bt_login"
-            app:layout_constraintStart_toStartOf="@+id/bt_login"
-            app:layout_constraintTop_toTopOf="@+id/bt_login" />
-
-        <ProgressBar
-            android:id="@+id/pB_Login"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
