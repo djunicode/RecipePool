@@ -60,5 +60,9 @@ class RecipePageActivity : AppCompatActivity() {
                 adapter = RecyclerAdapterSteps(stepList)
             }
         }
+
+        binding.imageFavourite.setOnClickListener {
+            binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24))
+        }
     }
 }

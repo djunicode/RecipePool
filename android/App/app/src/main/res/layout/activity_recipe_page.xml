@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_recipe_page"
@@ -22,25 +26,30 @@
                 android:id="@+id/image_bookmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_vector_bookmark"
                 android:layout_gravity="end"
+                android:layout_marginStart="27.5dp"
                 android:layout_marginEnd="27.5dp"
-                android:layout_marginStart="27.5dp"/>
+                android:src="@drawable/ic_vector_bookmark" />
 
             <ImageView
                 android:id="@+id/image_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_vector_back"
                 android:layout_marginStart="19dp"
-                android:layout_marginEnd="19dp"/>
+                android:layout_marginEnd="19dp"
+                android:src="@drawable/ic_vector_back" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:layout_height="0dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -117,7 +126,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recipe_image"
+                app:layout_constraintTop_toBottomOf="@id/recipe_image_recycler_view"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
@@ -137,6 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
+                android:layout_marginEnd="20dp"
                 android:src="@drawable/ic_fav"
                 app:layout_constraintBottom_toBottomOf="@id/image_share"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -144,6 +154,21 @@
                 app:layout_constraintStart_toEndOf="@id/image_share"
                 app:layout_constraintTop_toTopOf="@id/image_share"
                 app:layout_constraintVertical_bias="0.5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/poppins"
+                android:gravity="center"
+                android:hint="Rating"
+                android:textColor="#EB1044"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_favourite" />
 
             <TextView
                 android:id="@+id/text_quantity"
@@ -154,6 +179,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="Quantity"
                 android:textColor="@color/black"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -178,12 +204,12 @@
                 android:id="@+id/recycler_view_ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/quantity_spinner"
-                app:layout_constraintVertical_bias="0.0"
-                android:layout_marginTop="36dp" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/start_cooking_button"
@@ -193,79 +219,71 @@
                 android:layout_marginTop="54dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="53dp"
+                android:background="@drawable/bottomnav_round"
                 android:fontFamily="@font/poppins"
                 android:text="Start Cooking"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="19sp"
                 app:cornerRadius="4dp"
-                android:background="@drawable/bottomnav_round"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recycler_view_ingredients"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/recycler_view_ingredients" />
 
             <TextView
                 android:id="@+id/text_steps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recycler_view_ingredients"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintVertical_bias="0.0"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="52dp"
+                android:fontFamily="@font/poppins_semi_bold"
                 android:text="Steps"
                 android:textColor="@color/black"
                 android:textSize="21sp"
-                android:fontFamily="@font/poppins_semi_bold"
-                android:layout_marginTop="52dp"
-                android:layout_marginStart="22dp"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_view_ingredients"
+                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_steps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/text_steps"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="22dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintVertical_bias="0.0"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="22dp"
-                android:visibility="gone"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_steps"
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="25dp"
-            android:background="@drawable/bottomnav_round"
-            android:elevation="2dp"
-            app:itemIconTint="@color/black"
-            app:itemTextColor="@color/white"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="1"
-            app:menu="@menu/bottom_nav" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/bottomnav_round"
+        android:elevation="2dp"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:menu="@menu/bottom_nav" />
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

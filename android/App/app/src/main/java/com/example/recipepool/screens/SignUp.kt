@@ -33,7 +33,7 @@ class SignUp : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.pBSignUp.visibility = View.INVISIBLE
+        binding.pBSignUp?.visibility = View.INVISIBLE
 
         // shared preferences to store user token
         val pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
@@ -64,10 +64,10 @@ class SignUp : AppCompatActivity() {
 
 
         // on click sign up button
-        binding.viewSignUp.setOnClickListener {
+        binding.viewSignUP.setOnClickListener {
 
-            binding.viewSignUp.isEnabled = false
-            binding.pBSignUp.visibility = View.VISIBLE
+            binding.viewSignUP.isEnabled = false
+            binding.pBSignUp?.visibility = View.VISIBLE
 
             Log.d("clicked","Hello world")
 
@@ -77,8 +77,8 @@ class SignUp : AppCompatActivity() {
 
                 binding.etName.error = "Name Required"
                 binding.etName.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUP.isEnabled = true
+                binding.pBSignUp?.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
             }
@@ -88,8 +88,8 @@ class SignUp : AppCompatActivity() {
             if (password.isEmpty() || password.length < 6) {
                 binding.etPassword.error = "Minimum 6 characters required"
                 binding.etPassword.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUP.isEnabled = true
+                binding.pBSignUp?.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
             }
@@ -100,8 +100,8 @@ class SignUp : AppCompatActivity() {
             if (confirm_password != password) {
                 binding.etConfirmpass.error = "Passwords don,t match"
                 binding.etConfirmpass.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUP.isEnabled = true
+                binding.pBSignUp?.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
             }
@@ -113,8 +113,8 @@ class SignUp : AppCompatActivity() {
 
                 binding.etEmail.error = "Invalid email"
                 binding.etEmail.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUP.isEnabled = true
+                binding.pBSignUp?.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
 
@@ -125,8 +125,8 @@ class SignUp : AppCompatActivity() {
 
                 binding.etDate.error = "Date of Birth required"
                 binding.etDate.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUP.isEnabled = true
+                binding.pBSignUp?.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
             }
@@ -136,8 +136,8 @@ class SignUp : AppCompatActivity() {
             if (number.isEmpty() || number.length != 10) {
                 binding.etPhone.error = "Invalid phone number"
                 binding.etPhone.requestFocus()
-                binding.viewSignUp.isEnabled = true
-                binding.pBSignUp.visibility = View.INVISIBLE
+                binding.viewSignUP.isEnabled = true
+                binding.pBSignUp?.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 return@setOnClickListener
             }
@@ -173,8 +173,8 @@ class SignUp : AppCompatActivity() {
                         editor.putString("email",response.body()!!.email.toString())
                         editor.putString("name",binding.etName.text.toString())
                         editor.apply()
-                        binding.viewSignUp.isEnabled = true
-                        binding.pBSignUp.visibility = View.INVISIBLE
+                        binding.viewSignUP.isEnabled = true
+                        binding.pBSignUp?.visibility = View.INVISIBLE
                         Log.d("response",response.message().toString())
                         startActivity(intent)
                         finish()
@@ -183,11 +183,12 @@ class SignUp : AppCompatActivity() {
                         Log.d("response",response.message().toString())
                     }
                 }
+
                 override fun onFailure(call: Call<signup>, t: Throwable) {
-                    binding.pBSignUp.visibility = View.INVISIBLE
+                    binding.pBSignUp?.visibility = View.INVISIBLE
                     Toast.makeText(this@SignUp,"Some problem please try again",Toast.LENGTH_SHORT).show()
                     Log.d("Some sign up error occurred",t.message.toString())
-                    binding.viewSignUp.isEnabled = true
+                    binding.viewSignUP.isEnabled = true
                 }
             })
 

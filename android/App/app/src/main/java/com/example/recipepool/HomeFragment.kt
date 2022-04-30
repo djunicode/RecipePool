@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.data.FoodList
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
+import com.example.recipepool.recycleradapter.RecyclerAdapterTrending
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -20,6 +21,8 @@ class HomeFragment : Fragment() {
         FoodList("Chicken Enchiladas", "40min", false, 5f),
         FoodList("Minestrone Soup", "15min", false, 4f)
     )
+
+    private var trending: List<Int> = arrayListOf(1, 2, 3, 4, 5)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +38,11 @@ class HomeFragment : Fragment() {
         binding.recyclerViewFoodCard.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = RecyclerAdapterFoodCard(foodies)
+        }
+
+        binding.recyclerViewTrendingRecipe.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = RecyclerAdapterTrending(trending)
         }
     }
 }
