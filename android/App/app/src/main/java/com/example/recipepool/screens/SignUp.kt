@@ -64,6 +64,18 @@ class SignUp : AppCompatActivity() {
         }
 
 
+
+        if (binding.radioFemale.isChecked){
+            Log.d("gender","female")
+        }
+        if (binding.radioMale.isChecked){
+            Log.d("gender","male")
+        }
+        if (binding.radioOthers.isChecked){
+            Log.d("gender","others")
+        }
+
+
         // email validation
         binding.etEmail.setOnFocusChangeListener { view, b ->
 
@@ -145,6 +157,29 @@ class SignUp : AppCompatActivity() {
 
             binding.viewSignUP.isEnabled = false
             binding.pBSignUp.visibility = View.VISIBLE
+            val radio = binding.radioGroup.checkedRadioButtonId
+            val gender:String
+            if (radio == -1) {
+                Toast.makeText(this, "Select a Gender", Toast.LENGTH_SHORT)
+            }
+            else{
+                if (binding.radioMale.id == radio){
+                    Log.d("gender", "male")
+                    gender = "Male"
+                }
+                else if (binding.radioFemale.id == radio){
+                    Log.d("gender", "female")
+                    gender = "Female"
+                }
+                else if (binding.radioOthers.id == radio){
+                    Log.d("gender", "others")
+                    gender = "Others"
+                }
+            }
+
+
+
+
 
             Log.d("clicked","Hello world")
 
@@ -293,7 +328,7 @@ class SignUp : AppCompatActivity() {
     }
 
     fun updateDateInView() {
-        val myFormat = "MM/dd/yyyy" // mention the format you need
+        val myFormat = "yyyy/MM/dd" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         binding.etDate.text = sdf.format(cal.time)
     }

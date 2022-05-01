@@ -284,6 +284,7 @@
                 android:backgroundTint="#0463FF"
                 android:drawableLeft="@drawable/ic_google"
                 android:text="Sign-up with Google"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/view_signUP"
