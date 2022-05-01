@@ -1,16 +1,15 @@
 package com.example.recipepool.screens
 
 import android.app.DatePickerDialog
-import android.content.SharedPreferences
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.widget.doAfterTextChanged
 import com.example.recipepool.R
 import com.example.recipepool.apis.RetrofitApi
 import com.example.recipepool.data.signup
@@ -33,7 +32,6 @@ class SignUp : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.pBSignUp!!.visibility = View.INVISIBLE
 
         // shared preferences to store user token
@@ -171,10 +169,10 @@ class SignUp : AppCompatActivity() {
             if (password.isEmpty() || password.length < 6) {
                 binding.etPassword.error = "Minimum 6 characters required"
                 binding.etPassword.requestFocus()
-                signup =false
 
                 binding.viewSignUP.isEnabled = true
                 binding.pBSignUp!!.visibility = View.INVISIBLE
+                signup = false
                 Log.d("name","Some name error")
                 //return@setOnClickListener
             }
@@ -185,10 +183,10 @@ class SignUp : AppCompatActivity() {
             if (confirm_password != password || confirm_password.length<6) {
                 binding.etConfirmpass.error = "Passwords don,t match"
                 binding.etConfirmpass.requestFocus()
-                signup =false
 
                 binding.viewSignUP.isEnabled = true
                 binding.pBSignUp!!.visibility = View.INVISIBLE
+                signup = false
                 Log.d("name","Some name error")
                // return@setOnClickListener
             }
@@ -200,9 +198,9 @@ class SignUp : AppCompatActivity() {
 
                 binding.etEmail.error = "Invalid email"
                 binding.etEmail.requestFocus()
-                signup =false
                 binding.viewSignUP.isEnabled = true
                 binding.pBSignUp!!.visibility = View.INVISIBLE
+                signup = false
                 Log.d("name","Some name error")
                // return@setOnClickListener
 
@@ -275,6 +273,7 @@ class SignUp : AppCompatActivity() {
                         Log.d("response",response.message().toString())
                     }
                 }
+
                 override fun onFailure(call: Call<signup>, t: Throwable) {
                     binding.pBSignUp!!.visibility = View.INVISIBLE
                     Toast.makeText(this@SignUp,"Some problem please try again",Toast.LENGTH_SHORT).show()
