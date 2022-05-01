@@ -24,7 +24,7 @@ class RecyclerAdapterRecipeImages(private var data: List<Int>) :
                     .load(this)
                     .into(binding.recipeImage)
 
-                binding.recipeImage.
+
             }
         }
     }
@@ -40,7 +40,7 @@ class RecyclerAdapterRecipeImages(private var data: List<Int>) :
     }
 
     override fun onDoubleTap(motionEvent: MotionEvent?): Boolean {
-
+        TODO("Not yet implemented")
     }
 
     override fun onDoubleTapEvent(p0: MotionEvent?): Boolean {

@@ -1,14 +1,14 @@
 package com.example.recipepool.screens
 
 import android.app.DatePickerDialog
-import android.content.SharedPreferences
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.recipepool.R
 import com.example.recipepool.apis.RetrofitApi
@@ -32,8 +32,7 @@ class SignUp : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        binding.pBSignUp?.visibility = View.INVISIBLE
+        binding.pBSignUp!!.visibility = View.INVISIBLE
 
         // shared preferences to store user token
         val pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
@@ -63,24 +62,106 @@ class SignUp : AppCompatActivity() {
         }
 
 
+        // email validation
+        binding.etEmail.setOnFocusChangeListener { view, b ->
+
+            if (b ||binding.etEmail.text.toString().trim().isEmpty()){
+                return@setOnFocusChangeListener
+            }
+                if (!Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.text.toString().trim()).matches()) {
+
+                    binding.etEmail.error = "Invalid email"
+                   // binding.etEmail.requestFocus()
+                }
+        }
+
+        // number validation
+        binding.etPhone.setOnFocusChangeListener { view, b ->
+            if (b){
+                return@setOnFocusChangeListener
+            }
+            val number = binding.etPhone.text.toString().trim()
+            if ( number.length != 10  ) {
+                binding.etPhone.error = "Invalid phone number"
+               // binding.etPhone.requestFocus()
+            }
+        }
+        //name validation
+        binding.etName.setOnFocusChangeListener { view, b ->
+            if (b){
+                return@setOnFocusChangeListener
+            }
+           /* if (binding.etName.text.toString().trim().isEmpty()) {
+
+                binding.etName.error = "Name Required"
+              //  binding.etName.requestFocus()
+            }*/
+
+        }
+
+        //pasword validation
+        binding.etPassword.setOnFocusChangeListener { view, b ->
+            val password = binding.etPassword.text.toString().trim()
+            if (b || password.isEmpty()) return@setOnFocusChangeListener
+
+            if (password.length < 6) {
+                binding.etPassword.error = "Minimum 6 characters required"
+               // binding.etPassword.requestFocus()
+
+            }
+
+        }
+
+        //confirm password
+        binding.etConfirmpass.setOnFocusChangeListener { view, b ->
+            if (b) return@setOnFocusChangeListener
+            val password = binding.etPassword.text.toString().trim()
+            val confirm_password = binding.etConfirmpass.text.toString().trim()
+
+            if (password != confirm_password) {
+                binding.etConfirmpass.error = "Passwords don,t match"
+               // binding.etConfirmpass.requestFocus()
+
+            }
+        }
+
+        //DOB
+
+        binding.etDate.setOnFocusChangeListener { view, b ->
+            if (b) return@setOnFocusChangeListener
+            /*if ( binding.etDate.text.toString().trim().isEmpty()) {
+                binding.etDate.error = "Date of Birth required"
+              //  binding.etDate.requestFocus()
+
+            }*/
+
+        }
+
+
         // on click sign up button
         binding.viewSignUP.setOnClickListener {
 
             binding.viewSignUP.isEnabled = false
-            binding.pBSignUp?.visibility = View.VISIBLE
+            binding.pBSignUp.visibility = View.VISIBLE
 
             Log.d("clicked","Hello world")
 
+
+            Log.d("signup","clicked")
+
+            var signup = true
 
             // if NAME is empty
             if (binding.etName.text.toString().trim().isEmpty()) {
 
                 binding.etName.error = "Name Required"
                 binding.etName.requestFocus()
+                signup =false
+
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp?.visibility = View.INVISIBLE
+                binding.pBSignUp!!.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
-                return@setOnClickListener
+               // return@setOnClickListener
             }
 
             //if PASSWORD is empty
@@ -88,22 +169,26 @@ class SignUp : AppCompatActivity() {
             if (password.isEmpty() || password.length < 6) {
                 binding.etPassword.error = "Minimum 6 characters required"
                 binding.etPassword.requestFocus()
+
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp?.visibility = View.INVISIBLE
+                binding.pBSignUp!!.visibility = View.INVISIBLE
+                signup = false
                 Log.d("name","Some name error")
-                return@setOnClickListener
+                //return@setOnClickListener
             }
 
             //if PASSWORDS don't match
             val confirm_password = binding.etConfirmpass.text.toString().trim()
 
-            if (confirm_password != password) {
+            if (confirm_password != password || confirm_password.length<6) {
                 binding.etConfirmpass.error = "Passwords don,t match"
                 binding.etConfirmpass.requestFocus()
+
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp?.visibility = View.INVISIBLE
+                binding.pBSignUp!!.visibility = View.INVISIBLE
+                signup = false
                 Log.d("name","Some name error")
-                return@setOnClickListener
+               // return@setOnClickListener
             }
 
             // checking email
@@ -114,21 +199,24 @@ class SignUp : AppCompatActivity() {
                 binding.etEmail.error = "Invalid email"
                 binding.etEmail.requestFocus()
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp?.visibility = View.INVISIBLE
+                binding.pBSignUp!!.visibility = View.INVISIBLE
+                signup = false
                 Log.d("name","Some name error")
-                return@setOnClickListener
+               // return@setOnClickListener
 
             }
 
-            //checking DOB
-            if (binding.etDate.text.isEmpty()) {
 
+            //checking DOB
+            if ( binding.etDate.text.toString().trim().isEmpty()) {
+                Log.d("error","dob")
                 binding.etDate.error = "Date of Birth required"
                 binding.etDate.requestFocus()
+                signup=false
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp?.visibility = View.INVISIBLE
+                binding.pBSignUp!!.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
-                return@setOnClickListener
+                //return@setOnClickListener
             }
 
             //checking phone number
@@ -136,12 +224,14 @@ class SignUp : AppCompatActivity() {
             if (number.isEmpty() || number.length != 10) {
                 binding.etPhone.error = "Invalid phone number"
                 binding.etPhone.requestFocus()
+                signup =false
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp?.visibility = View.INVISIBLE
+                binding.pBSignUp!!.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
-                return@setOnClickListener
+              //  return@setOnClickListener
             }
 
+                if (!signup) return@setOnClickListener
             // retrofit builder for apis
             val rf = Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -174,7 +264,7 @@ class SignUp : AppCompatActivity() {
                         editor.putString("name",binding.etName.text.toString())
                         editor.apply()
                         binding.viewSignUP.isEnabled = true
-                        binding.pBSignUp?.visibility = View.INVISIBLE
+                        binding.pBSignUp!!.visibility = View.INVISIBLE
                         Log.d("response",response.message().toString())
                         startActivity(intent)
                         finish()
@@ -185,7 +275,7 @@ class SignUp : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<signup>, t: Throwable) {
-                    binding.pBSignUp?.visibility = View.INVISIBLE
+                    binding.pBSignUp!!.visibility = View.INVISIBLE
                     Toast.makeText(this@SignUp,"Some problem please try again",Toast.LENGTH_SHORT).show()
                     Log.d("Some sign up error occurred",t.message.toString())
                     binding.viewSignUP.isEnabled = true
@@ -201,7 +291,7 @@ class SignUp : AppCompatActivity() {
 
     }
 
-    private fun updateDateInView() {
+    fun updateDateInView() {
         val myFormat = "MM/dd/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         binding.etDate.text = sdf.format(cal.time)

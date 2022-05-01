@@ -36,7 +36,8 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintVertical_bias="0.0">
 
@@ -119,7 +120,6 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="0dp"
                     app:defaultNavHost="true"
                     app:navGraph="@navigation/nav_graph" />
 

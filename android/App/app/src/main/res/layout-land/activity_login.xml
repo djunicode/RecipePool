@@ -116,6 +116,16 @@
                 app:layout_constraintEnd_toEndOf="@+id/bt_login"
                 app:layout_constraintStart_toStartOf="@+id/bt_login"
                 app:layout_constraintTop_toTopOf="@+id/bt_login" />
+            <ProgressBar
+                android:id="@+id/pB_Login"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
