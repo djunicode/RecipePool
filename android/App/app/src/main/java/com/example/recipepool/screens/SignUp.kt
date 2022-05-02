@@ -12,10 +12,19 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.recipepool.R
 import com.example.recipepool.constants.ApiConstants.rf
+import com.example.recipepool.data.google
 import com.example.recipepool.data.login
 import com.example.recipepool.data.signup
 import com.example.recipepool.data.token
 import com.example.recipepool.databinding.ActivitySignUpBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,20 +33,32 @@ import java.util.*
 
 class SignUp : AppCompatActivity() {
 
+
+    private lateinit var mAuth: FirebaseAuth
     private lateinit var binding: ActivitySignUpBinding
     var cal: Calendar = Calendar.getInstance()
     lateinit var gender: String
+
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var editor: SharedPreferences.Editor
+
+    companion object {
+        var RC_SIGN_IN = 100
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize Firebase Auth
+//        auth = Firebase.auth
+
         binding.pBSignUp.visibility = View.INVISIBLE
 
         // shared preferences to store user token
         val pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = pref.edit()
+        editor = pref.edit()
 
         //code for setting status bar white
         window.statusBarColor = ContextCompat.getColor(this, R.color.white)
@@ -278,15 +299,6 @@ class SignUp : AppCompatActivity() {
             val signupRequest = rf.signup(userDataSignUp)
 
 
-            Log.d("1", userDataSignUp.DOB.toString())
-            Log.d("1", userDataSignUp.email.toString())
-            Log.d("1", userDataSignUp.firstname.toString())
-            Log.d("1", userDataSignUp.lastname.toString())
-            Log.d("1", userDataSignUp.password.toString())
-            Log.d("1", userDataSignUp.gender.toString())
-            Log.d("1", userDataSignUp.phone_number.toString())
-
-
             //handling login request
             val loginRequest = rf.login(userDataLogin)
 
@@ -374,12 +386,106 @@ class SignUp : AppCompatActivity() {
             finish()
         }
 
+        binding.btSignUpGoogle.setOnClickListener {
+            binding.pBSignUp.visibility = View.VISIBLE
+
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken("248934162242-8vijpcs6fqh7ja9hessahu7mvkhcsm12.apps.googleusercontent.com")
+//            21048189619-v974lmaf367qu7q7ccaj2f701vigqf4u.apps.googleusercontent.com
+                .requestIdToken("21048189619-4n65kvscmm2gk0amf5gks54faro9ti7h.apps.googleusercontent.com")
+                .requestEmail()
+                .build()
+
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
+            signUp()
+        }
+
+    }
+
+    private fun signUp() {
+        val signInIntent = Intent(mGoogleSignInClient.signInIntent)
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == Login.RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val user = completedTask.getResult(ApiException::class.java)
+            Log.d("google sign up token",user.idToken.toString())
+
+            val tokenData = google("","",user.idToken.toString())
+
+            val googleRequest = rf.google(tokenData)
+            googleRequest.enqueue(object :Callback<google>{
+                override fun onResponse(call: Call<google>, response: Response<google>) {
+                    if(response.code() == 200){
+                        Toast.makeText(this@SignUp, "Welcome to Recipe Pool", Toast.LENGTH_SHORT)
+                            .show()
+                        val intent = Intent(this@SignUp, MainActivity::class.java)
+                        editor.putString("access token", response.body()!!.access.toString())
+                        editor.putString("refresh token", response.body()!!.refresh.toString())
+                        editor.apply()
+                        binding.btSignUpGoogle.isEnabled = true
+                        binding.pBSignUp.visibility = View.INVISIBLE
+                        startActivity(intent)
+                        finish()
+                    }
+                    else{
+                        Toast.makeText(this@SignUp, "Please try againg later", Toast.LENGTH_SHORT)
+                            .show()
+                        binding.btSignUpGoogle.isEnabled = true
+                        binding.pBSignUp.visibility = View.INVISIBLE
+                    }
+                }
+
+                override fun onFailure(call: Call<google>, t: Throwable) {
+                    binding.btSignUpGoogle.isEnabled = true
+                    binding.pBSignUp.visibility = View.INVISIBLE
+                    Toast.makeText(this@SignUp, "Please try again later", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+        catch (e: ApiException) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.d("Message", e.toString())
+            Toast.makeText(this,"Please sign in", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun updateDateInView() {
         val myFormat = "yyyy-MM-dd" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         binding.etDate.text = sdf.format(cal.time)
+    }
+
+
+    private fun firebaseAuthWithGoogle(idToken: String?) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        mAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+//                    Log.d(TAG, "signInWithCredential:success")
+                    val user = mAuth.currentUser
+//                    signOut()
+                } else {
+                    // If sign in fails, display a message to the user.
+//                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    Log.d("failure", "firebase failure")
+                }
+            }
     }
 
 }
