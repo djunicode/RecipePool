@@ -1,14 +1,14 @@
 package com.example.recipepool.screens
 
 import android.app.DatePickerDialog
-import android.content.SharedPreferences
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.recipepool.R
 import com.example.recipepool.constants.ApiConstants.rf
@@ -50,11 +50,8 @@ class SignUp : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // Initialize Firebase Auth
-//        auth = Firebase.auth
-
         binding.pBSignUp.visibility = View.INVISIBLE
+
 
         // shared preferences to store user token
         val pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
@@ -222,7 +219,6 @@ class SignUp : AppCompatActivity() {
                 binding.pBSignUp.visibility = View.INVISIBLE
                 Log.d("name", "Some name error")
                 // return@setOnClickListener
-
             }
 
 

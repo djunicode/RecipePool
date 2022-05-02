@@ -60,7 +60,6 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.pBLogin.visibility = View.INVISIBLE
 
 
@@ -83,7 +82,6 @@ class Login : AppCompatActivity() {
         binding.etEmail.setOnFocusChangeListener { view, b ->
             if (b) return@setOnFocusChangeListener
             if (binding.etEmail.text.toString().trim().isEmpty()) {
-
                 binding.etEmail.error = "Email Required"
                 //binding.etEmail.requestFocus()
 
@@ -105,8 +103,6 @@ class Login : AppCompatActivity() {
 
         binding.btLogin.setOnClickListener {
 
-            binding.btLogin.isEnabled = false
-
             binding.pBLogin.visibility = View.VISIBLE
 
             if (binding.etEmail.text.toString().trim().isEmpty()) {
@@ -122,7 +118,7 @@ class Login : AppCompatActivity() {
                 binding.etPassword.requestFocus()
                 binding.btLogin.isEnabled = true
                 binding.pBLogin.visibility = View.INVISIBLE
-                return@setOnClickListener
+
             }
 
             // retrofit builder for apis
@@ -164,9 +160,21 @@ class Login : AppCompatActivity() {
 
                 override fun onFailure(call: Call<login>, t: Throwable) {
                     binding.pBLogin.visibility = View.INVISIBLE
-                    Toast.makeText(this@Login, "Please check your email id and password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@Login,
+                        "Please check your email id and password",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     binding.btLogin.isEnabled = true
                     Log.d("Login failure error", t.message.toString())
+                    binding.pBLogin.visibility = View.INVISIBLE
+                    Toast.makeText(
+                        this@Login,
+                        "Please check your email id or sign up",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    binding.btLogin.isEnabled = true
+                    Log.d("Some sign up error occurred", t.message.toString())
                 }
             })
         }
@@ -189,7 +197,7 @@ class Login : AppCompatActivity() {
 
     }
 
-    private fun signIn() {
+    fun signIn() {
         val signInIntent = Intent(mGoogleSignInClient.signInIntent)
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
@@ -200,28 +208,38 @@ class Login : AppCompatActivity() {
         if (requestCode == RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
         }
     }
 
-    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+    fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val user = completedTask.getResult(ApiException::class.java)
-            Log.d("google login token",user.idToken.toString())
-            firebaseAuthWithGoogle(user.idToken)
+            Log.d("google login token", user.idToken.toString())
 
-            val tokenData = google("","",user.idToken.toString())
+            val tokenData = google("", "", user.idToken.toString())
 
             val googleRequest = rf.google(tokenData)
-            googleRequest.enqueue(object :Callback<google>{
+            googleRequest.enqueue(object : Callback<google> {
                 override fun onResponse(call: Call<google>, response: Response<google>) {
-                    if(response.code() == 200){
-                        Toast.makeText(this@Login, "Welcome to Recipe Pool", Toast.LENGTH_SHORT)
+                    if (response.code() == 200) {
+                        Toast.makeText(
+                            this@Login,
+                            "Welcome to Recipe Pool",
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
                         val intent = Intent(this@Login, MainActivity::class.java)
-                        editor.putString("access token", response.body()!!.access.toString())
-                        editor.putString("refresh token", response.body()!!.refresh.toString())
+                        editor.putString(
+                            "access token",
+                            response.body()!!.access.toString()
+                        )
+                        editor.putString(
+                            "refresh token",
+                            response.body()!!.refresh.toString()
+                        )
                         editor.apply()
                         binding.btLoginGoogle.isEnabled = true
                         binding.pBLogin.visibility = View.INVISIBLE
@@ -233,34 +251,16 @@ class Login : AppCompatActivity() {
                 override fun onFailure(call: Call<google>, t: Throwable) {
                     binding.btLoginGoogle.isEnabled = true
                     binding.pBLogin.visibility = View.INVISIBLE
-                    Toast.makeText(this@Login, "Please try again later", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@Login, "Please try again later", Toast.LENGTH_SHORT)
+                        .show()
                 }
             })
-        }
-        catch (e: ApiException) {
+        } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.d("Message", e.toString())
-            Log.d("error code",e.statusCode.toString())
-            Toast.makeText(this,"Please sign in", Toast.LENGTH_SHORT).show()
+            Log.d("error code", e.statusCode.toString())
+            Toast.makeText(this, "Please sign in", Toast.LENGTH_SHORT).show()
         }
     }
-
-    private fun firebaseAuthWithGoogle(idToken: String?) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        mAuth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-//                    Log.d(TAG, "signInWithCredential:success")
-                    val user = mAuth.currentUser
-//                    signOut()
-                } else {
-                    // If sign in fails, display a message to the user.
-//                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    Log.d("failure", "firebase failure")
-                }
-            }
-    }
-
 }
