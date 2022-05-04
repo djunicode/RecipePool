@@ -32,7 +32,7 @@ class SignUp : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.pBSignUp!!.visibility = View.INVISIBLE
+        binding.pBSignUp.visibility = View.INVISIBLE
 
         // shared preferences to store user token
         val pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
@@ -158,7 +158,7 @@ class SignUp : AppCompatActivity() {
             val radio = binding.radioGroup.checkedRadioButtonId
             val gender:String
             if (radio == -1) {
-                Toast.makeText(this, "Select a Gender", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Select a Gender", Toast.LENGTH_SHORT).show()
             }
             else{
                 if (binding.radioMale.id == radio){
@@ -194,7 +194,7 @@ class SignUp : AppCompatActivity() {
                 signup =false
 
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp!!.visibility = View.INVISIBLE
+                binding.pBSignUp.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                // return@setOnClickListener
             }
@@ -206,7 +206,7 @@ class SignUp : AppCompatActivity() {
                 binding.etPassword.requestFocus()
 
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp!!.visibility = View.INVISIBLE
+                binding.pBSignUp.visibility = View.INVISIBLE
                 signup = false
                 Log.d("name","Some name error")
                 //return@setOnClickListener
@@ -220,7 +220,7 @@ class SignUp : AppCompatActivity() {
                 binding.etConfirmpass.requestFocus()
 
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp!!.visibility = View.INVISIBLE
+                binding.pBSignUp.visibility = View.INVISIBLE
                 signup = false
                 Log.d("name","Some name error")
                // return@setOnClickListener
@@ -234,7 +234,7 @@ class SignUp : AppCompatActivity() {
                 binding.etEmail.error = "Invalid email"
                 binding.etEmail.requestFocus()
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp!!.visibility = View.INVISIBLE
+                binding.pBSignUp.visibility = View.INVISIBLE
                 signup = false
                 Log.d("name","Some name error")
                // return@setOnClickListener
@@ -249,7 +249,7 @@ class SignUp : AppCompatActivity() {
                 binding.etDate.requestFocus()
                 signup=false
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp!!.visibility = View.INVISIBLE
+                binding.pBSignUp.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
                 //return@setOnClickListener
             }
@@ -261,7 +261,7 @@ class SignUp : AppCompatActivity() {
                 binding.etPhone.requestFocus()
                 signup =false
                 binding.viewSignUP.isEnabled = true
-                binding.pBSignUp!!.visibility = View.INVISIBLE
+                binding.pBSignUp.visibility = View.INVISIBLE
                 Log.d("name","Some name error")
               //  return@setOnClickListener
             }
@@ -299,7 +299,7 @@ class SignUp : AppCompatActivity() {
                         editor.putString("name",binding.etName.text.toString())
                         editor.apply()
                         binding.viewSignUP.isEnabled = true
-                        binding.pBSignUp!!.visibility = View.INVISIBLE
+                        binding.pBSignUp.visibility = View.INVISIBLE
                         Log.d("response",response.message().toString())
                         startActivity(intent)
                         finish()
@@ -310,7 +310,7 @@ class SignUp : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<signup>, t: Throwable) {
-                    binding.pBSignUp!!.visibility = View.INVISIBLE
+                    binding.pBSignUp.visibility = View.INVISIBLE
                     Toast.makeText(this@SignUp,"Some problem please try again",Toast.LENGTH_SHORT).show()
                     Log.d("Some sign up error occurred",t.message.toString())
                     binding.viewSignUP.isEnabled = true

@@ -85,6 +85,7 @@
                     app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/breakfast_chip"
                         style="@style/CustomChip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -92,18 +93,21 @@
                         android:theme="@style/CustomChip" />
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/lunch_chip"
                         style="@style/CustomChip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Lunch" />
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/snacks_chip"
                         style="@style/CustomChip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Snacks" />
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/dinner_chip"
                         style="@style/CustomChip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

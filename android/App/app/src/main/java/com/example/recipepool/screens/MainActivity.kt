@@ -43,9 +43,9 @@ class MainActivity : AppCompatActivity() {
 
         nav = binding.leftNav
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+        /*val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
                 as NavHostFragment
-        navController = navHostFragment.navController
+        navController = navHostFragment.navController*/
 
         binding.bottomNavigation.setupWithNavController(navController)
 
@@ -74,6 +74,14 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+
+
+
+        // recipies
+
+
+
 
     }
 
