@@ -8,14 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipepool.R
 import com.example.recipepool.screens.RecipePageActivity
 import com.example.recipepool.data.FoodList
-import com.example.recipepool.databinding.LayerListCardBinding
+import com.example.recipepool.databinding.CardLayerListBinding
 
 class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
     RecyclerView.Adapter<RecyclerAdapterFoodCard.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = LayerListCardBinding.inflate(LayoutInflater.from(parent.context),
-            parent, false)
+        val binding = CardLayerListBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent, false
+        )
         return ViewHolder(binding)
     }
 
@@ -27,15 +29,24 @@ class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
                 binding.ratingBar.rating = this.rating!!
 
                 when (position % 3) {
-                    0 -> binding.foodCard.setCardBackgroundColor(ContextCompat.getColor(itemView.context,
-                        R.color.card_color_1
-                    ))
-                    1 -> binding.foodCard.setCardBackgroundColor(ContextCompat.getColor(itemView.context,
-                        R.color.card_color_2
-                    ))
-                    2 -> binding.foodCard.setCardBackgroundColor(ContextCompat.getColor(itemView.context,
-                        R.color.card_color_3
-                    ))
+                    0 -> binding.foodCard.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.card_color_1
+                        )
+                    )
+                    1 -> binding.foodCard.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.card_color_2
+                        )
+                    )
+                    2 -> binding.foodCard.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.card_color_3
+                        )
+                    )
                 }
 
                 binding.foodCard.setOnClickListener {
@@ -51,5 +62,6 @@ class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
         return data.size
     }
 
-    inner class ViewHolder(val binding: LayerListCardBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: CardLayerListBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }
