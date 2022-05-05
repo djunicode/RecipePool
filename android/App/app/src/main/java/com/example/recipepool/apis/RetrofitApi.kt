@@ -1,7 +1,9 @@
 package com.example.recipepool.apis
 
+import com.example.recipepool.data.google
 import com.example.recipepool.data.login
 import com.example.recipepool.data.signup
+import com.example.recipepool.data.token
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -14,6 +16,16 @@ interface RetrofitApi {
     @POST("account/login/")
     fun login(
         @Body params: login
-    ):Call<login>
+    ): Call<login>
 
+
+    @GET("account/email-verify/?token=")
+    fun emailVerify(
+        @Query("token") token: String?
+    ): Call<token>
+
+    @POST("account/google/")
+    fun google(
+        @Body params: google
+    ):Call<google>
 }
