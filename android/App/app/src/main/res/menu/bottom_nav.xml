@@ -11,6 +11,11 @@
         android:title=""/>
 
     <item
+        android:id="@+id/camera"
+        android:icon="@drawable/ic_camera"
+        android:title=""/>
+
+    <item
         android:id="@+id/account"
         android:icon="@drawable/ic_account"
         android:title=""/>
