@@ -1,7 +1,7 @@
 package com.example.recipepool.screens
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipepool.data.SearchList
@@ -18,6 +18,8 @@ class Search : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.searchToolbar)
 
         searchList = arrayListOf()
 
