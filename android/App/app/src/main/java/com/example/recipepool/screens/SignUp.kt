@@ -111,7 +111,10 @@ class SignUp : AppCompatActivity() {
                 return@setOnFocusChangeListener
             }
             /* if (binding.etName.text.toString().trim().isEmpty()) {
+<<<<<<< HEAD
+=======
 
+>>>>>>> e4984180cbc2beab35776d363f7445e1a5700af7
                  binding.etName.error = "Name Required"
                //  binding.etName.requestFocus()
              }*/
@@ -151,7 +154,6 @@ class SignUp : AppCompatActivity() {
             /*if ( binding.etDate.text.toString().trim().isEmpty()) {
                 binding.etDate.error = "Date of Birth required"
               //  binding.etDate.requestFocus()
-
             }*/
 
         }
@@ -294,9 +296,9 @@ class SignUp : AppCompatActivity() {
             //handling sign up requests
             val signupRequest = rf.signup(userDataSignUp)
 
-
             //handling login request
             val loginRequest = rf.login(userDataLogin)
+
 
             signupRequest.enqueue(object : Callback<signup> {
                 override fun onResponse(call: Call<signup>, response: Response<signup>) {
