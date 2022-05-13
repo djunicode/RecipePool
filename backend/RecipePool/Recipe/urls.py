@@ -7,4 +7,7 @@ urlpatterns = [
     path('trending/',views.TrendingRecipes.as_view(),name = "Trending Recipes"),
     path('trending-cuisine/',views.TrendingCuisines.as_view(),name = "Trending Cuisines"),
     path('favourite/',views.FavouriteRecipes.as_view(),name = "Favourite"),
+    path('recipe/<str:pk>/',views.RecipeView.as_view(), name = "Recipe"),
+    path('cuisine/<str:pk>/',views.CuisineView.as_view(), name = "Cuisine"),
+    path('ingredient-list/<int:pk>/', views.IngredientListView.as_view(),name = "Ingredient-List")
 ]
