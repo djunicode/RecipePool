@@ -19,13 +19,24 @@ def upload_path_handler(instance, filename):
         label=instance.label, file=filename
     )
 
+
+class Cuisine(models.Model):
+    cuisine_name    = models.CharField(max_length=50)
+    image           = models.ImageField(upload_to = upload_path_handler,blank=True,null=True)
+    likes           = models.PositiveIntegerField(default = 0)
+
+    def __str__(self):
+        return self.cuisine_name
+
+
 class Recipe(models.Model):
-    createdBy          = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='recipe_user')
+    cuisine            = models.ForeignKey(Cuisine,on_delete=models.CASCADE,related_name='recipe_cuisine',null = True, blank = True)
+    createdBy          = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='recipe_user',null = True, blank = True)
     label              = models.CharField(max_length=50)
     instructions       = models.TextField(max_length=255)
     totalTime          = models.TimeField()
     url                = models.URLField(null=True)
-    image              = models.ImageField(upload_to = upload_path_handler)
+    image              = models.ImageField(upload_to = upload_path_handler,null = True, blank = True)
     healthLabels       = models.CharField(max_length=100)
     totalNutrients     = models.CharField(max_length=100)
     calories           = models.IntegerField()
@@ -39,7 +50,7 @@ class Recipe(models.Model):
         return self.label
 
 class IngredientList(models.Model):
-    recipe          = models.ForeignKey(Recipe,on_delete=models.CASCADE,related_name='ingredient_list')
+    recipe          = models.ForeignKey(Recipe,on_delete=models.CASCADE,related_name='ingredient_list',null=True,blank=True)
     ingredient      = models.ForeignKey(Ingredient,on_delete=models.CASCADE,related_name='recipe_ingredient')
     quantity        = models.FloatField(default = 1.0)
 
@@ -69,14 +80,6 @@ def upload_path_handler(instance, filename):
         label=instance.label, file=filename
     )
 
-class Cuisine(models.Model):
-    recipe          = models.ForeignKey(Recipe,on_delete=models.CASCADE,related_name='recipe_cuisine')
-    cuisine_name    = models.CharField(max_length=50,primary_key=True)
-    image           = models.ImageField(upload_to = upload_path_handler,blank=True,null=True)
-    likes           = models.PositiveIntegerField(default = 0)
-
-    def __str__(self):
-        return self.cuisine_name
     
 
 #To be done later
