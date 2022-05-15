@@ -8,10 +8,10 @@ class IngredientListInlineAdmin(admin.StackedInline):
 
 
 admin.site.register(Ingredient)
-@admin.register(Recipe)
+admin.site.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     inlines = [IngredientListInlineAdmin]
-# admin.site.register(IngredientList)
+admin.site.register(IngredientList)
 admin.site.register(Likes)
 admin.site.register(Favourite)
 admin.site.register(Cuisine)

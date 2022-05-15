@@ -15,7 +15,7 @@ class IngredientListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CuisineSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Cuisine
         fields = '__all__'
@@ -92,7 +92,6 @@ class RecipeSerializer(serializers.ModelSerializer):
         #         print(user_ingredient)
         #     except Ingredient.DoesNotExist:
         #         user_ingredient = None
-        
         #     ing = ingredients.pop(0)
         #     try:
         #         ingredient = Ingredient.objects.get(name=ing.ingredient)
