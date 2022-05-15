@@ -21,7 +21,7 @@ def upload_path_handler(instance, filename):
 
 
 class Cuisine(models.Model):
-    cuisine_name    = models.CharField(max_length=50)
+    cuisine_name    = models.CharField(max_length=50,primary_key=True)
     image           = models.ImageField(upload_to = upload_path_handler,blank=True,null=True)
     likes           = models.PositiveIntegerField(default = 0)
 
