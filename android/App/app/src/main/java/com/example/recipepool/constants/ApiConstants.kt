@@ -5,6 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConstants {
+
     const val baseUrl = "https://therecipepool.pythonanywhere.com/"
 
     val rf = Retrofit.Builder()
