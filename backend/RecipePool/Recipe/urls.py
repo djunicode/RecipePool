@@ -17,5 +17,6 @@ urlpatterns = [
     path('favourite/',views.FavouriteRecipes.as_view(),name = "Favourite"),
     path('recipe/<str:pk>/',views.RecipeView.as_view(), name = "Recipe"),
     path('cuisine/<str:pk>/',views.CuisineView.as_view(), name = "Cuisine"),
+    path('ingredient/<str:pk>/',views.IngredientView.as_view(), name = "ingredient"),
     path('ingredient-list/<int:pk>/', views.IngredientListView.as_view(),name = "Ingredient-List")
 ]

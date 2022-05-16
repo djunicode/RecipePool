@@ -2,7 +2,7 @@ from django.http import JsonResponse
 import requests
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
-from .serializers import CuisineSerializer, FavouriteSerializer, IngredientListSerializer, RecipeSerializer
+from .serializers import CuisineSerializer, FavouriteSerializer, IngredientListSerializer, RecipeSerializer,IngredientSerializer
 from rest_framework.views import APIView
 from django.http import JsonResponse
 from rest_framework import status
@@ -40,7 +40,7 @@ class RecipeSearchAND(generics.ListAPIView):
 
 class RecipeView(APIView):
     serializer_class = RecipeSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,]
 
     def get(self, request, pk):
         try:
@@ -125,6 +125,8 @@ class RecipeView(APIView):
 
 
 class IngredientListView(APIView):
+    serializer_class = IngredientListSerializer
+    permission_classes = [IsAuthenticated,]
     def post(self, request, pk):
         try:
             user = User.objects.get(email = request.user)
@@ -155,7 +157,7 @@ class IngredientListView(APIView):
             content = {'detail': 'Ingredient already for this recipe, edit it in put method'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         else:
-            content = {'detail': 'ingredient : [This is a required field]'}
+            content = {'ingredient' : '[This is a required field]'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
 
 
@@ -201,7 +203,7 @@ class IngredientListView(APIView):
 
 class CuisineView(APIView):
     serializer_class = CuisineSerializer
-
+    permission_classes = [IsAuthenticated,]
     def get(self, request, pk):
         #to show list of cuisine in dropdown list
         if pk == '0':
@@ -221,16 +223,62 @@ class CuisineView(APIView):
 
     def post(self, request, pk):
         #if user wants to create a new cuisine
-        try:
-            cuisine = Cuisine.objects.get(cuisine_name=request.data['cuisine_name'])
-        except Cuisine.DoesNotExist:   
-            serializer = CuisineSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)
-            return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST) 
-        cuisinereturn = CuisineSerializer(cuisine, many=False)
-        return JsonResponse(cuisinereturn.data,status = status.HTTP_200_OK)
+        if request.data.get('cuisine_name',False) != False:
+            try:
+                cuisine = Cuisine.objects.get(cuisine_name=request.data['cuisine_name'])
+            except Cuisine.DoesNotExist:   
+                serializer = CuisineSerializer(data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)
+                return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST) 
+            cuisinereturn = CuisineSerializer(cuisine, many=False)
+            return JsonResponse(cuisinereturn.data,status = status.HTTP_200_OK)
+        else:
+            content = {'cuisine_name' : '[This is a required field]'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+
+
+
+class IngredientView(APIView):
+    serializer_class = IngredientSerializer
+    permission_classes = [IsAuthenticated,]
+    def get(self, request, pk):
+        #to show list of cuisine in dropdown list
+        if pk == '0':
+            ingredient = Ingredient.objects.all()
+        #get a particular cuisine
+        else:
+            try:
+                ingredient = Ingredient.objects.get(id=pk)
+            except Ingredient.DoesNotExist:
+                content = {'detail': 'No such Ingredient exists'}
+                return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+            ingredient = IngredientSerializer(ingredient, many=False)
+            return JsonResponse(ingredient.data,status = status.HTTP_200_OK)
+        ingredient = IngredientSerializer(ingredient, many=True)
+        return JsonResponse(ingredient.data, safe=False,status = status.HTTP_200_OK)
+
+
+    def post(self, request, pk):
+        #if user wants to create a new cuisine
+        if request.data.get('name',False) != False:
+            try:
+                ingredient = Ingredient.objects.get(name=request.data['name'])
+            except Ingredient.DoesNotExist:   
+                serializer = IngredientSerializer(data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)
+                return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST) 
+            ingredientreturn = IngredientSerializer(ingredient, many=False)
+            return JsonResponse(ingredientreturn.data,status = status.HTTP_200_OK)
+        else:
+            content = {'name' : '[This is a required field]','image' : '[This is a required field]'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+
+
+
 
 
 

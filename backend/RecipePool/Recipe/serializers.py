@@ -60,7 +60,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         # ingredients = (instance.ingredient_list).all()
         # ingredients = list(ingredients)
         try:
-            user_cuisine = Cuisine.objects.get(cuisine_name=validated_data['cuisine'])
+            user_cuisine = Cuisine.objects.get(cuisine_name=validated_data.get('cuisine',False))
         except Cuisine.DoesNotExist:
             user_cuisine = None
         try:
@@ -68,8 +68,9 @@ class RecipeSerializer(serializers.ModelSerializer):
         except Cuisine.DoesNotExist:
             cuisine = None
             # content = {'detail': 'No such Cuisine exists'}
+            print(validated_data.get('createdBy'))
             # return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        instance.cuisine            = validated_data.get(cuisine,user_cuisine)
+        instance.cuisine            = validated_data.get(user_cuisine,cuisine)
         instance.createdBy          = validated_data.get('createdBy',instance.createdBy) 
         instance.label              = validated_data.get('label',instance.label) 
         instance.instructions       = validated_data.get('instructions',instance.instructions) 
