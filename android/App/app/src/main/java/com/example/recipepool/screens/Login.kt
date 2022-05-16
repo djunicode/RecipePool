@@ -19,8 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,7 +29,7 @@ class Login : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var editor: SharedPreferences.Editor
-    private lateinit var mAuth: FirebaseAuth
+   // private lateinit var mAuth: FirebaseAuth
 
 
     companion object {
@@ -132,11 +130,13 @@ class Login : AppCompatActivity() {
             //handling api requests
             val loginRequest = rf.login(userData)
 
+
             loginRequest.enqueue(object : Callback<login> {
                 override fun onResponse(call: Call<login>, response: Response<login>) {
                     if (response.code() == 200) {
                         Toast.makeText(this@Login, "Welcome to Recipe Pool", Toast.LENGTH_SHORT)
                             .show()
+                        Log.d("login url",response.raw().request().url().toString())
                         val intent = Intent(this@Login, MainActivity::class.java)
                         editor.putString("access token", response.body()!!.access.toString())
                         editor.putString("refresh token", response.body()!!.refresh.toString())

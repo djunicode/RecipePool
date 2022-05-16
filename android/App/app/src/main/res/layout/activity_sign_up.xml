@@ -196,7 +196,6 @@
 
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins"
-                android:padding="4dp"
                 android:text="Gender"
                 android:textColor="#000000"
                 android:textSize="16sp"

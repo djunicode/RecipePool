@@ -1,11 +1,11 @@
 package com.example.recipepool.apis
 
-import com.example.recipepool.data.google
-import com.example.recipepool.data.login
-import com.example.recipepool.data.signup
-import com.example.recipepool.data.token
+import com.example.recipepool.data.*
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface RetrofitApi {
     @POST("account/signup/")
@@ -18,7 +18,6 @@ interface RetrofitApi {
         @Body params: login
     ): Call<login>
 
-
     @GET("account/email-verify/?token=")
     fun emailVerify(
         @Query("token") token: String?
@@ -28,4 +27,13 @@ interface RetrofitApi {
     fun google(
         @Body params: google
     ):Call<google>
+
+    @GET("api/trending-cuisine/")
+    fun trendingCuisine ():Call< ArrayList<trendingCuisine>>
+
+    @POST("api/filter-ingredient/")
+    fun search(
+      //  @Body params : filter_ingredients
+         @Body ingredient : HashMap<String,Array<String>>
+    ) : Call<ArrayList<SearchList>>
 }

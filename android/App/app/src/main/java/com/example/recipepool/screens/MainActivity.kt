@@ -43,9 +43,9 @@ class MainActivity : AppCompatActivity() {
 
         nav = binding.leftNav
 
-        /*val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
                 as NavHostFragment
-        navController = navHostFragment.navController*/
+        navController = navHostFragment.navController
 
         binding.bottomNavigation.setupWithNavController(navController)
 
@@ -91,6 +91,24 @@ class MainActivity : AppCompatActivity() {
         val searchBtn = menu.findItem(R.id.search)
         val search = searchBtn?.actionView as SearchView
         search.queryHint = "Search Here"
+
+        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                val array = query?.split("\\s".toRegex())?.toTypedArray()
+
+                val intent = Intent(this@MainActivity,Search::class.java)
+
+                intent.putExtra("search",array)
+                startActivity(intent)
+
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+
         return true
     }
 
