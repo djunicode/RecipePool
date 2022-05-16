@@ -3,11 +3,37 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_login.xml" value="0.4" />
-        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/drawable/background_add_ingredients_card.xml" value="0.234" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/drawable/bottomnav_round.xml" value="0.234" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/drawable/ic_add_green.xml" value="0.234" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.234" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/drawable/ic_search_background.xml" value="0.234" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/drawable/ic_vector_back.xml" value="0.234" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/drawable/ic_vector_bookmark.xml" value="0.234" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/drawable/ic_vector_filter.xml" value="0.234" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/drawable/rectangle_7.xml" value="0.234" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/drawable/vector_6.xml" value="0.234" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout-land/activity_login.xml" value="0.264" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout-land/activity_sign_up.xml" value="0.13385416666666666" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_add_recipe.xml" value="0.325" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_recipe_page.xml" value="0.4" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_search.xml" value="0.4" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_sign_up.xml" value="0.3825929283771532" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/activity_tagged_recipes.xml" value="0.4" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/card_layer_list.xml" value="0.2234375" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/card_search_recipe.xml" value="0.8800000000000001" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/fragment_home.xml" value="0.2234375" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/layer_list_card.xml" value="0.6" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/layout_add_ingredients.xml" value="0.4" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/layout_ingredients.xml" value="0.6" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/layout_recipe_image.xml" value="0.2234375" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/layout_steps.xml" value="0.6" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/layout/layout_trending_recipe.xml" value="0.2234375" />
         <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/menu/bottom_nav.xml" value="0.1" />
-        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/menu/menu.xml" value="0.136" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/menu/menu.xml" value="0.264" />
+        <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/menu/search.xml" value="0.2234375" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/bottomnav_round.xml" value="0.1" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_baseline_star_24_black.xml" value="0.1945" />
@@ -22,7 +48,6 @@
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_login.xml" value="0.18645833333333334" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_recipe_page.xml" value="0.18982118294360384" />
-        <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_search.xml" value="0.25" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/layer_list_card.xml" value="0.25" />
