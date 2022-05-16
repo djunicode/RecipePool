@@ -279,7 +279,17 @@ class IngredientView(APIView):
 
 
 
+class SearchView(APIView):
+    serializer_class = RecipeSerializer
 
+    def post(self,request):
+        recipe_query = request.data['recipe']
+        keywords = recipe_query.split()
+        recipes = []
+        for word in keywords:
+            recipes += Recipe.objects.filter(label__icontains = word)
+        serializer = self.serializer_class(recipes, many = True)
+        return JsonResponse(serializer.data, status = status.HTTP_200_OK, safe = False)
 
 
 #Query the database for Recipe using given ingredients

@@ -14,3 +14,6 @@ venv.bak/
 **/.DS_Store
 virtual/
 media/
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
