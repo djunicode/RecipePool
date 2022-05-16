@@ -11,15 +11,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RecipePool">
+
         <activity
             android:name=".screens.Search"
-            android:exported="false" />
+            android:launchMode="singleTop"
+            android:exported="false" >
+
+        </activity>
         <activity
             android:name=".screens.SignUp"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".screens.MainActivity"
-            android:exported="true" />
+            android:exported="true" >
+           <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
         <activity
             android:name=".screens.Login"
             android:exported="true">
@@ -28,6 +38,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".screens.RecipePageActivity"

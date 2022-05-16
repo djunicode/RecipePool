@@ -18,17 +18,19 @@
         android:background="@color/white"
         app:collapseIcon="@drawable/ic_vector_back">
 
+
         <EditText
+            android:id="@+id/search_actsearch"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/ic_search_background"
             android:hint="Search here"
             android:textSize="18sp"
+            android:maxLines="1"
             android:textColor="@color/black"
             android:fontFamily="@font/poppins"
             android:layout_marginStart="56dp"
             android:layout_marginEnd="56dp"
-            android:drawableEnd="@drawable/ic_search"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:focusable="true"/>
@@ -38,6 +40,14 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_vector_filter"
+            android:layout_gravity="end"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="13dp"/>
+        <ImageView
+            android:id="@+id/image_search"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_search"
             android:layout_gravity="end"
             android:layout_marginStart="13dp"
             android:layout_marginEnd="13dp"/>
@@ -52,7 +62,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/chipGroup_search"
         app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="8dp"
+        app:chipSpacingHorizontal="15dp"
+        android:maxHeight="130dp"
+        app:layout_constraintTop_toBottomOf="@+id/search_toolbar">
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="yash ranawat"
+            android:fontFamily="@font/poppins"
+            android:clickable="false"
+            app:closeIconEnabled="true"
+            app:chipBackgroundColor="#FFDBCC"
+            android:strokeColor="#FF7A50"
+            />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipyash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            app:closeIconEnabled="true"
+            android:fontFamily="@font/poppins"
+            android:text="yash ranawat"
+            android:checked="true"
+            app:chipBackgroundColor="#FFDBCC"
+            app:rippleColor="#FF7A50"
+            />
+
+
+    </com.google.android.material.chip.ChipGroup>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
