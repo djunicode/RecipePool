@@ -31,7 +31,6 @@ class Login : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var editor: SharedPreferences.Editor
-    private lateinit var mAuth: FirebaseAuth
 
 
     companion object {

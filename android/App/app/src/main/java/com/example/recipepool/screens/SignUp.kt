@@ -34,7 +34,6 @@ import java.util.*
 class SignUp : AppCompatActivity() {
 
 
-    private lateinit var mAuth: FirebaseAuth
     private lateinit var binding: ActivitySignUpBinding
     var cal: Calendar = Calendar.getInstance()
     lateinit var gender: String
@@ -113,7 +112,6 @@ class SignUp : AppCompatActivity() {
             /* if (binding.etName.text.toString().trim().isEmpty()) {
 <<<<<<< HEAD
 =======
-
 >>>>>>> e4984180cbc2beab35776d363f7445e1a5700af7
                  binding.etName.error = "Name Required"
                //  binding.etName.requestFocus()
@@ -469,21 +467,5 @@ class SignUp : AppCompatActivity() {
     }
 
 
-    private fun firebaseAuthWithGoogle(idToken: String?) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        mAuth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-//                    Log.d(TAG, "signInWithCredential:success")
-                    val user = mAuth.currentUser
-//                    signOut()
-                } else {
-                    // If sign in fails, display a message to the user.
-//                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    Log.d("failure", "firebase failure")
-                }
-            }
-    }
 
 }

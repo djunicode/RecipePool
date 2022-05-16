@@ -42,9 +42,12 @@ class RecipePageActivity : AppCompatActivity() {
             adapter = RecyclerAdapterIngredients(ingredientList)
         }
 
-        binding.recipeImageRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = RecyclerAdapterRecipeImages(imageList)
+        binding.carouselViewRecipeImage.adapter = RecyclerAdapterRecipeImages(imageList)
+        binding.carouselViewRecipeImage.apply {
+            set3DItem(true)
+            setAlpha(true)
+            setIntervalRatio(1f)
+//            setFlat(true)
         }
 
         binding.startCookingButton.setOnClickListener {

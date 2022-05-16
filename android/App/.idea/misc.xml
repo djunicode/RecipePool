@@ -10,18 +10,25 @@
         <entry key="..\:/College/Unicode/RecipePool/android/App/app/src/main/res/menu/menu.xml" value="0.136" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/bottomnav_round.xml" value="0.1" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1" />
+        <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.1945" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_baseline_star_24_black.xml" value="0.1945" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_baseline_star_24_white.xml" value="0.1945" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_fav.xml" value="0.1" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_fav_red.xml" value="0.1945" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_rectangle_spinner.xml" value="0.1" />
+        <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/ic_settings.xml" value="0.1945" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/drawable/rating_stars.xml" value="0.1945" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/font/font.xml" value="0.21666666666666667" />
+        <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/font/poppins.xml" value="0.11822916666666666" />
+        <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/font/poppins_bold.xml" value="0.11822916666666666" />
+        <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/font/poppins_semi_bold.xml" value="0.11822916666666666" />
+        <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/font/poppins_thin.xml" value="0.11822916666666666" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout-land/activity_login.xml" value="0.12432432432432433" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout-land/activity_sign_up.xml" value="0.12432432432432433" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_login.xml" value="0.18645833333333334" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_recipe_page.xml" value="0.18982118294360384" />
+        <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_profile.xml" value="0.2669826224328594" />
+        <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_recipe_page.xml" value="0.16298342541436464" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_search.xml" value="0.25" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
         <entry key="..\:/Users/HP/RecipePool/android/App/app/src/main/res/layout/fragment_home.xml" value="0.25" />

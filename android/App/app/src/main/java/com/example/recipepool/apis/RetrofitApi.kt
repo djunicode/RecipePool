@@ -1,9 +1,6 @@
 package com.example.recipepool.apis
 
-import com.example.recipepool.data.google
-import com.example.recipepool.data.login
-import com.example.recipepool.data.signup
-import com.example.recipepool.data.token
+import com.example.recipepool.data.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -28,4 +25,7 @@ interface RetrofitApi {
     fun google(
         @Body params: google
     ):Call<google>
+
+    @GET("api/trending/")
+    fun getTrending(): Call<List<Trending>>
 }
