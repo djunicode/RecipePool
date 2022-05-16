@@ -16,7 +16,7 @@ class Ingredient(models.Model):
 
 def upload_path_handler(instance, filename):
     return "images/recipes/{label}/{file}".format(
-        label=instance.label, file=filename
+        label=instance.cuisine_name, file=filename
     )
 
 
@@ -34,6 +34,7 @@ class Recipe(models.Model):
     createdBy          = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='recipe_user',null = True, blank = True)
     label              = models.CharField(max_length=50)
     instructions       = models.TextField(max_length=255)
+    steps              = models.TextField(max_length=1000, blank=True, null=True)
     totalTime          = models.TimeField()
     url                = models.URLField(null=True)
     image              = models.ImageField(upload_to = upload_path_handler,null = True, blank = True)
