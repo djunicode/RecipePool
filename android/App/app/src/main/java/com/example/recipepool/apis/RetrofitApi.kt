@@ -34,11 +34,23 @@ interface RetrofitApi {
     @GET("api/trending-cuisine/")
     fun trendingCuisine ():Call< ArrayList<trendingCuisine>>
 
+
     @POST("api/filter-ingredient/")
-    fun search(
+    fun search_ingredient(
       //  @Body params : filter_ingredients
          @Body ingredient : HashMap<String,Array<String>>
     ) : Call<ArrayList<SearchList>>
+
+    // https://therecipepool.pythonanywhere.com/api/search
+    @POST("api/search")
+    fun searchRecipe(
+        @Body recipe : HashMap<String,String>
+    ) : Call<ArrayList<SearchList>>
+
+    @POST("api/filter-meal/")
+    fun filterMealType(
+        @Body meal : HashMap<String,ArrayList<String>>
+    ) : Call<ArrayList<FoodList>>
 
     @POST("api/recipe/{id}")
         fun addRecipe(
