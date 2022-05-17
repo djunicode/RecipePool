@@ -3,9 +3,11 @@ package com.example.recipepool.recycleradapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.LayoutTrendingRecipeBinding
 
-class RecyclerAdapterTrending(private var data: List<Int>) :
+class RecyclerAdapterTrending(private var data: ArrayList<trendingCuisine>) :
     RecyclerView.Adapter<RecyclerAdapterTrending.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -17,6 +19,10 @@ class RecyclerAdapterTrending(private var data: List<Int>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             with(data[position]) {
+
+                Glide.with(itemView.context)
+                    .load(this.image)
+                    .into(binding.img)
 
             }
         }

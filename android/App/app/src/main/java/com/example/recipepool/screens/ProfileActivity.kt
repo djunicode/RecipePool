@@ -1,5 +1,6 @@
 package com.example.recipepool.screens
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.recipepool.databinding.ActivityProfileBinding
@@ -13,5 +14,11 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.profileToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        binding.layoutProfileAddRecipe.setOnClickListener {
+            val intent = Intent(this, AddRecipe::class.java)
+            startActivity(intent)
+        }
     }
 }

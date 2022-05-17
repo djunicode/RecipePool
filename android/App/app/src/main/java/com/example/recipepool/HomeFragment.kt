@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.constants.ApiConstants.rf
 import com.example.recipepool.data.FoodList
+
 import com.example.recipepool.data.Trending
+import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
 import com.example.recipepool.recycleradapter.RecyclerAdapterTrending
@@ -46,10 +48,33 @@ class HomeFragment : Fragment() {
             adapter = RecyclerAdapterFoodCard(foodies)
         }
 
-        binding.recyclerViewTrendingRecipe.apply {
-            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = RecyclerAdapterTrending(trending)
-        }
+        val trending_cuisine = rf.trendingCuisine()
+        var a = ArrayList<trendingCuisine>()
+
+        trending_cuisine.enqueue(object: Callback<ArrayList<trendingCuisine>>{
+            override fun onResponse(
+                call: Call<ArrayList<trendingCuisine>>,
+                response: Response<ArrayList<trendingCuisine>>
+            ) {
+                if (response.code() == 200){
+                    a = response.body()!!
+
+                    binding.recyclerViewTrendingRecipe.apply {
+                        layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = RecyclerAdapterTrending(a)
+                    }
+                    Log.d("response",a.toString())
+                }
+                else{
+                    Log.d("response error", response.message().toString())
+                }
+            }
+            override fun onFailure(call: Call<ArrayList<trendingCuisine>>, t: Throwable) {
+                Log.d("Trending Cuisine", t.message.toString())
+            }
+
+
+        })
 
         getTrending()
     }

@@ -19,8 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -131,11 +129,13 @@ class Login : AppCompatActivity() {
             //handling api requests
             val loginRequest = rf.login(userData)
 
+
             loginRequest.enqueue(object : Callback<login> {
                 override fun onResponse(call: Call<login>, response: Response<login>) {
                     if (response.code() == 200) {
                         Toast.makeText(this@Login, "Welcome to Recipe Pool", Toast.LENGTH_SHORT)
                             .show()
+                        Log.d("login url",response.raw().request().url().toString())
                         val intent = Intent(this@Login, MainActivity::class.java)
                         editor.putString("access token", response.body()!!.access.toString())
                         editor.putString("refresh token", response.body()!!.refresh.toString())
@@ -185,7 +185,7 @@ class Login : AppCompatActivity() {
 
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //            21048189619-4n65kvscmm2gk0amf5gks54faro9ti7h.apps.googleusercontent.com
-                .requestIdToken("21048189619-4n65kvscmm2gk0amf5gks54faro9ti7h.apps.googleusercontent.com")
+                .requestIdToken("21048189619-9poa3t9l71nfo54tp6oqaqmjvf8c3bdc.apps.googleusercontent.com")
                 .requestEmail()
                 .build()
 

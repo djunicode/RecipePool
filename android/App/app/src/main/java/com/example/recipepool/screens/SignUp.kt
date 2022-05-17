@@ -388,7 +388,7 @@ class SignUp : AppCompatActivity() {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestIdToken("248934162242-8vijpcs6fqh7ja9hessahu7mvkhcsm12.apps.googleusercontent.com")
 //            21048189619-v974lmaf367qu7q7ccaj2f701vigqf4u.apps.googleusercontent.com
-                .requestIdToken("21048189619-4n65kvscmm2gk0amf5gks54faro9ti7h.apps.googleusercontent.com")
+                .requestIdToken("21048189619-9poa3t9l71nfo54tp6oqaqmjvf8c3bdc.apps.googleusercontent.com")
                 .requestEmail()
                 .build()
 
@@ -440,6 +440,7 @@ class SignUp : AppCompatActivity() {
                     else{
                         Toast.makeText(this@SignUp, "Please try againg later", Toast.LENGTH_SHORT)
                             .show()
+                        Log.d("googgle signup error",response.message())
                         binding.btSignUpGoogle.isEnabled = true
                         binding.pBSignUp.visibility = View.INVISIBLE
                     }
