@@ -31,7 +31,7 @@ class RecyclerAdapterStepsAddRecipe(val data: ArrayList<String>) :
     }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val step = v.findViewById<TextView>(R.id.step_view)
+        val step = v.findViewById<TextView>(R.id.step_text)
         fun bind(data: String) {
             step.text = data
         }

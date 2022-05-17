@@ -9,26 +9,25 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.constants.ApiConstants.rf
 import com.example.recipepool.data.FoodList
-
 import com.example.recipepool.data.Trending
 import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
 import com.example.recipepool.recycleradapter.RecyclerAdapterTrending
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
-    private var foodies: List<FoodList> = arrayListOf(
+   /* private var foodies: List<FoodList> = arrayListOf(
         FoodList("Salad with Grilled Chicken", "40min", false, 3f),
         FoodList("Egg Curry", "15min", false, 4f),
         FoodList("Chocolate Chip Cookies", "50min", false, 4f),
         FoodList("Chicken Enchiladas", "40min", false, 5f),
         FoodList("Minestrone Soup", "15min", false, 4f)
-    )
+    )*/
 
     private var trending: List<Int> = arrayListOf(1, 2, 3, 4, 5)
 
@@ -36,6 +35,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -45,7 +45,21 @@ class HomeFragment : Fragment() {
 
         binding.recyclerViewFoodCard.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = RecyclerAdapterFoodCard(foodies)
+        }
+
+        binding.breakfastChip.isChecked = true
+
+        binding.breakfastChip.setOnClickListener {
+            searchByMeal("breakfast")
+        }
+        binding.lunchChip.setOnClickListener {
+            searchByMeal("lunch")
+        }
+        binding.snacksChip.setOnClickListener{
+            searchByMeal("snacks")
+        }
+        binding.dinnerChip.setOnClickListener{
+            searchByMeal("dinner")
         }
 
         val trendingCuisine = rf.trendingCuisine()
@@ -74,9 +88,44 @@ class HomeFragment : Fragment() {
             }
 
 
-        })
-
+        }
+        )
         getTrending()
+    }
+
+    private fun searchByMeal ( query : String){
+
+        val arr = ArrayList<String>()
+        arr.add(query)
+        val map = hashMapOf<String,ArrayList<String>>()
+        map["meal"] = arr
+        Log.d("meal filter",query)
+        val call = rf.filterMealType(map)
+
+        call.enqueue( object : Callback<ArrayList<FoodList>>{
+            override fun onResponse(
+                call: Call<ArrayList<FoodList>>,
+                response: Response<ArrayList<FoodList>>
+            ) {
+                if (response.code() == 200){
+                    Log.d("meal url","response.raw().request().url();"+response.raw().request().url())
+                    Log.d("data",response.body().toString())
+                    binding.recyclerViewFoodCard.adapter = RecyclerAdapterFoodCard(response.body()!!)
+                }
+                else{
+
+                    Log.d("error",response.message())
+                    Log.d("error",response.code().toString())
+                    Log.d("url","response.raw().request().url();"+response.raw().request().url())
+                }
+            }
+
+            override fun onFailure(call: Call<ArrayList<FoodList>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+
+        })
     }
 
     private fun getTrending() {

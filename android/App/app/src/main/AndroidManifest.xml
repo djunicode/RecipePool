@@ -15,28 +15,7 @@
         <activity
             android:name=".screens.AddRecipe"
             android:exported="false"
-            android:parentActivityName=".screens.ProfileActivity"/>
-        <activity
-            android:name=".screens.TaggedRecipes"
-            android:exported="false" />
-        <activity
-            android:name=".screens.Search"
-            android:launchMode="singleTop"
-            android:exported="false" >
-
-        </activity>
-        <activity
-            android:name=".screens.SignUp"
-            android:exported="true" />
-        <activity
-            android:name=".screens.MainActivity"
-            android:exported="true" >
-           <!-- <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
+            android:parentActivityName=".screens.ProfileActivity" />
         <activity
             android:name=".screens.Login"
             android:exported="true">
@@ -45,14 +24,30 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".screens.TaggedRecipes"
+            android:exported="false" />
+        <activity
+            android:name=".screens.Search"
+            android:exported="false"
+            android:launchMode="singleTop">
 
         </activity>
+        <activity
+            android:name=".screens.SignUp"
+            android:exported="true" />
+        <activity
+            android:name=".screens.MainActivity"
+            android:exported="true"/>
+
+
         <activity
             android:name=".screens.RecipePageActivity"
             android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".screens.MainActivity"/>
+                android:value=".screens.MainActivity" />
         </activity>
 
         <meta-data
@@ -63,9 +58,9 @@
             android:name=".screens.ProfileActivity"
             android:exported="true"
             android:parentActivityName=".screens.MainActivity">
-<!--            <meta-data-->
-<!--                android:name="android.support.PARENT_ACTIVITY"-->
-<!--                android:value=".screens.MainActivity"/>-->
+            <!--            <meta-data-->
+            <!--                android:name="android.support.PARENT_ACTIVITY"-->
+            <!--                android:value=".screens.MainActivity"/>-->
         </activity>
     </application>
 
