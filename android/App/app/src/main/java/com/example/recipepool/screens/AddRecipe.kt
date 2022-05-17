@@ -30,8 +30,8 @@ class AddRecipe : AppCompatActivity() {
     private lateinit var url: String
     private lateinit var ingredients: ArrayList<Ingredients>
     private lateinit var steps: ArrayList<String>
-    private lateinit var rvIngredients:RecyclerView
-    private lateinit var rvSteps:RecyclerView
+    private lateinit var rvIngredients: RecyclerView
+    private lateinit var rvSteps: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +39,8 @@ class AddRecipe : AppCompatActivity() {
         setContentView(binding.root)
 
         var foodType = "None"
+
+        binding.adDRecipePG.visibility = View.INVISIBLE
 
         rvIngredients = binding.rvIngredientsAddRecipe
         rvSteps = binding.rvStepsAddRecipes
@@ -59,16 +61,16 @@ class AddRecipe : AppCompatActivity() {
             adapter = stepAdapter
         }
 
-        binding.textNameRecipe.visibility = View.INVISIBLE
-        binding.textAboutAddRecipe.visibility = View.INVISIBLE
-        binding.editTimeAddRecipe.isEnabled = false
-        binding.editNameRecipe.isEnabled = false
-        binding.editAboutAddRecipe.isEnabled = false
+//        binding.textNameRecipe.visibility = View.INVISIBLE
+//        binding.textAboutAddRecipe.visibility = View.INVISIBLE
+//        binding.editTimeAddRecipe.isEnabled = false
+//        binding.editNameRecipe.isEnabled = false
+//        binding.editAboutAddRecipe.isEnabled = false
 
 
-        binding.editNameRecipe.setOnClickListener {
-            binding.editNameRecipe.isEnabled = true
-        }
+//        binding.editNameRecipe.setOnClickListener {
+//            binding.editNameRecipe.isEnabled = true
+//        }
 
         binding.imageAddRecipe.setOnClickListener {
             val intent = Intent()
@@ -77,9 +79,9 @@ class AddRecipe : AppCompatActivity() {
             startActivityForResult(Intent.createChooser(intent, "Select Recipe Image"), 100)
         }
 
-        binding.editAboutAddRecipe.setOnClickListener {
-            binding.editAboutAddRecipe.isEnabled = true
-        }
+//        binding.editAboutAddRecipe.setOnClickListener {
+//            binding.editAboutAddRecipe.isEnabled = true
+//        }
 
         binding.addIconAddRecipe.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -87,24 +89,24 @@ class AddRecipe : AppCompatActivity() {
             builder.setCancelable(false)
             builder.setView(view)
                 .setTitle("Add Ingredient")
-            builder.setPositiveButton("Ok") { _, _ ->
+            builder.setPositiveButton("Ok") { dialog, _ ->
                 val ingre = view.findViewById<EditText>(R.id.editIngredient)
                 val quant = view.findViewById<EditText>(R.id.editQuantiy)
                 val data =
                     Ingredients(quant.text.toString().trim(), "", ingre.text.toString().trim())
                 ingredients.add(data)
                 rvIngredients.adapter!!.notifyItemInserted(ingredients.size - 1)
-                finish()
+                dialog.dismiss()
             }
-            builder.setNegativeButton("Cancel") { _, _ ->
-                finish()
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
             }
             builder.show()
         }
 
-        binding.editTimeAddRecipe.setOnClickListener {
-            binding.editTimeAddRecipe.isEnabled = true
-        }
+//        binding.editTimeAddRecipe.setOnClickListener {
+//            binding.editTimeAddRecipe.isEnabled = true
+//        }
 
         binding.addIcon2AddRecipe.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -112,21 +114,22 @@ class AddRecipe : AppCompatActivity() {
             builder.setCancelable(false)
             builder.setView(view)
                 .setTitle("Add Step")
-            builder.setPositiveButton("Ok") { _, _ ->
+            builder.setPositiveButton("Ok") { dialog, _ ->
                 val s = view.findViewById<EditText>(R.id.editStep)
                 val data = s.text.toString().trim()
                 steps.add(data)
-                rvSteps.adapter!!.notifyItemInserted(steps.size-1)
-                finish()
+                rvSteps.adapter!!.notifyItemInserted(steps.size - 1)
+                dialog.dismiss()
             }
-            builder.setNegativeButton("Cancel") { _, _ ->
-                finish()
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
             }
+            builder.show()
         }
 
-        val swipeDeleteIngredient = object :SwipeDelete(){
+        val swipeDeleteIngredient = object : SwipeDelete() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                when(direction){
+                when (direction) {
                     ItemTouchHelper.RIGHT -> {
                         ingredientAdapter.deleteItem(viewHolder.adapterPosition)
                     }
@@ -134,9 +137,9 @@ class AddRecipe : AppCompatActivity() {
             }
         }
 
-        val swipeDeleteStep = object :SwipeDelete() {
+        val swipeDeleteStep = object : SwipeDelete() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                when(direction){
+                when (direction) {
                     ItemTouchHelper.RIGHT -> {
                         stepAdapter.deleteItem(viewHolder.adapterPosition)
                     }
@@ -177,11 +180,11 @@ class AddRecipe : AppCompatActivity() {
             if (time.isEmpty()) {
                 binding.editTimeAddRecipe.error = "Add cooking time"
                 binding.editTimeAddRecipe.requestFocus()
-                add= false
+                add = false
             }
 
-            if(ingredients.isEmpty()){
-                Toast.makeText(this,"Add some ingredients",Toast.LENGTH_SHORT).show()
+            if (ingredients.isEmpty()) {
+                Toast.makeText(this, "Add some ingredients", Toast.LENGTH_SHORT).show()
                 add = false
             }
 
@@ -206,12 +209,14 @@ class AddRecipe : AppCompatActivity() {
                 }
             }
 
-            if(steps.isEmpty()){
-                Toast.makeText(this,"Add some steps",Toast.LENGTH_SHORT).show()
+            if (steps.isEmpty()) {
+                Toast.makeText(this, "Add some steps", Toast.LENGTH_SHORT).show()
                 add = false
             }
 
-            if(!add) return@setOnClickListener
+            if (!add) return@setOnClickListener
+
+
 
         }
 

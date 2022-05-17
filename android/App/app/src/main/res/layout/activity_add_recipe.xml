@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".screens.AddRecipe">
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
@@ -25,6 +24,14 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <ProgressBar
+        android:id="@+id/adDRecipePG"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/scrollAddRecipe"
@@ -41,22 +48,6 @@
             android:layout_height="300dp"
             tools:context=".screens.AddRecipe">
 
-            <TextView
-                android:id="@+id/textNameRecipe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="18dp"
-                android:fontFamily="@font/poppins_semi_bold"
-                android:hint="Recipe Name"
-                android:textColor="@color/black"
-                android:textSize="30sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
 
             <EditText
                 android:id="@+id/editNameRecipe"
@@ -82,22 +73,8 @@
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textNameRecipe" />
+                app:layout_constraintTop_toBottomOf="@+id/editNameRecipe" />
 
-            <TextView
-                android:id="@+id/textAboutAddRecipe"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/poppins"
-                android:hint="About This"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageAddRecipe" />
 
             <EditText
                 android:id="@+id/editAboutAddRecipe"
@@ -128,7 +105,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textAboutAddRecipe" />
+                app:layout_constraintTop_toBottomOf="@+id/editAboutAddRecipe" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvIngredientsAddRecipe"
@@ -326,3 +303,37 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--
+    <TextView
+                    android:id="@+id/textNameRecipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:hint="Recipe Name"
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textAboutAddRecipe"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/poppins"
+                    android:hint="About This"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageAddRecipe" />-->
