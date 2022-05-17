@@ -3,7 +3,7 @@ package com.example.recipepool.recycleradapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recipepool.IngredientList
+import com.example.recipepool.data.IngredientList
 import com.example.recipepool.databinding.LayoutIngredientsBinding
 
 class RecyclerAdapterIngredients(private var data: List<IngredientList>) :

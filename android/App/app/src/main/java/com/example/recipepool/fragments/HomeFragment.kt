@@ -1,4 +1,4 @@
-package com.example.recipepool
+package com.example.recipepool.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -48,10 +48,10 @@ class HomeFragment : Fragment() {
             adapter = RecyclerAdapterFoodCard(foodies)
         }
 
-        val trending_cuisine = rf.trendingCuisine()
+        val trendingCuisine = rf.trendingCuisine()
         var a = ArrayList<trendingCuisine>()
 
-        trending_cuisine.enqueue(object: Callback<ArrayList<trendingCuisine>>{
+        trendingCuisine.enqueue(object: Callback<ArrayList<trendingCuisine>>{
             override fun onResponse(
                 call: Call<ArrayList<trendingCuisine>>,
                 response: Response<ArrayList<trendingCuisine>>

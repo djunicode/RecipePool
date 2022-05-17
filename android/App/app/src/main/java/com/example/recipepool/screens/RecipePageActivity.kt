@@ -5,7 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.recipepool.IngredientList
+import com.example.recipepool.data.IngredientList
 import com.example.recipepool.R
 import com.example.recipepool.databinding.ActivityRecipePageBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterIngredients
