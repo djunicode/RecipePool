@@ -18,17 +18,18 @@ class RecyclerAdapterSteps(private var data: List<String>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             with(data[position]) {
-                var count = 0
+
                 binding.stepText.text = this
                  binding.stepCheck.setOnClickListener {
-                    if(count == 0) {
+                    if(binding.stepText.paintFlags ==
+                            (binding.stepText.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv())) {
                         binding.stepText.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                        count ++
+
                     }
                      else {
                         binding.stepText.paintFlags =
                             binding.stepText.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                        count --
+
                     }
                 }
             }

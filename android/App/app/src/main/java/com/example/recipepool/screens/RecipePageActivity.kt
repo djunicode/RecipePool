@@ -68,7 +68,14 @@ class RecipePageActivity : AppCompatActivity() {
         }
 
         binding.imageFavourite.setOnClickListener {
-            binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24))
+            if(binding.imageFavourite.drawable.constantState == ContextCompat.getDrawable(this, R.drawable.ic_fav)?.constantState) {
+                binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24))
+            }
+            else {
+                binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_fav))
+
+            }
+
         }
     }
 }
