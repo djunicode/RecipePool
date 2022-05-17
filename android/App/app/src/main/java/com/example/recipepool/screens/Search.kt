@@ -59,9 +59,13 @@ class Search : AppCompatActivity() {
             layoutManager = GridLayoutManager(this@Search,2)
         }
 
-        val array = intent.getStringArrayExtra("search")
+       /* val array = intent.getStringArrayExtra("search")
         val arr = array as Array<String>
-        hit(arr)
+        hit(arr)*/
+        val toSearch = intent.getStringExtra("search")
+        Log.d("string",toSearch!!)
+
+        search(toSearch)
 
          binding.imageSearch.setOnClickListener {
 
@@ -73,52 +77,56 @@ class Search : AppCompatActivity() {
                  return@setOnClickListener
              }
 
-             val to_search = text.split("\\s".toRegex()).toTypedArray()
+             search((text))
 
-             hit(to_search)
-             Log.d("to_search",to_search.size.toString() )
-             /*val b = hashMapOf<String,Array<String>>()
-             b["ingredient"] = to_search
-             val searchs = rf.search(b)
-             Log.d("searchs",searchs.toString())
 
-             searchs.enqueue(object : Callback<ArrayList<SearchList>>{
-                 override fun onResponse(
-                     call: Call<ArrayList<SearchList>>,
-                     response: Response<ArrayList<SearchList>>
-                 ) {
-                     Log.d("search","inside" )
-
-                     if (response.code() == 200){
-                         Log.d("url","response.raw().request().url();"+response.raw().request().url())
-
-                         val adapt = RecyclerAdapterSearchList(response.body()!!)
-                         adapt.notifyDataSetChanged()
-                         rv.adapter = adapt
-
-                         Log.d(" search response",response.toString())
-                     }else{
-                         Log.d("error",response.message())
-                         Log.d("error",response.code().toString())
-                     }
-                 }
-
-                 override fun onFailure(call: Call<ArrayList<SearchList>>, t: Throwable) {
-                     Log.d(" search response",t.message.toString())
-                 }
-
-             })*/
-
+            // val to_search = text.split("\\s".toRegex()).toTypedArray()
+            // hit(to_search)
+            // Log.d("to_search",to_search.size.toString() )
 
          }
 
     }
 
-    fun hit (a : Array<String>){
+
+    fun search ( query : String){
+        val map = hashMapOf<String,String>()
+        map["recipe"] = query
+        Log.d("string",map.toString())
+        val search = rf.searchRecipe(map)
+
+        search.enqueue(object : Callback<ArrayList<SearchList>>{
+            override fun onResponse(
+                call: Call<ArrayList<SearchList>>,
+                response: Response<ArrayList<SearchList>>
+            ) {
+                if (response.code() == 200){
+                    Log.d("url","response.raw().request().url();"+response.raw().request().url())
+                    val adapt = RecyclerAdapterSearchList(response.body()!!)
+                    adapt.notifyDataSetChanged()
+                    rv.adapter = adapt
+
+                    Log.d(" search response",response.toString())
+                }else{
+
+                    Log.d("error",response.message())
+                    Log.d("error",response.code().toString())
+                    Log.d("url","response.raw().request().url();"+response.raw().request().url())
+                }
+            }
+
+            override fun onFailure(call: Call<ArrayList<SearchList>>, t: Throwable) {
+                Log.d("error",t.message!!)
+            }
+
+        })
+    }
+
+    /*fun hit (a : Array<String>){
 
         val b = hashMapOf<String,Array<String>>()
         b["ingredient"] = a
-        val searchs = rf.search(b)
+        val searchs = rf.search_ingredient(b)
         Log.d("searchs",searchs.toString())
 
         searchs.enqueue(object : Callback<ArrayList<SearchList>>{
@@ -149,5 +157,5 @@ class Search : AppCompatActivity() {
         })
 
 
-    }
+    }*/
 }

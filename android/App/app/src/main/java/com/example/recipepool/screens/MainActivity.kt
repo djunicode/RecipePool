@@ -95,11 +95,12 @@ class MainActivity : AppCompatActivity() {
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-                val array = query?.split("\\s".toRegex())?.toTypedArray()
+              //  val array = query?.split("\\s".toRegex())?.toTypedArray()
 
                 val intent = Intent(this@MainActivity,Search::class.java)
 
-                intent.putExtra("search",array)
+               // intent.putExtra("search",array)
+                intent.putExtra("search",query)
                 startActivity(intent)
 
                 return false
