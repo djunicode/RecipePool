@@ -33,6 +33,9 @@ class RecipePageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRecipePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbarRecipePage)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val recipeName = intent.getStringExtra("recipe_name")
         binding.textRecipeName.text = recipeName
