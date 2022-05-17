@@ -13,6 +13,12 @@
         android:theme="@style/Theme.RecipePool">
 
         <activity
+            android:name=".screens.AddRecipe"
+            android:exported="false" />
+        <activity
+            android:name=".screens.TaggedRecipes"
+            android:exported="false" />
+        <activity
             android:name=".screens.Search"
             android:launchMode="singleTop"
             android:exported="false" >

@@ -76,6 +76,10 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        binding.breakfastChip.isChecked = true
+
+
+
 
 
         // recipies

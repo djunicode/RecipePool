@@ -46,6 +46,11 @@ interface RetrofitApi {
 
     @POST("api/filter-meal/")
     fun filterMealType(
-        @Body meal : HashMap<String,String>
-    )
+        @Body meal : HashMap<String,ArrayList<String>>
+    ) : Call<ArrayList<FoodList>>
+
+    @POST("api/recipe/{id}")
+        fun addRecipe(
+            @Body addRecipe: AddRecipe
+        ):Call<AddRecipe>
 }

@@ -1,8 +1,9 @@
 package com.example.recipepool.data
 
 data class FoodList(
-    val name: String?,
-    val time: String?,
-    val favourite: Boolean?,
-    var rating: Float?,
+    val id : String?,
+    val label: String?,
+    val totalTime: String?,
+  //  val favourite: Boolean?,
+   // var rating: Float?,
 )

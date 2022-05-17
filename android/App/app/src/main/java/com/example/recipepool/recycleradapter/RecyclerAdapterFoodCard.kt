@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipepool.R
-import com.example.recipepool.screens.RecipePageActivity
 import com.example.recipepool.data.FoodList
 import com.example.recipepool.databinding.CardLayerListBinding
+import com.example.recipepool.screens.RecipePageActivity
 
 class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
     RecyclerView.Adapter<RecyclerAdapterFoodCard.ViewHolder>() {
@@ -24,9 +24,9 @@ class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             with(data[position]) {
-                binding.time.text = this.time
-                binding.foodNameText.text = this.name
-                binding.ratingBar.rating = this.rating!!
+                binding.time.text = this.totalTime
+                binding.foodNameText.text = this.label
+              //  binding.ratingBar.rating = this.rating!!
 
                 when (position % 3) {
                     0 -> binding.foodCard.setCardBackgroundColor(
@@ -51,7 +51,7 @@ class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
 
                 binding.foodCard.setOnClickListener {
                     val intent = Intent(itemView.context, RecipePageActivity::class.java)
-                    intent.putExtra("recipe_name", this.name)
+                    intent.putExtra("recipe_name", this.id)
                     itemView.context.startActivity(intent)
                 }
             }
