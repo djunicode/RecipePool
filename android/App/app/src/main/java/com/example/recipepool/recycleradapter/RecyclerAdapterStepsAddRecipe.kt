@@ -10,11 +10,9 @@ import com.example.recipepool.R
 class RecyclerAdapterStepsAddRecipe(val data: ArrayList<String>) :
     RecyclerView.Adapter<RecyclerAdapterStepsAddRecipe.ViewHolder>() {
 
-    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        val step = v.findViewById<TextView>(R.id.step_view)
-        fun bind(data: String) {
-
-        }
+    fun deleteItem(i:Int){
+        data.removeAt(i)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,6 +28,13 @@ class RecyclerAdapterStepsAddRecipe(val data: ArrayList<String>) :
 
     override fun getItemCount(): Int {
         return data.size
+    }
+
+    class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+        val step = v.findViewById<TextView>(R.id.step_view)
+        fun bind(data: String) {
+            step.text = data
+        }
     }
 
 }
