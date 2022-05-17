@@ -14,7 +14,8 @@
 
         <activity
             android:name=".screens.AddRecipe"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screens.ProfileActivity"/>
         <activity
             android:name=".screens.TaggedRecipes"
             android:exported="false" />
@@ -62,9 +63,9 @@
             android:name=".screens.ProfileActivity"
             android:exported="true"
             android:parentActivityName=".screens.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".screens.MainActivity"/>
+<!--            <meta-data-->
+<!--                android:name="android.support.PARENT_ACTIVITY"-->
+<!--                android:value=".screens.MainActivity"/>-->
         </activity>
     </application>
 

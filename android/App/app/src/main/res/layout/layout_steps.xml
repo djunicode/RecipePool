@@ -27,7 +27,7 @@
             android:layout_marginStart="11dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="9dp"
-            android:button="@drawable/ic_rectangle_checkbox" />
+            android:button="@drawable/custom_checkbox" />
 
         <TextView
             android:id="@+id/step_text"
