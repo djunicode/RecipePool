@@ -13,8 +13,14 @@
         android:theme="@style/Theme.RecipePool">
 
         <activity
-            android:name=".screens.AddRecipe"
-            android:exported="false" />
+            android:name=".screens.Login"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".screens.TaggedRecipes"
             android:exported="false" />
@@ -30,29 +36,33 @@
         <activity
             android:name=".screens.MainActivity"
             android:exported="true" >
-           <!-- <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
         </activity>
         <activity
-            android:name=".screens.Login"
+            android:name=".screens.AddRecipe"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity
             android:name=".screens.RecipePageActivity"
-            android:exported="true" />
+            android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screens.MainActivity"/>
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".screens.ProfileActivity"
+            android:exported="true"
+            android:parentActivityName=".screens.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screens.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.ProfileActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/profile_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:collapseIcon="@drawable/ic_vector_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:text="Profile"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="23dp"
+            android:src="@drawable/ic_settings" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/profile_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_toolbar"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="142dp"
+                android:layout_height="142dp"
+                android:layout_marginTop="25dp"
+                android:src="@drawable/profile_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/text_change_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Change profile picture"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_image" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_layout_profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/text_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_change_picture">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_profile_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:hint="Name"
+                    android:textColor="@color/black"
+                    android:textColorHint="#FF7A50"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_layout_profile_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/text_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_layout_profile_name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_profile_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:hint="Username"
+                    android:textColor="@color/black"
+                    android:textColorHint="#FF7A50"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/text_profile_recipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="44dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Recipes"
+                android:textColor="#FF7A50"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_layout_profile_username"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <RelativeLayout
+                android:id="@+id/layout_profile_recipe_saved"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/text_background"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_profile_recipe"
+                app:layout_constraintVertical_bias="0.0">
+
+                <ImageView
+                    android:id="@+id/image_profile_recipe_save"
+                    android:layout_width="22.5dp"
+                    android:layout_height="222.5dp"
+                    android:layout_marginStart="11.75dp"
+                    android:src="@drawable/ic_save_recipe" />
+
+                <TextView
+                    android:id="@+id/tex_profile_recipe_saved"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/image_profile_recipe_save"
+                    android:background="@drawable/text_background"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:gravity="center_vertical"
+                    android:text="Recipe Saved"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:layout_marginStart="13.75dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_profile_recipe_updated"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="15.85dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/text_background"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_profile_recipe_saved"
+                app:layout_constraintVertical_bias="0.0">
+
+                <ImageView
+                    android:id="@+id/image_profile_recipe_update"
+                    android:layout_width="22.5dp"
+                    android:layout_height="222.5dp"
+                    android:layout_marginStart="11.75dp"
+                    android:src="@drawable/ic_update_recipe" />
+
+                <TextView
+                    android:id="@+id/text_profile_recipe_updated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13.75dp"
+                    android:layout_toEndOf="@id/image_profile_recipe_update"
+                    android:background="@drawable/text_background"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:gravity="center_vertical"
+                    android:text="Recipe Updated"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_profile_add_recipe"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="15.85dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="102dp"
+                android:background="@drawable/text_background"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_profile_recipe_updated"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <ImageView
+                    android:id="@+id/image_profile_add_recipe"
+                    android:layout_width="22.5dp"
+                    android:layout_height="222.5dp"
+                    android:layout_marginStart="11.75dp"
+                    android:src="@drawable/ic_add_recipe" />
+
+                <TextView
+                    android:id="@+id/tex_profile_add_recipe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/image_profile_add_recipe"
+                    android:background="@drawable/text_background"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:gravity="center_vertical"
+                    android:text="Add Recipe"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:layout_marginStart="13.75dp"/>
+
+            </RelativeLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bottomnav_round"
+        android:elevation="2dp"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/bottom_nav" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

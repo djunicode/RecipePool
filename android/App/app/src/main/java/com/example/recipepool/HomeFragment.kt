@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.constants.ApiConstants.rf
 import com.example.recipepool.data.FoodList
+import com.example.recipepool.data.Trending
 import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
@@ -21,7 +22,6 @@ import retrofit2.Response
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-   // private lateinit var mainBinding : ActivityMainBinding
 
    /* private var foodies: List<FoodList> = arrayListOf(
         FoodList("Salad with Grilled Chicken", "40min", false, 3f),
@@ -45,7 +45,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
         binding.recyclerViewFoodCard.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         }
@@ -59,7 +58,7 @@ class HomeFragment : Fragment() {
             searchByMeal("breakfast")
         }
         parentFragment?.activity?.findViewById<Chip>(R.id.lunch_chip)?.setOnClickListener {
-            searchByMeal("dessert")
+            searchByMeal("breakfast")
         }
         parentFragment?.activity?.findViewById<Chip>(R.id.snacks_chip)?.setOnClickListener{
             searchByMeal("snacks")
@@ -70,33 +69,10 @@ class HomeFragment : Fragment() {
         }
 
 
-           /* val radio =  parentFragment?.activity?.findViewById<ChipGroup>(R.id.chip_group)?.checkedChipId
-
-            if (radio ==  parentFragment?.activity?.findViewById<Chip>(R.id.breakfast_chip)?.id){
-                searchByMeal("breakfast")
-            }
-            else if (radio ==  parentFragment?.activity?.findViewById<Chip>(R.id.lunch_chip)?.id){
-                searchByMeal("lunch")
-            }
-            else if (radio ==  parentFragment?.activity?.findViewById<Chip>(R.id.snacks_chip)?.id){
-                searchByMeal("snacks")
-            }
-            else if (radio ==  parentFragment?.activity?.findViewById<Chip>(R.id.dinner_chip)?.id){
-                searchByMeal("dinner")
-            }
-*/
-
-
-
-        /*binding.recyclerViewFoodCard.apply {
-            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = RecyclerAdapterFoodCard(foodies)
-        }*/
-
-
 
         val trending_cuisine = rf.trendingCuisine()
         var a = ArrayList<trendingCuisine>()
+
 
         trending_cuisine.enqueue(object: Callback<ArrayList<trendingCuisine>>{
             override fun onResponse(
@@ -110,19 +86,20 @@ class HomeFragment : Fragment() {
                         layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
                         adapter = RecyclerAdapterTrending(a)
                     }
-                   // Log.d("response",a.toString())
+                    Log.d("response",a.toString())
                 }
                 else{
                     Log.d("response error", response.message().toString())
                 }
             }
             override fun onFailure(call: Call<ArrayList<trendingCuisine>>, t: Throwable) {
-                TODO("Not yet implemented")
+                Log.d("Trending Cuisine", t.message.toString())
             }
 
 
         }
         )
+        getTrending()
     }
 
     fun searchByMeal ( query : String){
@@ -156,6 +133,26 @@ class HomeFragment : Fragment() {
                 TODO("Not yet implemented")
             }
 
+
+        })
+    }
+
+    private fun getTrending() {
+        val trendingRecipe = rf.getTrending()
+
+        trendingRecipe.enqueue(object : Callback<List<Trending>> {
+            override fun onResponse(call: Call<List<Trending>>, response: Response<List<Trending>>) {
+                if(response.isSuccessful) {
+                    Log.d("Trending", response.message().toString() + " " + response.code().toString())
+
+                    val result = response.body()
+                    Log.d("TrendingResult", result.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<List<Trending>>, t: Throwable) {
+                Log.d("Trending", t.message.toString())
+            }
 
         })
     }

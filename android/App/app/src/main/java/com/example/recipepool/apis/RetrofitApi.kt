@@ -28,6 +28,9 @@ interface RetrofitApi {
         @Body params: google
     ):Call<google>
 
+    @GET("api/trending/")
+    fun getTrending(): Call<List<Trending>>
+
     @GET("api/trending-cuisine/")
     fun trendingCuisine ():Call< ArrayList<trendingCuisine>>
 
@@ -53,4 +56,5 @@ interface RetrofitApi {
         fun addRecipe(
             @Body addRecipe: AddRecipe
         ):Call<AddRecipe>
+
 }
