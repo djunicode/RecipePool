@@ -34,6 +34,12 @@
         app:icon="@color/white"
         app:cnb_iconColor="@color/white"
         app:cnb_textColor="@color/black" />
+
+    <item
+        android:id="@+id/profile_left"
+        android:title="Profile"
+        android:icon="@drawable/ic_account"/>
+
     <item
         android:id="@+id/Logout"
         android:title="Logout"

@@ -33,6 +33,9 @@ class RecipePageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRecipePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbarRecipePage)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val recipeName = intent.getStringExtra("recipe_name")
         binding.textRecipeName.text = recipeName
@@ -42,9 +45,12 @@ class RecipePageActivity : AppCompatActivity() {
             adapter = RecyclerAdapterIngredients(ingredientList)
         }
 
-        binding.recipeImageRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = RecyclerAdapterRecipeImages(imageList)
+        binding.carouselViewRecipeImage.adapter = RecyclerAdapterRecipeImages(imageList)
+        binding.carouselViewRecipeImage.apply {
+            set3DItem(true)
+            setAlpha(true)
+            setIntervalRatio(1f)
+//            setFlat(true)
         }
 
         binding.startCookingButton.setOnClickListener {
