@@ -36,4 +36,9 @@ interface RetrofitApi {
       //  @Body params : filter_ingredients
          @Body ingredient : HashMap<String,Array<String>>
     ) : Call<ArrayList<SearchList>>
+
+    @POST("api/recipe/{id}")
+        fun addRecipe(
+            @Body addRecipe: AddRecipe
+        ):Call<AddRecipe>
 }
