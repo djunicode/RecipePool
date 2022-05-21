@@ -16,7 +16,7 @@ class Ingredient(models.Model):
 
 def upload_path_handler(instance, filename):
     return "images/recipes/{label}/{file}".format(
-        label=instance.cuisine_name, file=filename
+        label=instance.cuisine.cuisine_name, file=filename
     )
 
 
