@@ -94,6 +94,7 @@ class RecipeView(APIView):
             # likes = Likes.objects.filter(recipe=recipe).count()
             # request.data['likes'] = likes
             request.data['likes'] += 1
+            recipe.cuisine.likes += 1
 
         except Recipe.DoesNotExist:
             content = {'detail': 'No such Recipe available'}
