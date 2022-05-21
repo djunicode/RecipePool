@@ -8,9 +8,10 @@ from django.http import JsonResponse
 from rest_framework import status
 from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAuthenticated
-from .models import Cuisine, Favourite, Ingredient, IngredientList, Recipe
+from .models import Cuisine, Favourite, Ingredient, IngredientList, Likes, Recipe
 from .serializers import CuisineSerializer, FavouriteSerializer, RecipeSerializer
 from Accounts.models import Inventory
+from rest_framework.response import Response
 
 User = get_user_model()
 '''
@@ -61,10 +62,10 @@ class RecipeView(APIView):
             except Recipe.DoesNotExist:
                 content = {'detail': 'No such Recipe by this user'}
                 return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-            examDetails = RecipeSerializer(recipe, many=False)
-            return JsonResponse(examDetails.data,status = status.HTTP_200_OK)
-        examDetails = RecipeSerializer(recipe, many=True)
-        return JsonResponse(examDetails.data, safe=False,status = status.HTTP_200_OK)
+            recipeDetails = RecipeSerializer(recipe, many=False)
+            return JsonResponse(recipeDetails.data,status = status.HTTP_200_OK)
+        recipeDetails = RecipeSerializer(recipe, many=True)
+        return JsonResponse(recipeDetails.data, safe=False,status = status.HTTP_200_OK)
 
 
     def post(self, request, pk):
@@ -73,12 +74,11 @@ class RecipeView(APIView):
         except User.DoesNotExist:
             content = {'detail': 'No such user exists'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        print(user)
         serializer = RecipeSerializer(data=request.data)
         if serializer.is_valid():
             serializer = serializer.create(user)
-            examDetails = RecipeSerializer(serializer, many=False)
-            return JsonResponse(examDetails.data, status = status.HTTP_202_ACCEPTED)
+            recipeDetails = RecipeSerializer(serializer, many=False)
+            return JsonResponse(recipeDetails.data, status = status.HTTP_202_ACCEPTED)
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
     def patch(self,request,pk):
@@ -89,6 +89,13 @@ class RecipeView(APIView):
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         try:
             recipe = Recipe.objects.get(id = pk)
+            if recipe.createdBy != self.request.user:
+                Likes.objects.get_or_create(user=self.request.user,recipe=recipe)
+            # likes = Likes.objects.filter(recipe=recipe).count()
+            # request.data['likes'] = likes
+            request.data['likes'] += 1
+            recipe.cuisine.likes += 1
+
         except Recipe.DoesNotExist:
             content = {'detail': 'No such Recipe available'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
@@ -179,8 +186,8 @@ class IngredientListView(APIView):
             serializer.ingredient = replace
             serializer.save()
             ing_list = IngredientList.objects.filter(recipe = ing_list.recipe)
-            examDetails = IngredientListSerializer(ing_list, many=True)
-            return JsonResponse(examDetails.data,safe = False, status = status.HTTP_202_ACCEPTED)
+            ing_listDetails = IngredientListSerializer(ing_list, many=True)
+            return JsonResponse(ing_listDetails.data,safe = False, status = status.HTTP_202_ACCEPTED)
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 
@@ -197,8 +204,8 @@ class IngredientListView(APIView):
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         ing_list.delete()
         ing_list = IngredientList.objects.filter(recipe = ing_list.recipe)
-        examDetails = IngredientListSerializer(ing_list, many=True)
-        return JsonResponse(examDetails.data,safe = False, status = status.HTTP_202_ACCEPTED)
+        ingredientlistDetails = IngredientListSerializer(ing_list, many=True)
+        return JsonResponse(ingredientlistDetails.data,safe = False, status = status.HTTP_202_ACCEPTED)
 
 
 class CuisineView(APIView):
@@ -351,19 +358,33 @@ class TrendingCuisines(generics.ListAPIView):
         trending_cuisine = Cuisine.objects.order_by('-likes')
         return trending_cuisine
 
-class FavouriteRecipes(generics.ListAPIView):
+class FavouriteRecipes(generics.GenericAPIView):
     """
-    Returns the favourite recipes of current user
+    To create and return the favourite recipes of current user
     """
-    serializer_class = RecipeSerializer
     permission_classes = [IsAuthenticated,]
 
-    def get_queryset(self):
+    def get(self):
         favourites = Favourite.objects.filter(user=self.request.user)
-        list = []
-        for item in favourites:
-            list.append(Recipe.objects.get(id = item.recipe.id))
-        return list
+        favourite_recipes =  Recipe.objects.filter(id__in = favourites)
+        serializer = RecipeSerializer(favourite_recipes , many=True)
+        return Response(serializer.data)
+    
+    def post(self,request):
+        recipe_id = self.request.data['recipe']
+        recipe = Recipe.objects.get(id=recipe_id)
+        FavouriteSerializer.save(user = self.request.user,recipe = recipe)
+
+
+    def delete(self,request,pk):
+        try:
+            favourite = Favourite.objects.get(id=pk, user = self.request.user)
+        except Favourite.DoesNotExist:
+            content = {'detail': 'No such Recipe marked as favourite by this user'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        favourite.delete()
+        return JsonResponse({'Response': 'Recipe is now removed from favourites!'},status = status.HTTP_200_OK)
+
 
 def StoreRecipes(request):
     q = "coffee or croissant"
