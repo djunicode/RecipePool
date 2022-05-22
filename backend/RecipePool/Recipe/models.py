@@ -64,9 +64,10 @@ class Likes(models.Model):
 
     class Meta:
         verbose_name_plural = 'Likes'
+        unique_together = ('user', 'recipe')
 
     def __str__(self):
-        return f"{self.recipe} by {self.user}"
+        return f"{self.recipe} liked by {self.user}"
 
 class Favourite(models.Model):
     user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_fav')
@@ -74,6 +75,9 @@ class Favourite(models.Model):
 
     def __str__(self):
         return f"{self.recipe} for {self.user}"
+    
+    class Meta:
+        unique_together = ('user', 'recipe')
 
 
 def upload_path_handler(instance, filename):

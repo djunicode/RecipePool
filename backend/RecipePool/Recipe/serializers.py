@@ -112,6 +112,7 @@ class LikesSerializer(serializers.ModelSerializer):
 
 
 class FavouriteSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.email')
 
     class Meta:
         model = Favourite
