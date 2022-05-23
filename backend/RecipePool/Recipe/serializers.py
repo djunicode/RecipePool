@@ -19,7 +19,7 @@ class CuisineSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class RecipeStepsSerializer(serializers.Serializer):
+class RecipeStepsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecipeSteps
@@ -68,9 +68,9 @@ class RecipeSerializer(serializers.ModelSerializer):
                 ingredient = Ingredient.objects.create(name = data['name'])
             IngredientList.objects.create(recipe=recipe,ingredient=ingredient, **data)
         print(steps_list_data)
-        # for step_data in steps_list_data:
-        #     print(step_data)
-            # recipe_steps = RecipeSteps.objects.create(recipe=recipe, steps = step_data['steps'])
+        for step_data in steps_list_data:
+            print(step_data)
+            recipe_steps = RecipeSteps.objects.create(recipe=recipe, steps = step_data['steps'])
         return recipe
 
     def update(self, instance, validated_data):
