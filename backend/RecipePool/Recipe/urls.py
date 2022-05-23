@@ -19,5 +19,6 @@ urlpatterns = [
     path('cuisine/<str:pk>/',views.CuisineView.as_view(), name = "Cuisine"),
     path('ingredient/<str:pk>/',views.IngredientView.as_view(), name = "ingredient"),
     path('ingredient-list/<int:pk>/', views.IngredientListView.as_view(),name = "Ingredient-List"),
+    path('recipe-step-list/<int:pk>/', views.RecipeStepsView.as_view(),name = "recipe-step-List"),
     path('search',views.SearchView.as_view(), name = "search"),
 ]
