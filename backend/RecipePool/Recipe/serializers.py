@@ -1,15 +1,13 @@
 from rest_framework import serializers
-from .models import Cuisine, Ingredient,IngredientList,Recipe,Likes,Favourite
+from .models import Cuisine, Ingredient,IngredientList,Recipe,Likes,Favourite,RecipeSteps
 
 class IngredientSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Ingredient
         fields = '__all__'
 
 
 class IngredientListSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = IngredientList
         fields = '__all__'
@@ -20,8 +18,17 @@ class CuisineSerializer(serializers.ModelSerializer):
         model = Cuisine
         fields = '__all__'
 
+
+class RecipeStepsSerializer(serializers.Serializer):
+
+    class Meta:
+        model = RecipeSteps
+        fields = '__all__'
+
+
 class RecipeSerializer(serializers.ModelSerializer):
     ingredient_list = IngredientListSerializer(many=True)
+    steps_list = RecipeStepsSerializer(many=True)
     class Meta:
         model = Recipe
         fields = [
@@ -29,7 +36,8 @@ class RecipeSerializer(serializers.ModelSerializer):
             'cuisine',
             'createdBy',         
             'label',             
-            'instructions',      
+            'instructions', 
+            'steps_list',   
             'totalTime',         
             'url',               
             'image',             
@@ -50,9 +58,19 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def create(self,user):
         ingredient_list_data = self.validated_data.pop('ingredient_list')
+        steps_list_data = self.validated_data.pop('steps_list')
         recipe = Recipe.objects.create(**self.validated_data, createdBy = user)
         for data in ingredient_list_data:
-            IngredientList.objects.create(recipe=recipe, **data)
+            print(data)
+            try:
+                ingredient = Ingredient.objects.get(name__contains = data['name'])
+            except Ingredient.DoesNotExist:
+                ingredient = Ingredient.objects.create(name = data['name'])
+            IngredientList.objects.create(recipe=recipe,ingredient=ingredient, **data)
+        print(steps_list_data)
+        # for step_data in steps_list_data:
+        #     print(step_data)
+            # recipe_steps = RecipeSteps.objects.create(recipe=recipe, steps = step_data['steps'])
         return recipe
 
     def update(self, instance, validated_data):
@@ -69,6 +87,8 @@ class RecipeSerializer(serializers.ModelSerializer):
             cuisine = None
             # content = {'detail': 'No such Cuisine exists'}
             print(validated_data.get('createdBy'))
+            print(user_cuisine + "1")
+            print(cuisine+ "1")
             # return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         instance.cuisine            = validated_data.get(user_cuisine,cuisine)
         instance.createdBy          = validated_data.get('createdBy',instance.createdBy) 

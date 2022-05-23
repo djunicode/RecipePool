@@ -100,7 +100,7 @@ class RecipeView(APIView):
         serializer = RecipeSerializer(instance = recipe, data=request.data, partial = True)
         if serializer.is_valid():
             user_product = serializer.update(recipe,request.data)
-            user_product.save()
+            # user_product.save()
             return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
@@ -142,23 +142,37 @@ class IngredientListView(APIView):
             recipe = Recipe.objects.get(id = pk, createdBy = user)
         except Recipe.DoesNotExist:
             content = {'detail': 'No such Recipe created by this user'}
-        if request.data.get('ingredient',False) != False:
-            try:
-                ing_list = IngredientList.objects.get(recipe = recipe, ingredient=request.data['ingredient'])
-            except IngredientList.DoesNotExist:
-                list = IngredientList(recipe=recipe)
-                serializer = IngredientListSerializer(list,data = request.data)
-                if serializer.is_valid():
-                    serializer.save()
-                    ing_list = IngredientList.objects.filter(recipe = recipe)
-                    examDetails = IngredientListSerializer(ing_list, many=True)
-                    return JsonResponse(examDetails.data,safe = False, status = status.HTTP_202_ACCEPTED)
-                return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-            content = {'detail': 'Ingredient already for this recipe, edit it in put method'}
+
+        try:
+            ingredient = Ingredient.objects.get(name__contains = request.data['name'])
+        except Ingredient.DoesNotExist:
+            ingredient = Ingredient.objects.create(name = request.data['name'])
+            
+        try:
+            ing_list = IngredientList.objects.get(recipe = recipe, ingredient=ingredient)
+        except IngredientList.DoesNotExist:
+            IngredientList.objects.create(recipe=recipe,ingredient=ingredient, **request.data)
+            content = {'detail': 'Ingredient added'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        else:
-            content = {'ingredient' : '[This is a required field]'}
-            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        content = {'detail': 'Ingredient already for this recipe, edit it in put method'}
+        return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        # if request.data.get('ingredient',False) != False:
+        #     try:
+        #         ing_list = IngredientList.objects.get(recipe = recipe, ingredient=request.data['ingredient'])
+        #     except IngredientList.DoesNotExist:
+        #         list = IngredientList(recipe=recipe)
+        #         serializer = IngredientListSerializer(list,data = request.data)
+        #         if serializer.is_valid():
+        #             serializer.save()
+        #             ing_list = IngredientList.objects.filter(recipe = recipe)
+        #             examDetails = IngredientListSerializer(ing_list, many=True)
+        #             return JsonResponse(examDetails.data,safe = False, status = status.HTTP_202_ACCEPTED)
+        #         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+        #     content = {'detail': 'Ingredient already for this recipe, edit it in put method'}
+        #     return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        # else:
+        #     content = {'ingredient' : '[This is a required field]'}
+        #     return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
 
 
     def put(self,request,pk):
@@ -173,10 +187,12 @@ class IngredientListView(APIView):
             content = {'detail': 'No such Ingredient available for this recipe'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         replace = ing_list.ingredient
+        replace_name = ing_list.name
         serializer = IngredientListSerializer(instance = ing_list, data=request.data, partial = True)
         if serializer.is_valid():
             serializer = serializer.save()
             serializer.ingredient = replace
+            serializer.name = replace_name
             serializer.save()
             ing_list = IngredientList.objects.filter(recipe = ing_list.recipe)
             examDetails = IngredientListSerializer(ing_list, many=True)
