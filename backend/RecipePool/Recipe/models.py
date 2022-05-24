@@ -9,7 +9,7 @@ def upload_path_handler(instance, filename):
 
 class Ingredient(models.Model):
     name        = models.CharField(max_length = 50)
-    image       = models.ImageField(upload_to = upload_path_handler)
+    image       = models.ImageField(upload_to = upload_path_handler,blank=True,null=True)
 
     def __str__(self):
         return self.name
@@ -34,7 +34,6 @@ class Recipe(models.Model):
     createdBy          = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='recipe_user',null = True, blank = True)
     label              = models.CharField(max_length=50)
     instructions       = models.TextField(max_length=255)
-    steps              = models.TextField(max_length=1000, blank=True, null=True)
     totalTime          = models.TimeField()
     url                = models.URLField(null=True)
     image              = models.ImageField(upload_to = upload_path_handler,null = True, blank = True)
@@ -52,11 +51,22 @@ class Recipe(models.Model):
 
 class IngredientList(models.Model):
     recipe          = models.ForeignKey(Recipe,on_delete=models.CASCADE,related_name='ingredient_list',null=True,blank=True)
-    ingredient      = models.ForeignKey(Ingredient,on_delete=models.CASCADE,related_name='recipe_ingredient')
+    ingredient      = models.ForeignKey(Ingredient,on_delete=models.CASCADE,related_name='recipe_ingredient',null=True,blank=True)
+    name            = models.CharField(max_length=255)
     quantity        = models.FloatField(default = 1.0)
 
     def __str__(self):
         return f"{self.ingredient} - {self.quantity}"
+
+class RecipeSteps(models.Model):
+    recipe          = models.ForeignKey(Recipe,on_delete=models.CASCADE,related_name='steps_list',null=True,blank=True)
+    steps           = models.TextField(max_length=1000)   
+
+    class Meta:
+        verbose_name_plural = 'Steps for Recipe'
+
+    def __str__(self):
+        return f"{self.recipe.label} steps"       
 
 class Likes(models.Model):
     user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_likes')
