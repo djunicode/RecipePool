@@ -14,6 +14,8 @@ from .serializers import CuisineSerializer, FavouriteSerializer, RecipeSerialize
 from Accounts.models import Inventory
 from rest_framework.response import Response
 
+import datetime
+
 User = get_user_model()
 '''
 #Query the database for Recipe using given ingredients with OR condition 
@@ -418,19 +420,63 @@ class FavouriteRecipes(generics.GenericAPIView):
         return JsonResponse({'Response': 'Recipe is now removed from favourites!'},status = status.HTTP_200_OK)
 
 
-def StoreRecipes(request):
-    q = "coffee or croissant"
-    health = "soy-free"
+def StoreRecipes(request,q):
+    #q = "coffee or croissant"
+    #health = "soy-free"
     url = f"https://api.edamam.com/api/recipes/v2"
     params = {"type": "public",
     "q":q,
     "app_id":"6dc0ee0f",
     "app_key": "e93f8556a7a6558a9a6557cee409937c",
     #"health":health,
-    "field":["label","healthLabels"]}
+    "field":["cuisineType","label","totalTime","url", "image", "healthLabels","totalNutrients","calories","mealType","dishType","ingredients"]
+    # cuisine is a list, instructions not there, manage steps from url, Time is a float, img is url, healthLabels is a list, totalNut is a dict,
+    # calories is a float, meal is a list '/' separated, dish has dessert, ing is a list of dicts
+    }
     payload={}
     headers = {}
 
     response = requests.request("GET", url,params=params, headers=headers, data=payload)
+    for hit in response.json()['hits']:
+        recipe = hit['recipe']
+        cuisineType = recipe['cuisineType'][0]
+        cuisine,k = Cuisine.objects.get_or_create(cuisine_name = cuisineType)
+        totalNutrient = ""
+        ingredient_lists = []
 
-    return JsonResponse(response.json(), safe = False)
+        for nutrient in recipe['totalNutrients']:
+            string_nutrient = recipe['totalNutrients'][nutrient]['label'] + "-" + str(recipe['totalNutrients'][nutrient]['quantity']) + " " + recipe['totalNutrients'][nutrient]['unit'] + "\n"
+            totalNutrient += string_nutrient
+
+        for ingredient in recipe['ingredients']:
+            ing = {}
+            ing['name'] = ingredient['food']
+            print(ing['name'])
+            ing['ingredient'] = 1
+            ing['quantity'] = ingredient['quantity']
+            ingredient_lists.append(ing)
+
+        print(ingredient_lists)
+
+        time = recipe['totalTime']
+        seconds = (time - int(time))*60
+
+        r_o,k  = Recipe.objects.get_or_create(
+        cuisine = cuisine,
+        label = recipe['label'],
+        instructions = "working around it",
+        totalTime = datetime.time(minute = int(time),second = int(seconds)),
+        url = recipe['url'],
+        image = None,
+        healthLabels = ", ".join(recipe['healthLabels']),
+        totalNutrients = totalNutrient,
+        calories = round(recipe['calories']),
+        cuisineType = recipe['cuisineType'][0],
+        mealType = recipe['mealType'][0],
+        dishType = recipe['dishType'][0],
+        )
+        serializer = RecipeSerializer(r_o)
+        print(serializer.data)
+
+    #return JsonResponse(response.json(), safe = False)
+    return 1
