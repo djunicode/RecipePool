@@ -1,3 +1,4 @@
+import django
 from django.http import JsonResponse
 import requests
 from rest_framework import generics
@@ -8,9 +9,10 @@ from django.http import JsonResponse
 from rest_framework import status
 from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAuthenticated
-from .models import Cuisine, Favourite, Ingredient, IngredientList, Recipe, RecipeSteps
+from .models import Cuisine, Favourite, Ingredient, IngredientList, Likes, Recipe, RecipeSteps
 from .serializers import CuisineSerializer, FavouriteSerializer, RecipeSerializer
 from Accounts.models import Inventory
+from rest_framework.response import Response
 
 User = get_user_model()
 '''
@@ -73,7 +75,6 @@ class RecipeView(APIView):
         except User.DoesNotExist:
             content = {'detail': 'No such user exists'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        print(user)
         serializer = RecipeSerializer(data=request.data)
         if serializer.is_valid():
             serializer = serializer.create(user)
@@ -89,14 +90,42 @@ class RecipeView(APIView):
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         try:
             recipe = Recipe.objects.get(id = pk)
+            if recipe.createdBy != self.request.user:
+                obj, created = Likes.objects.get_or_create(user=self.request.user,recipe=recipe)
+                if created == True:
+                    # likes = Likes.objects.filter(recipe=recipe).count()
+                    # request.data['likes'] = likes
+                    recipe.likes += 1
+
+                    cuisine_data_dict = {}
+                    recipe.cuisine.likes += 1
+                    cuisine_data_dict['likes'] = recipe.cuisine.likes
+                    cuisine = Cuisine.objects.get(pk = recipe.cuisine.pk)
+                    serializer = CuisineSerializer(instance = cuisine, data=cuisine_data_dict, partial = True)
+                    if serializer.is_valid():
+                        serializer.save()
+                else:
+                    obj.delete()
+                    recipe.likes -= 1
+                    cuisine_data_dict = {}
+                    recipe.cuisine.likes -= 1
+                    cuisine_data_dict['likes'] = recipe.cuisine.likes
+                    cuisine = Cuisine.objects.get(pk = recipe.cuisine.pk)
+                    serializer = CuisineSerializer(instance = cuisine, data=cuisine_data_dict, partial = True)
+                    if serializer.is_valid():
+                        serializer.save()
+            
+            else:
+                try:
+                    recipe = Recipe.objects.get(id = pk, createdBy = user)
+                except Recipe.DoesNotExist:
+                    content = {'detail': 'No such Recipe created by this user'}
+                    return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+                    
         except Recipe.DoesNotExist:
             content = {'detail': 'No such Recipe available'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        try:
-            recipe = Recipe.objects.get(id = pk, createdBy = user)
-        except Recipe.DoesNotExist:
-            content = {'detail': 'No such Recipe created by this user'}
-            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        
         serializer = RecipeSerializer(instance = recipe, data=request.data, partial = True)
         if serializer.is_valid():
             user_product = serializer.update(recipe,request.data)
@@ -121,7 +150,7 @@ class RecipeView(APIView):
             content = {'detail': 'No such Recipe created by this user'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         recipe.delete()
-        return JsonResponse({'Response': 'Recipe succsesfully delete!'},status = status.HTTP_200_OK)
+        return JsonResponse({'Response': 'Recipe successfully deleted!'},status = status.HTTP_200_OK)
 
 
 class IngredientListView(APIView):
@@ -399,7 +428,7 @@ def filterFridge(request):
 
 #Query the database for Recipe using given cuisine type
 @api_view(['POST'])
-def filterCuisneType(request):
+def filterCuisineType(request):
     cuisine_query = request.data['cuisine']
     cuisine_list = Cuisine.objects.filter(cuisine_name__in = cuisine_query) #Filter ingredients present in query list
     recipe = Recipe.objects.filter(cuisine__in = cuisine_list).distinct() #List the recipes related to the ingredients in the ingredient list
@@ -435,19 +464,43 @@ class TrendingCuisines(generics.ListAPIView):
         trending_cuisine = Cuisine.objects.order_by('-likes')
         return trending_cuisine
 
-class FavouriteRecipes(generics.ListAPIView):
+class FavouriteRecipes(generics.GenericAPIView):
     """
-    Returns the favourite recipes of current user
+    To create and return the favourite recipes of current user
     """
-    serializer_class = RecipeSerializer
     permission_classes = [IsAuthenticated,]
+    serializer_class = FavouriteSerializer
 
-    def get_queryset(self):
-        favourites = Favourite.objects.filter(user=self.request.user)
-        list = []
-        for item in favourites:
-            list.append(Recipe.objects.get(id = item.recipe.id))
-        return list
+    def get(self,request):
+        favourites = Favourite.objects.filter(user=self.request.user).values('recipe')
+        favourite_recipes =  Recipe.objects.filter(id__in = favourites)
+        serializer = RecipeSerializer(favourite_recipes , many=True)
+        return Response(serializer.data)
+    
+    def post(self,request):
+        recipe_id = self.request.data['recipe']
+        recipe = Recipe.objects.get(id=recipe_id)
+        serializer = FavouriteSerializer(data = request.data)
+        if serializer.is_valid(raise_exception=True):
+            try:
+                serializer.save(user = self.request.user,recipe = recipe)
+            except django.db.utils.IntegrityError:
+                return JsonResponse({'Response': "Recipe already marked favourite!"})
+
+        return JsonResponse(serializer.data, status = status.HTTP_202_ACCEPTED)
+
+
+    def delete(self,request):
+        pk = self.request.data['pk']
+        try:
+            favourite_recipe = Recipe.objects.get(id=pk)
+            favourite_obj = Favourite.objects.get(recipe = favourite_recipe)
+            favourite_obj.delete()
+        except Recipe.DoesNotExist:
+            content = {'detail': 'No such Recipe marked as favourite by this user'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        return JsonResponse({'Response': 'Recipe is now removed from favourites!'},status = status.HTTP_200_OK)
+
 
 def StoreRecipes(request):
     q = "coffee or croissant"
