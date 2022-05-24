@@ -15,6 +15,10 @@ from Accounts.models import Inventory
 from rest_framework.response import Response
 
 import datetime
+import urllib
+from urllib.parse import urlparse
+import urllib.request
+from django.core.files import File
 
 User = get_user_model()
 '''
@@ -399,10 +403,21 @@ class SearchView(APIView):
 
     def post(self,request):
         recipe_query = request.data['recipe']
+        filters = request.data['filters']
         keywords = recipe_query.split()
+        edamam = StoreRecipes(" or ".join(map(str.lower,keywords)))
         recipes = []
         for word in keywords:
-            recipes += Recipe.objects.filter(label__icontains = word)
+            recipe = Recipe.objects.filter(label__icontains = word)
+            if "Under 30 mins" in filters:
+                recipe = recipe.filter(totalTime__lte = datetime.time(minute = 30))
+            if "Under 30 mins" in filters:
+                recipe = recipe.filter(totalTime__lte = datetime.time(minute = 20))
+            if "Veg" in filters:
+                recipe = recipe.filter(healthLabels__icontains = "Vegetarian")
+            if "Sweet" in filters:
+                recipe = recipe.filter(totalNutrients__icontains = "sugar")
+            recipes += recipe
         serializer = self.serializer_class(recipes, many = True)
         return JsonResponse(serializer.data, status = status.HTTP_200_OK, safe = False)
 
@@ -504,9 +519,10 @@ class FavouriteRecipes(generics.GenericAPIView):
         return JsonResponse({'Response': 'Recipe is now removed from favourites!'},status = status.HTTP_200_OK)
 
 
-def StoreRecipes(request,q):
+def StoreRecipes(q):
     #q = "coffee or croissant"
     #health = "soy-free"
+    print(q)
     url = f"https://api.edamam.com/api/recipes/v2"
     params = {"type": "public",
     "q":q,
@@ -523,44 +539,57 @@ def StoreRecipes(request,q):
     response = requests.request("GET", url,params=params, headers=headers, data=payload)
     for hit in response.json()['hits']:
         recipe = hit['recipe']
-        cuisineType = recipe['cuisineType'][0]
-        cuisine,k = Cuisine.objects.get_or_create(cuisine_name = cuisineType)
-        totalNutrient = ""
-        ingredient_lists = []
+        try:
+            rec = Recipe.objects.get(label = recipe['label'])
+            continue
+        except:
+            cuisineType = recipe['cuisineType'][0]
+            cuisine = Cuisine.objects.get_or_create(cuisine_name = cuisineType)[0]
+            totalNutrient = ""
+            ingredient_lists = []
+            steps_list = []
 
-        for nutrient in recipe['totalNutrients']:
-            string_nutrient = recipe['totalNutrients'][nutrient]['label'] + "-" + str(recipe['totalNutrients'][nutrient]['quantity']) + " " + recipe['totalNutrients'][nutrient]['unit'] + "\n"
-            totalNutrient += string_nutrient
+            for nutrient in recipe['totalNutrients']:
+                string_nutrient = recipe['totalNutrients'][nutrient]['label'] + "-" + str(recipe['totalNutrients'][nutrient]['quantity']) + " " + recipe['totalNutrients'][nutrient]['unit'] + ", "
+                totalNutrient += string_nutrient
 
-        for ingredient in recipe['ingredients']:
-            ing = {}
-            ing['name'] = ingredient['food']
-            print(ing['name'])
-            ing['ingredient'] = 1
-            ing['quantity'] = ingredient['quantity']
-            ingredient_lists.append(ing)
+            for ingredient in recipe['ingredients']:
+                ing = {}
+                ing['name'] = ingredient['food']
+                ing['quantity'] = ingredient['quantity']
+                ingredient_lists.append(ing)
 
-        print(ingredient_lists)
+            time = recipe['totalTime']
+            minutes = int(time)
+            hours = 0
+            if minutes/60 >= 1:
+                hours = int(minutes/60)
+                minutes = minutes%60
+            seconds = (time - int(time))*60
 
-        time = recipe['totalTime']
-        seconds = (time - int(time))*60
+            name = urlparse(recipe['image']).path.split('/')[-1]
+            content = urllib.request.urlretrieve(recipe['image'])
 
-        r_o,k  = Recipe.objects.get_or_create(
-        cuisine = cuisine,
-        label = recipe['label'],
-        instructions = "working around it",
-        totalTime = datetime.time(minute = int(time),second = int(seconds)),
-        url = recipe['url'],
-        image = None,
-        healthLabels = ", ".join(recipe['healthLabels']),
-        totalNutrients = totalNutrient,
-        calories = round(recipe['calories']),
-        cuisineType = recipe['cuisineType'][0],
-        mealType = recipe['mealType'][0],
-        dishType = recipe['dishType'][0],
-        )
-        serializer = RecipeSerializer(r_o)
-        print(serializer.data)
-
+            r_o  = {
+            "cuisine" : cuisine,
+            "label" : recipe['label'],
+            "instructions" : "working around it",
+            "createdBy" : User.objects.get(email = "admin@gmail.com").id,
+            "totalTime" : datetime.time(hour = hours, minute = minutes,second = int(seconds)),
+            "url" : recipe['url'],
+            "image" : None, #(File(open(content[0])), name),
+            "healthLabels" : ", ".join(recipe['healthLabels']),
+            "totalNutrients" : totalNutrient,
+            "calories" : round(recipe['calories']),
+            "cuisineType" : recipe['cuisineType'][0],
+            "mealType" : recipe['mealType'][0],
+            "dishType" : recipe['dishType'][0],
+            "ingredient_list" : ingredient_lists,
+            "steps_list" : steps_list
+            }
+            serializer = RecipeSerializer(data = r_o)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+            print(serializer.data)
     #return JsonResponse(response.json(), safe = False)
     return 1
