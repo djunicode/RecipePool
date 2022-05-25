@@ -59,10 +59,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     def create(self,user):
         ingredient_list_data = self.validated_data.pop('ingredient_list')
         steps_list_data = self.validated_data.pop('steps_list')
-        if not self.validated_data["createdBy"]:
-            recipe = Recipe.objects.create(**self.validated_data, createdBy = user)
-        else:
-            recipe = Recipe.objects.create(**self.validated_data)
+        recipe = Recipe.objects.create(**self.validated_data, createdBy = user)
         for data in ingredient_list_data:
             print(data)
             try:

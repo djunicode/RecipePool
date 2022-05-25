@@ -1,4 +1,5 @@
 import json
+from urllib.error import HTTPError
 import django
 from django.http import JsonResponse
 import requests
@@ -552,14 +553,22 @@ def StoreRecipes(q):
             steps_list = []
 
             try:
-                response = urllib.request.urlopen(recipe['url'])
+                req = urllib.request.Request(url=recipe['url'], headers ={'User-Agent': 'Mozilla / 5.0 (X11 Linux x86_64) AppleWebKit / 537.36 (KHTML, like Gecko) Chrome / 52.0.2743.116 Safari / 537.36 PostmanRuntime/7.29.0'})
+                response = urllib.request.urlopen(req)
                 html_doc = response.read()
                 soup = BeautifulSoup(html_doc, 'html.parser')
-                instruction_dict = json.loads(soup.find(id="schema-lifestyle_1-0").string)['recipeInstructions']
+                json_object = soup.find(type="application/ld+json")
+                instruction_dict = {}
+                if json_object:
+                    instruction_dict = json.loads(json_object.string)
                 for instruction in instruction_dict:
                     ins = {}
-                    ins['steps'] = instruction['text']
-                    steps_list.append(ins)
+                    find_key = instruction.get('recipeInstructions')
+                    if find_key:
+                        for item in find_key:
+                            ins = {}
+                            ins['steps'] = item['text']
+                            steps_list.append(ins)
             except:
                 pass
 
@@ -581,16 +590,20 @@ def StoreRecipes(q):
                 minutes = minutes%60
             seconds = (time - int(time))*60
 
-            name = urlparse(recipe['image']).path.split('/')[-1]
-            img_temp = NamedTemporaryFile()
-            img_temp.write(urllib.request.urlopen(recipe['image']).read())
-            img_temp.flush()
+            try:
+                name = urlparse(recipe['image']).path.split('/')[-1]
+                img_temp = NamedTemporaryFile()
+                req = urllib.request.Request(url = recipe['image'], headers= {'User-Agent': 'Mozilla / 5.0 (X11 Linux x86_64) AppleWebKit / 537.36 (KHTML, like Gecko) Chrome / 52.0.2743.116 Safari / 537.36 PostmanRuntime/7.29.0'})
+                img_temp.write(urllib.request.urlopen(req).read())
+                img_temp.flush()
+            except:
+                img_temp = None
 
             r_o  = {
             "cuisine" : cuisine,
             "label" : recipe['label'],
             "instructions" : "working around it",
-            "createdBy" : User.objects.get(email = "admin@gmail.com").id,
+            #"createdBy" : User.objects.get(email = "admin@gmail.com").id,
             "totalTime" : datetime.time(hour = hours, minute = minutes,second = int(seconds)),
             "url" : recipe['url'],
             "image" : None, #(File(open(content[0])), name),
@@ -605,8 +618,7 @@ def StoreRecipes(q):
             }
             serializer = RecipeSerializer(data = r_o)
             if serializer.is_valid(raise_exception=True):
-                serializer.save()
-            print(serializer.data)
+                serializer.create(User.objects.get(email = "admin@gmail.com"))
             recipe = Recipe.objects.get(label = recipe['label'])
             recipe.image.save(name, File(img_temp))
             recipe.save()
