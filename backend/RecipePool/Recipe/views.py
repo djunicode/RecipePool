@@ -1,3 +1,5 @@
+import json
+from urllib.error import HTTPError
 import django
 from django.http import JsonResponse
 import requests
@@ -18,14 +20,16 @@ import datetime
 import urllib
 from urllib.parse import urlparse
 import urllib.request
+from bs4 import BeautifulSoup
 from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
+from decouple import config
 
 User = get_user_model()
 '''
 #Query the database for Recipe using given ingredients with OR condition 
 class RecipeSearchOR(generics.ListAPIView):
     serializer_class = RecipeSerializer
-
     def get_queryset(self):
         ingredient_query = self.request.query_params.get('q',None).lower().split('|') #Extract the query string and insert the ingredients in a query list
         ingredient = Ingredient.objects.filter(name__in = ingredient_query)  #Filter ingredients present in query list
@@ -397,7 +401,6 @@ class IngredientView(APIView):
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
 
 
-
 class SearchView(APIView):
     serializer_class = RecipeSerializer
 
@@ -526,8 +529,8 @@ def StoreRecipes(q):
     url = f"https://api.edamam.com/api/recipes/v2"
     params = {"type": "public",
     "q":q,
-    "app_id":"6dc0ee0f",
-    "app_key": "e93f8556a7a6558a9a6557cee409937c",
+    "app_id": config("APP_ID"),
+    "app_key": config("APP_KEY"),
     #"health":health,
     "field":["cuisineType","label","totalTime","url", "image", "healthLabels","totalNutrients","calories","mealType","dishType","ingredients"]
     # cuisine is a list, instructions not there, manage steps from url, Time is a float, img is url, healthLabels is a list, totalNut is a dict,
@@ -549,6 +552,26 @@ def StoreRecipes(q):
             ingredient_lists = []
             steps_list = []
 
+            try:
+                req = urllib.request.Request(url=recipe['url'], headers ={'User-Agent': 'Mozilla / 5.0 (X11 Linux x86_64) AppleWebKit / 537.36 (KHTML, like Gecko) Chrome / 52.0.2743.116 Safari / 537.36 PostmanRuntime/7.29.0'})
+                response = urllib.request.urlopen(req)
+                html_doc = response.read()
+                soup = BeautifulSoup(html_doc, 'html.parser')
+                json_object = soup.find(type="application/ld+json")
+                instruction_dict = {}
+                if json_object:
+                    instruction_dict = json.loads(json_object.string)
+                for instruction in instruction_dict:
+                    ins = {}
+                    find_key = instruction.get('recipeInstructions')
+                    if find_key:
+                        for item in find_key:
+                            ins = {}
+                            ins['steps'] = item['text']
+                            steps_list.append(ins)
+            except:
+                pass
+
             for nutrient in recipe['totalNutrients']:
                 string_nutrient = recipe['totalNutrients'][nutrient]['label'] + "-" + str(recipe['totalNutrients'][nutrient]['quantity']) + " " + recipe['totalNutrients'][nutrient]['unit'] + ", "
                 totalNutrient += string_nutrient
@@ -567,14 +590,20 @@ def StoreRecipes(q):
                 minutes = minutes%60
             seconds = (time - int(time))*60
 
-            name = urlparse(recipe['image']).path.split('/')[-1]
-            content = urllib.request.urlretrieve(recipe['image'])
+            try:
+                name = urlparse(recipe['image']).path.split('/')[-1]
+                img_temp = NamedTemporaryFile()
+                req = urllib.request.Request(url = recipe['image'], headers= {'User-Agent': 'Mozilla / 5.0 (X11 Linux x86_64) AppleWebKit / 537.36 (KHTML, like Gecko) Chrome / 52.0.2743.116 Safari / 537.36 PostmanRuntime/7.29.0'})
+                img_temp.write(urllib.request.urlopen(req).read())
+                img_temp.flush()
+            except:
+                img_temp = None
 
             r_o  = {
             "cuisine" : cuisine,
             "label" : recipe['label'],
             "instructions" : "working around it",
-            "createdBy" : User.objects.get(email = "admin@gmail.com").id,
+            #"createdBy" : User.objects.get(email = "admin@gmail.com").id,
             "totalTime" : datetime.time(hour = hours, minute = minutes,second = int(seconds)),
             "url" : recipe['url'],
             "image" : None, #(File(open(content[0])), name),
@@ -589,7 +618,9 @@ def StoreRecipes(q):
             }
             serializer = RecipeSerializer(data = r_o)
             if serializer.is_valid(raise_exception=True):
-                serializer.save()
-            print(serializer.data)
+                serializer.create(User.objects.get(email = "admin@gmail.com"))
+            recipe = Recipe.objects.get(label = recipe['label'])
+            recipe.image.save(name, File(img_temp))
+            recipe.save()
     #return JsonResponse(response.json(), safe = False)
     return 1
