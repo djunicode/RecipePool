@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import (mixins, generics, status, permissions)
+from Recipe.models import Ingredient
+from .models import Inventory
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.http.response import HttpResponse, JsonResponse
 import jwt
@@ -23,7 +25,9 @@ import os
 # Create your views here.
 
 from .utils import Util
-from .serializers import UserSerializer, EmailVerificationSerializer, LoginSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer, LogoutSerializer,GoogleSocialAuthSerializer
+from .serializers import (UserSerializer, EmailVerificationSerializer, LoginSerializer, 
+                          ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer, 
+                          LogoutSerializer,GoogleSocialAuthSerializer, InventorySerializer)
 
 User = get_user_model()
 
@@ -174,4 +178,63 @@ def index(request):
     GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID')
     content = {'GOOGLE_CLIENT_ID': GOOGLE_CLIENT_ID}
     return render(request, 'index.html', content)
+
+class InventoryView(APIView):
+    serializer_class = InventorySerializer
+    permission_classes = [IsAuthenticated,]
     
+    def post(self, request):
+        try:
+            user = User.objects.get(email = request.user)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+
+        try:
+            ingredient = Ingredient.objects.get(name__contains = request.data['ingredient'])
+        except Ingredient.DoesNotExist:
+            ingredient = Ingredient.objects.create(name = request.data['ingredient'])
+        try:
+            inventory_list = Inventory.objects.get(ingredient=ingredient)
+        except Inventory.DoesNotExist:
+            Inventory.objects.create(user=user,ingredient = ingredient, quantity = request.data['quantity'])
+            return JsonResponse(request.data,safe = False, status = status.HTTP_202_ACCEPTED)
+        content = {'detail': 'Ingredient already for this recipe, edit it in put method'}
+        return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+    
+    def put(self,request,pk):
+        try:
+            user = User.objects.get(email = request.user)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        try:
+            inventory_list = Inventory.objects.get(id=pk)
+        except Inventory.DoesNotExist:
+            content = {'detail': 'No such Ingredient available for this recipe'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        replace = inventory_list.ingredient
+        replace_name = inventory_list.name
+        serializer = InventorySerializer(instance = inventory_list, data=request.data, partial = True)
+        if serializer.is_valid():
+            serializer = serializer.save()
+            serializer.ingredient = replace
+            serializer.name = replace_name
+            serializer.save()
+            return JsonResponse(request.data,safe = False, status = status.HTTP_202_ACCEPTED)
+        return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self,request,pk):
+        try:
+            user = User.objects.get(email = request.user)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        try:
+            inventory_list = Inventory.objects.get(id=pk)
+        except Inventory.DoesNotExist:
+            content = {'detail': 'No such Ingredient available for this recipe'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        inventory_list.delete()
+        return JsonResponse("Successfully deleted!",safe = False, status = status.HTTP_202_ACCEPTED)

@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import GoogleAuth, SignUp, Login, VerifyEmail, RequestPasswordResetEmail, SetNewPasswordAPIView, PasswordTokenCheckAPI, LogoutAPIView
 from rest_framework_simplejwt.views import TokenRefreshView
+from . import views
 
 urlpatterns = [
      
@@ -16,5 +17,6 @@ urlpatterns = [
     path('password-reset/<str:uidb64>/<str:token>/',
          PasswordTokenCheckAPI.as_view(), name='password-reset-confirm'),
     path('password-reset-complete', SetNewPasswordAPIView.as_view(),
-         name='password-reset-complete')
+         name='password-reset-complete'),
+    path('inventory/', views.InventoryView.as_view(),name = "Inventory"),
 ]
