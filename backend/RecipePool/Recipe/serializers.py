@@ -137,3 +137,11 @@ class FavouriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favourite
         fields = '__all__'
+    
+    def get_recipe_img(self,obj):
+        if obj.recipe.image:
+            return obj.recipe.image.path
+        return ("")
+
+    def get_recipe_name(self,obj):
+        return obj.recipe.label

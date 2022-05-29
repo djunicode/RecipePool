@@ -103,8 +103,6 @@ class RecipeView(APIView):
             if recipe.createdBy != self.request.user:
                 obj, created = Likes.objects.get_or_create(user=self.request.user,recipe=recipe)
                 if created == True:
-                    # likes = Likes.objects.filter(recipe=recipe).count()
-                    # request.data['likes'] = likes
                     recipe.likes += 1
 
                     cuisine_data_dict = {}
@@ -414,7 +412,7 @@ class SearchView(APIView):
             recipe = Recipe.objects.filter(label__icontains = word)
             if "Under 30 mins" in filters:
                 recipe = recipe.filter(totalTime__lte = datetime.time(minute = 30))
-            if "Under 30 mins" in filters:
+            if "Under 20 mins" in filters:
                 recipe = recipe.filter(totalTime__lte = datetime.time(minute = 20))
             if "Veg" in filters:
                 recipe = recipe.filter(healthLabels__icontains = "Vegetarian")
@@ -466,7 +464,7 @@ def filterMealType(request):
     
 class TrendingRecipes(generics.ListAPIView):
     """
-    Returns the first 5 recipes with highest rating
+    Returns the first 12 recipes with highest rating
     """
     serializer_class = RecipeSerializer
 
