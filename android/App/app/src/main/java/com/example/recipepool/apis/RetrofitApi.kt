@@ -59,9 +59,18 @@ interface RetrofitApi {
 
     @POST("api/favourite/")
     fun postFavourite(
-        @Body favourite: Favourite
+        @Header("Authorization") bearer: String?,
+        @Body id: Int?
     ): Call<Favourite>
 
     @DELETE("api/favourite/")
-    fun deleteFavourite(): Call<Favourite>
+    fun deleteFavourite(
+        @Header("Authorization") bearer: String?,
+        @Body id: Int?
+    ): Call<Favourite>
+
+    @POST("account/token-refresh/")
+    fun refreshToken(
+        @Body token: TokenRefresh
+    ): Call<TokenRefresh>
 }

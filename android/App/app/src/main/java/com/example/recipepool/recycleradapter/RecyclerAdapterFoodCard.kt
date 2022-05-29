@@ -51,7 +51,8 @@ class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
 
                 binding.foodCard.setOnClickListener {
                     val intent = Intent(itemView.context, RecipePageActivity::class.java)
-                    intent.putExtra("recipe_name", this.id)
+                    intent.putExtra("recipe_id", this.id)
+                    intent.putExtra("recipe_name", label)
                     itemView.context.startActivity(intent)
                 }
             }
