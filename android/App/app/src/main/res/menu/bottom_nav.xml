@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home"
         android:title=""/>
 
     <item
-        android:id="@+id/fav"
+        android:id="@+id/favouriteFragment"
         android:icon="@drawable/ic_fav"
         android:title=""/>
 

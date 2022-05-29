@@ -10,4 +10,9 @@
         android:name="com.example.recipepool.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.example.recipepool.fragments.FavouriteFragment"
+        android:label="fragment_favourite"
+        tools:layout="@layout/fragment_favourite" />
 </navigation>

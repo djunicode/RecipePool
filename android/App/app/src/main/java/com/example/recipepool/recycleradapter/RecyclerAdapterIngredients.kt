@@ -3,10 +3,10 @@ package com.example.recipepool.recycleradapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recipepool.data.IngredientList
+import com.example.recipepool.data.Ingredients
 import com.example.recipepool.databinding.LayoutIngredientsBinding
 
-class RecyclerAdapterIngredients(private var data: List<IngredientList>) :
+class RecyclerAdapterIngredients(private var data: List<Ingredients>) :
     RecyclerView.Adapter<RecyclerAdapterIngredients.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -18,8 +18,8 @@ class RecyclerAdapterIngredients(private var data: List<IngredientList>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             with(data[position]) {
-                binding.textIngredientName.text = this.name
-                binding.textIngredientAmount.text = this.amount
+                binding.textIngredientName.text = this.ingredient
+                binding.textIngredientAmount.text = this.quantity
             }
         }
     }

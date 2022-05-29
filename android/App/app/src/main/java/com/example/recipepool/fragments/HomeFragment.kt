@@ -121,7 +121,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<ArrayList<FoodList>>, t: Throwable) {
-                TODO("Not yet implemented")
+                Log.d("FoodList Error", t.message.toString())
             }
 
 

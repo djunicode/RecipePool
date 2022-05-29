@@ -1,8 +1,12 @@
 package com.example.recipepool.apis
 
 import com.example.recipepool.data.*
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.*
+
 
 interface RetrofitApi {
     @POST("account/signup/")
@@ -55,18 +59,20 @@ interface RetrofitApi {
     ): Call<AddRecipe>
 
     @GET("api/favourite/")
-    fun getFavourite(): Call<ArrayList<Favourite>>
+    fun getFavourite(
+        @Header("Authorization") bearer: String?
+    ): Call<ArrayList<Recipe>>
 
     @POST("api/favourite/")
     fun postFavourite(
         @Header("Authorization") bearer: String?,
-        @Body id: Int?
+        @Body params: Favourite
     ): Call<Favourite>
 
-    @DELETE("api/favourite/")
+    @HTTP(method = "DELETE", path = "api/favourite/", hasBody = true)
     fun deleteFavourite(
         @Header("Authorization") bearer: String?,
-        @Body id: Int?
+        @Body params: Favourite
     ): Call<Favourite>
 
     @POST("account/token-refresh/")
