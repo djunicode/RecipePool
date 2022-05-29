@@ -82,33 +82,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        binding.bottomNavigation.setOnItemReselectedListener { item ->
-            when(item.itemId) {
-                R.id.home -> {
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                }
-
-                R.id.account -> {
-                    Log.d("Account", "Working")
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                }
-            }
-            true
-        }
-
-
-
-
-
-
-
-
         // recipies
-
-
-
 
     }
 

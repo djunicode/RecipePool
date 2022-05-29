@@ -1,6 +1,8 @@
 package com.example.recipepool.screens
 
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -14,6 +16,7 @@ import com.example.recipepool.recycleradapter.RecyclerAdapterSteps
 
 class RecipePageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecipePageBinding
+    private lateinit var sharedPreferences: SharedPreferences
 
     private val ingredientList: List<IngredientList> = arrayListOf(
         IngredientList("Flour (All Purpose)", "5 cups"),
@@ -36,6 +39,10 @@ class RecipePageActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarRecipePage)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        sharedPreferences = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
+        val userEmail = sharedPreferences.getString("email", null).toString()
+        Log.d("Email", userEmail)
 
         val recipeName = intent.getStringExtra("recipe_name")
         binding.textRecipeName.text = recipeName
