@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipepool.R
+import com.example.recipepool.data.AddRecipeSteps
 
-class RecyclerAdapterStepsAddRecipe(val data: ArrayList<String>) :
+class RecyclerAdapterStepsAddRecipe(val data: ArrayList<AddRecipeSteps>) :
     RecyclerView.Adapter<RecyclerAdapterStepsAddRecipe.ViewHolder>() {
 
     fun deleteItem(i:Int){
@@ -32,8 +33,8 @@ class RecyclerAdapterStepsAddRecipe(val data: ArrayList<String>) :
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val step = v.findViewById<TextView>(R.id.step_text)
-        fun bind(data: String) {
-            step.text = data
+        fun bind(data: AddRecipeSteps) {
+            step.text = data.steps.toString()
         }
     }
 
