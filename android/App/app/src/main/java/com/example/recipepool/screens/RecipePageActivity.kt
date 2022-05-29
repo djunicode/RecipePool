@@ -5,7 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.recipepool.IngredientList
+import com.example.recipepool.data.IngredientList
 import com.example.recipepool.R
 import com.example.recipepool.databinding.ActivityRecipePageBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterIngredients
@@ -68,7 +68,14 @@ class RecipePageActivity : AppCompatActivity() {
         }
 
         binding.imageFavourite.setOnClickListener {
-            binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24))
+            if(binding.imageFavourite.drawable.constantState == ContextCompat.getDrawable(this, R.drawable.ic_fav)?.constantState) {
+                binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24))
+            }
+            else {
+                binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_fav))
+
+            }
+
         }
     }
 }

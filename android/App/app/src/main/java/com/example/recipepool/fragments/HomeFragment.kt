@@ -1,4 +1,4 @@
-package com.example.recipepool
+package com.example.recipepool.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -14,8 +14,6 @@ import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
 import com.example.recipepool.recycleradapter.RecyclerAdapterTrending
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,32 +47,25 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         }
 
-         parentFragment?.activity?.findViewById<ChipGroup>(R.id.chip_group)
+        binding.breakfastChip.isChecked = true
 
-        searchByMeal("breakfast")
-
-
-        parentFragment?.activity?.findViewById<Chip>(R.id.breakfast_chip)?.setOnClickListener {
+        binding.breakfastChip.setOnClickListener {
             searchByMeal("breakfast")
         }
-        parentFragment?.activity?.findViewById<Chip>(R.id.lunch_chip)?.setOnClickListener {
-            searchByMeal("breakfast")
+        binding.lunchChip.setOnClickListener {
+            searchByMeal("lunch")
         }
-        parentFragment?.activity?.findViewById<Chip>(R.id.snacks_chip)?.setOnClickListener{
+        binding.snacksChip.setOnClickListener{
             searchByMeal("snacks")
         }
-
-        parentFragment?.activity?.findViewById<Chip>(R.id.dinner_chip)?.setOnClickListener{
+        binding.dinnerChip.setOnClickListener{
             searchByMeal("dinner")
         }
 
-
-
-        val trending_cuisine = rf.trendingCuisine()
+        val trendingCuisine = rf.trendingCuisine()
         var a = ArrayList<trendingCuisine>()
 
-
-        trending_cuisine.enqueue(object: Callback<ArrayList<trendingCuisine>>{
+        trendingCuisine.enqueue(object: Callback<ArrayList<trendingCuisine>>{
             override fun onResponse(
                 call: Call<ArrayList<trendingCuisine>>,
                 response: Response<ArrayList<trendingCuisine>>
@@ -102,7 +93,7 @@ class HomeFragment : Fragment() {
         getTrending()
     }
 
-    fun searchByMeal ( query : String){
+    private fun searchByMeal ( query : String){
 
         val arr = ArrayList<String>()
         arr.add(query)

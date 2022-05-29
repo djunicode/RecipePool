@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recipepool.IngredientList
 import com.example.recipepool.R
 import com.example.recipepool.data.Ingredients
 
