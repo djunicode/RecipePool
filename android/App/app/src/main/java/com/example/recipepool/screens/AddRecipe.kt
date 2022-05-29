@@ -72,6 +72,11 @@ class AddRecipe : AppCompatActivity() {
         ingredients = arrayListOf()
         steps = arrayListOf()
 
+        setContentView(binding.root)
+        setSupportActionBar(binding.addRecipeToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
         val ingredientAdapter = RecyclerAdapterIngredientsAddRecipe(ingredients)
         val stepAdapter = RecyclerAdapterStepsAddRecipe(steps)
 
