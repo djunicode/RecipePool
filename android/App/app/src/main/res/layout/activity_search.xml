@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/as_back"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginStart="12dp"
@@ -129,6 +129,7 @@
     </com.google.android.material.chip.ChipGroup>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -151,6 +152,21 @@
             app:layout_constraintTop_toBottomOf="@+id/chipGroup_search"
             app:layout_constraintVertical_bias="0.0" />
     </ScrollView>
+
+    <TextView
+        android:id="@+id/noresult_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins"
+        android:text=" No Such Recipe. Try changing the name or filters"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/chipGroup_search"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_toolbar"
+        android:visibility="invisible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

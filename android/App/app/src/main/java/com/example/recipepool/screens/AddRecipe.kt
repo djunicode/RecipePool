@@ -1,37 +1,57 @@
 package com.example.recipepool.screens
 
-import android.content.DialogInterface
+import android.content.ContentUris
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipepool.R
+import com.example.recipepool.RealPathUtil.RealPathUtil.getDataColumn
+import com.example.recipepool.RealPathUtil.RealPathUtil.isDownloadsDocument
+import com.example.recipepool.RealPathUtil.RealPathUtil.isExternalStorageDocument
+import com.example.recipepool.RealPathUtil.RealPathUtil.isGooglePhotosUri
+import com.example.recipepool.RealPathUtil.RealPathUtil.isMediaDocument
 import com.example.recipepool.constants.ApiConstants.rf
-import com.example.recipepool.data.Ingredients
+import com.example.recipepool.data.*
 import com.example.recipepool.databinding.ActivityAddRecipeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterIngredientsAddRecipe
 import com.example.recipepool.recycleradapter.RecyclerAdapterStepsAddRecipe
 import com.example.recipepool.recycleradapter.SwipeDelete
-import com.google.android.material.internal.ContextUtils.getActivity
+import okhttp3.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
+
 
 class AddRecipe : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddRecipeBinding
-    private lateinit var url: String
-    private lateinit var ingredients: ArrayList<Ingredients>
-    private lateinit var steps: ArrayList<String>
+    private var url: String = ""
+    private lateinit var ingredients: ArrayList<AddRecipeIngredient>
+    private lateinit var steps: ArrayList<AddRecipeSteps>
     private lateinit var rvIngredients: RecyclerView
     private lateinit var rvSteps: RecyclerView
+    private lateinit var editor: SharedPreferences.Editor
+    private var uri: Uri? = null
+    private var postPath: String = ""
+    private var requestFile: RequestBody? = null
+    private var img: MultipartBody.Part? = null
+    private var mediaPath = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +60,11 @@ class AddRecipe : AppCompatActivity() {
 
         var foodType = "None"
 
-        binding.adDRecipePG.visibility = View.INVISIBLE
+        // shared preferences to store user token
+        val pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
+        editor = pref.edit()
+
+        binding.addRecipePG.visibility = View.INVISIBLE
 
         rvIngredients = binding.rvIngredientsAddRecipe
         rvSteps = binding.rvStepsAddRecipes
@@ -93,7 +117,10 @@ class AddRecipe : AppCompatActivity() {
                 val ingre = view.findViewById<EditText>(R.id.editIngredient)
                 val quant = view.findViewById<EditText>(R.id.editQuantiy)
                 val data =
-                    Ingredients(quant.text.toString().trim(), "", ingre.text.toString().trim())
+                    AddRecipeIngredient(
+                        ingre.text.toString().trim(),
+                        quant.text.toString().toInt()
+                    )
                 ingredients.add(data)
                 rvIngredients.adapter!!.notifyItemInserted(ingredients.size - 1)
                 dialog.dismiss()
@@ -116,7 +143,7 @@ class AddRecipe : AppCompatActivity() {
                 .setTitle("Add Step")
             builder.setPositiveButton("Ok") { dialog, _ ->
                 val s = view.findViewById<EditText>(R.id.editStep)
-                val data = s.text.toString().trim()
+                val data = AddRecipeSteps(s.text.toString().trim())
                 steps.add(data)
                 rvSteps.adapter!!.notifyItemInserted(steps.size - 1)
                 dialog.dismiss()
@@ -164,7 +191,7 @@ class AddRecipe : AppCompatActivity() {
                 add = false
             }
 
-            if (url.isEmpty()) {
+            if (url == "") {
                 Toast.makeText(this, "Please add an image of the recipe", Toast.LENGTH_SHORT).show()
                 add = false
             }
@@ -216,10 +243,151 @@ class AddRecipe : AppCompatActivity() {
 
             if (!add) return@setOnClickListener
 
+            binding.addRecipePG.visibility = View.VISIBLE
 
+
+            if (url != "") {
+                val file = File(postPath)
+                requestFile = RequestBody.create(
+                    MediaType.parse(contentResolver.getType(uri!!)),
+                    file
+                )
+
+                requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+//                img = MultipartBody.Part.createFormData("image", file.name, requestFile!!)
+            }
+
+
+//            val recipeMap = HashMap<String,RequestBody>()
+//            recipeMap["cuisine"] = RequestBody.create(MultipartBody.FORM,"")
+//            recipeMap["cuisineType"] = RequestBody.create(MultipartBody.FORM,"")
+//            recipeMap["dishType"] = RequestBody.create(MultipartBody.FORM,"")
+//            recipeMap["healthLabels"] = RequestBody.create(MultipartBody.FORM,"")
+//            recipeMap["instructions"] = RequestBody.create(MultipartBody.FORM,desc.toString())
+//            recipeMap["label"] = RequestBody.create(MultipartBody.FORM,name.toString())
+//            recipeMap["mealType"] = RequestBody.create(MultipartBody.FORM,foodType.toString())
+//            recipeMap["missingIngredients"] = RequestBody.create(MultipartBody.FORM,"")
+//            recipeMap["totalNutrients"] = RequestBody.create(MultipartBody.FORM,"")
+//            recipeMap["totalTime"] = RequestBody.create(MultipartBody.FORM,time.toString())
+//            recipeMap["url"] = RequestBody.create(MultipartBody.FORM,"")
+//            recipeMap["token"] = RequestBody.create(MultipartBody.FORM,"")
+//
+//            val iList = arrayListOf<RequestBody>()
+//            val sList = arrayListOf<RequestBody>()
+//
+//            for (i in 0 until ingredients.size) {
+//                val ig = AddRecipeIngredient(ingredients[i].name,ingredients[i].quantity)
+//                iList.add(RequestBody.create(MediaType.parse("text/plain"), ig))
+//            }
+//
+//            for (i in 0 until steps.size) {
+//                sList.add(RequestBody.create(MediaType.parse("text/plain"), steps[i].steps!!))
+//            }
+
+
+//            recipeMap["steps_list"] = RequestBody.create(MultipartBody.FORM,"")
+//
+//            recipeMap["ingredient_list"] = RequestBody.create(MultipartBody.FORM,ingredients.toList())
+
+            val d = "chinese"
+            Log.d("ingredient list", ingredients.toList().toString())
+            Log.d("steps list", steps.toList().toString())
+            val recipe = AddNewRecipe(
+                1,
+                "chinese",
+                "abc",
+                foodType.toString(),
+                "abc",
+                requestFile,
+                ingredients.toList(),
+                desc.toString(),
+                name.toString(),
+                0,
+                "abc",
+                "abc",
+                steps.toList(),
+                "abc",
+                time.toString(),
+            )
+
+            val rdata = refresh("", pref.getString("refresh token", null))
+            val accessToken = rf.refresh(rdata)
+            accessToken.enqueue(object : Callback<refresh> {
+                override fun onResponse(call: Call<refresh>, response: Response<refresh>) {
+                    if (response.code() == 200) {
+                        editor.putString("access token", response.body()!!.access.toString())
+                        editor.putString("refresh token", response.body()!!.refresh.toString())
+                        editor.apply()
+                        Log.d("tokens", "Tokens received successfully")
+                        Log.d("refresh token", pref.getString("refresh token", null).toString())
+                        Log.d("access token", pref.getString("access token", null).toString())
+
+                        //adding new recipe
+//                        val newRecipe = rf.addRecipe(
+//                            "Bearer ${response.body()!!.access.toString()}",
+//                            img,
+//                            recipe
+//                        )
+
+                        val newRecipe = rf.addRecipe(
+                            "Bearer ${response.body()!!.access.toString()}", recipe
+                        )
+                        Log.d("data", recipe.toString())
+
+                        newRecipe.enqueue(object : Callback<ResponseNewRecipe> {
+                            override fun onResponse(
+                                call: Call<ResponseNewRecipe>,
+                                response: Response<ResponseNewRecipe>
+                            ) {
+                                if (response.code() == 200 || response.code() == 202) {
+                                    binding.addRecipePG.visibility = View.INVISIBLE
+                                    Toast.makeText(
+                                        this@AddRecipe,
+                                        "Ypur recipe has been successfully saved",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    val intent = Intent(this@AddRecipe, MainActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                    Log.d("add recipe success", response.message())
+                                } else {
+                                    binding.addRecipePG.visibility = View.INVISIBLE
+                                    Log.d(
+                                        "new recipe success error",
+                                        response.message() + "   " + response.code().toString()
+                                    )
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ResponseNewRecipe>, t: Throwable) {
+                                Toast.makeText(
+                                    this@AddRecipe,
+                                    "Some error occurred please try again",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                binding.addRecipePG.visibility = View.INVISIBLE
+                                Log.d("new recipe failure", t.message.toString())
+                            }
+
+                        })
+
+                    } else {
+                        Log.d("refresh token", pref.getString("refresh token", null).toString())
+                        binding.addRecipePG.visibility = View.INVISIBLE
+                        Log.d("token s response", response.body().toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<refresh>, t: Throwable) {
+                    Log.d("token error", "Some error occurred while receiving tokens")
+                    Log.d("token error", t.message.toString())
+                }
+            })
+
+//            val addRecipeRequest = rf.addRecipe()
+//            addRecipeRequest.enqueue(object : Callback<>)
 
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -227,12 +395,26 @@ class AddRecipe : AppCompatActivity() {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                val uri: Uri? = data?.data
+                uri = data?.data
                 url = uri.toString()
                 if (url.isNotEmpty()) {
+                    binding.textAddImage.visibility = View.INVISIBLE
                     Glide.with(this)
                         .load(uri)
                         .into(binding.imageAddRecipe)
+
+//                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+//                    val cursor =
+//                        contentResolver.query(data?.data!!, filePathColumn, null, null, null)
+//                    assert(cursor != null)
+//                    cursor!!.moveToFirst()
+
+//                    val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+//                    mediaPath = cursor.getString(columnIndex)
+//                    cursor.close()
+                    postPath = getRealPathFromUri(uri!!).toString()
+                    Log.d("image path", postPath.toString())
+
                 } else {
                     Toast.makeText(
                         this,
@@ -242,5 +424,57 @@ class AddRecipe : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun getRealPathFromUri(uri: Uri): String? { // function for file path from uri,
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(
+                this, uri
+            )
+        ) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                val docId = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":").toTypedArray()
+                val type = split[0]
+                if ("primary".equals(type, ignoreCase = true)) {
+                    return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+                }
+            } else if (isDownloadsDocument(uri)) {
+                val id = DocumentsContract.getDocumentId(uri)
+                val contentUri = ContentUris.withAppendedId(
+                    Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)
+                )
+                return getDataColumn(this, contentUri, null, null)
+            } else if (isMediaDocument(uri)) {
+                val docId = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":").toTypedArray()
+                val type = split[0]
+                var contentUri: Uri? = null
+                if ("image" == type) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                } else if ("video" == type) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                } else if ("audio" == type) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                }
+                val selection = "_id=?"
+                val selectionArgs = arrayOf(
+                    split[1]
+                )
+                return getDataColumn(this, contentUri, selection, selectionArgs)
+            }
+        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
+
+            // Return the remote address
+            return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
+                this,
+                uri,
+                null,
+                null
+            )
+        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
+            return uri.path
+        }
+        return null
     }
 }

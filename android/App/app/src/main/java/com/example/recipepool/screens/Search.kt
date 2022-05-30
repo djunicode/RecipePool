@@ -2,11 +2,13 @@ package com.example.recipepool.screens
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipepool.R
@@ -129,6 +131,11 @@ class Search : AppCompatActivity() {
 
         }
 
+        binding.asBack.setOnClickListener {
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
+        }
+
 
     }
 
@@ -147,7 +154,7 @@ class Search : AppCompatActivity() {
             ) {
                 when {
                     response.code() == 200 -> {
-
+                        binding.noresultTv.isVisible = false
                         val adapt = RecyclerAdapterSearchList(response.body()!!)
                         adapt.notifyDataSetChanged()
                         rv.adapter = adapt
@@ -163,12 +170,14 @@ class Search : AppCompatActivity() {
                         Log.d("error",response.code().toString())
                         Log.d("url","response.raw().request().url();"+response.raw().request().url())
                         Toast.makeText(this@Search,"Check your Internet Connection",Toast.LENGTH_SHORT).show()
+                        binding.noresultTv.isVisible = true
                     }
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<SearchList>>, t: Throwable) {
                 Log.d("error",t.message!!)
+                binding.noresultTv.isVisible = true
             }
 
         })

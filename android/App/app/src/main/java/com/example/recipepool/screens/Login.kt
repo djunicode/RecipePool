@@ -59,6 +59,7 @@ class Login : AppCompatActivity() {
         setContentView(binding.root)
         binding.pBLogin.visibility = View.INVISIBLE
 
+        binding.btLoginGoogle.visibility = View.INVISIBLE
 
         // shared preferences to store user token
         val pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
