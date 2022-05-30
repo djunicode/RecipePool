@@ -1,10 +1,12 @@
 package com.example.recipepool.fragments
 
+import android.R
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.constants.ApiConstants.rf
@@ -13,9 +15,11 @@ import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
 import com.example.recipepool.recycleradapter.RecyclerAdapterTrending
+import com.example.recipepool.screens.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -37,28 +41,36 @@ class HomeFragment : Fragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        binding.homePG.visibility = View.INVISIBLE
+
         binding.recyclerViewFoodCard.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         }
 
+        binding.homePG.visibility = View.VISIBLE
         binding.breakfastChip.isChecked = true
         searchByMeal("breakfast")
 
         binding.breakfastChip.setOnClickListener {
+            binding.homePG.visibility = View.VISIBLE
             searchByMeal("breakfast")
         }
         binding.lunchChip.setOnClickListener {
+            binding.homePG.visibility = View.VISIBLE
             searchByMeal("lunch")
         }
         binding.snacksChip.setOnClickListener{
+            binding.homePG.visibility = View.VISIBLE
             searchByMeal("snacks")
         }
         binding.dinnerChip.setOnClickListener{
+            binding.homePG.visibility = View.VISIBLE
             searchByMeal("dinner")
         }
 
@@ -111,11 +123,13 @@ class HomeFragment : Fragment() {
                 response: Response<ArrayList<FoodList>>
             ) {
                 if (response.code() == 200){
+                    binding.homePG.visibility = View.INVISIBLE
                     Log.d("meal url","response.raw().request().url();"+response.raw().request().url())
                    Log.d("data",response.body().toString())
                     binding.recyclerViewFoodCard.adapter = RecyclerAdapterFoodCard(response.body()!!)
                 }
                 else{
+                    binding.homePG.visibility = View.INVISIBLE
                     Log.d("error",response.message())
                     Log.d("error",response.code().toString())
                     Log.d("url","response.raw().request().url();"+response.raw().request().url())
@@ -123,6 +137,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<ArrayList<FoodList>>, t: Throwable) {
+                binding.homePG.visibility = View.INVISIBLE
                 Log.d("error",t.message.toString())
             }
 

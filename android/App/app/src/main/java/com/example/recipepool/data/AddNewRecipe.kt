@@ -10,7 +10,7 @@ data class AddNewRecipe(
     val cuisineType: String?,
     val dishType: String?,
     val healthLabels: String?,
-    val image: RequestBody?,
+//    val image: RequestBody?,
     val ingredient_list: List<AddRecipeIngredient>?,
     val instructions: String?,
     val label: String?,
