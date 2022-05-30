@@ -23,6 +23,7 @@
         android:layout_margin="20dp"
         android:hint="Enter Quantity"
         android:textColor="@color/black"
+        android:inputType="number"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
