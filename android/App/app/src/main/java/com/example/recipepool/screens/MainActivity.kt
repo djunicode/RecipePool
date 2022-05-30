@@ -89,11 +89,11 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
 
-                R.id.account -> {
-                    Log.d("Account", "Working")
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                }
+//                R.id.account -> {
+//                    Log.d("Account", "Working")
+//                    val intent = Intent(this, ProfileActivity::class.java)
+//                    startActivity(intent)
+//                }
             }
             true
         }

@@ -53,19 +53,39 @@ interface RetrofitApi {
 
 
 //    @Multipart
-//    @POST("api/recipe/0")
-//    fun addRecipe(
+//    @POST("api/recipe/0/")
+//    fun addRecipe2(
 //        @Header("Authorization") token: String?,
+//        @Part("calories") calorie:Int?,
+//        @Part("cuisine") cuisine:String?,
+//        @Part("cuisineType") cuisineType: String?,
+//        @Part("dishType") dishTyp: String?,
+//        @Part("healthLabels") healthLabels: String?,
+//        @Part("instructions") instructions: String?,
+//        @Part("label") label: String?,
+//        @Part("mealType") mealType: String?,
+//        @Part("missingIngredients") missingIngredients: String?,
+//        @Part("totalNutrients") totalNutrients: String?,
+//        @Part("totalTime") totalTime: String?,
+//        @Part("likes") like:Int?,
 //        @Part image: MultipartBody.Part,
-//        @Part ingredient:List<RequestBody>,
-//        @Part step:List<RequestBody>,
-//        @PartMap body : Map<String,RequestBody>
-//    ):Call<AddNewRecipe>
+//        @Query("ingredient_list") ingredient:List<AddRecipeIngredient>,
+//        @Query("steps_list") steps: List<AddRecipeSteps>,
+////        @PartMap body : Map<String,RequestBody>
+//    ):Call<String>
 
     @POST("api/recipe/0/")
     fun addRecipe(
         @Header("Authorization") token: String?,
         @Body body:AddNewRecipe,
+    ):Call<ResponseNewRecipe>
+
+    @Multipart
+    @PATCH("api/recipe/{id}/")
+    fun addImage(
+        @Header("Authorization") token: String?,
+        @Path("id") id:Int,
+        @Part image:MultipartBody.Part
     ):Call<ResponseNewRecipe>
 
     @POST("account/token-refresh/")

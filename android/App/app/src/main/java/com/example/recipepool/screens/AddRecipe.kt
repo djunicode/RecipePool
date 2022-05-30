@@ -189,7 +189,7 @@ class AddRecipe : AppCompatActivity() {
 
             var add = true
 
-            val name = binding.editNameRecipe.text.toString().trim()
+            var name = binding.editNameRecipe.text.toString().trim()
             if (name.isEmpty()) {
                 binding.editNameRecipe.error = "Add recipe name"
                 binding.editNameRecipe.requestFocus()
@@ -253,29 +253,32 @@ class AddRecipe : AppCompatActivity() {
 
             if (url != "") {
                 val file = File(postPath)
-                requestFile = RequestBody.create(
-                    MediaType.parse(contentResolver.getType(uri!!)),
-                    file
-                )
+//                requestFile = RequestBody.create(
+//                    MediaType.parse(contentResolver.getType(uri!!)),
+//                    file
+//                )
+
+//                requestFile = RequestBody.create(
+//                    MediaType.parse(contentResolver.getType(uri!!)),
+//                    file
+//                )
 
                 requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-//                img = MultipartBody.Part.createFormData("image", file.name, requestFile!!)
+                img = MultipartBody.Part.createFormData("image", file.name, requestFile!!)
             }
 
 
-//            val recipeMap = HashMap<String,RequestBody>()
-//            recipeMap["cuisine"] = RequestBody.create(MultipartBody.FORM,"")
-//            recipeMap["cuisineType"] = RequestBody.create(MultipartBody.FORM,"")
-//            recipeMap["dishType"] = RequestBody.create(MultipartBody.FORM,"")
-//            recipeMap["healthLabels"] = RequestBody.create(MultipartBody.FORM,"")
-//            recipeMap["instructions"] = RequestBody.create(MultipartBody.FORM,desc.toString())
-//            recipeMap["label"] = RequestBody.create(MultipartBody.FORM,name.toString())
-//            recipeMap["mealType"] = RequestBody.create(MultipartBody.FORM,foodType.toString())
-//            recipeMap["missingIngredients"] = RequestBody.create(MultipartBody.FORM,"")
-//            recipeMap["totalNutrients"] = RequestBody.create(MultipartBody.FORM,"")
-//            recipeMap["totalTime"] = RequestBody.create(MultipartBody.FORM,time.toString())
-//            recipeMap["url"] = RequestBody.create(MultipartBody.FORM,"")
-//            recipeMap["token"] = RequestBody.create(MultipartBody.FORM,"")
+//            val recipeMap = HashMap<String, RequestBody>()
+//            recipeMap["cuisine"] = RequestBody.create(MultipartBody.FORM, "chinese")
+//            recipeMap["cuisineType"] = RequestBody.create(MultipartBody.FORM, "abc")
+//            recipeMap["dishType"] = RequestBody.create(MultipartBody.FORM, "abc")
+//            recipeMap["healthLabels"] = RequestBody.create(MultipartBody.FORM, "abc")
+//            recipeMap["instructions"] = RequestBody.create(MultipartBody.FORM, desc.toString())
+//            recipeMap["label"] = RequestBody.create(MultipartBody.FORM, name.toString())
+//            recipeMap["mealType"] = RequestBody.create(MultipartBody.FORM, foodType.toString())
+//            recipeMap["missingIngredients"] = RequestBody.create(MultipartBody.FORM, "abc")
+//            recipeMap["totalNutrients"] = RequestBody.create(MultipartBody.FORM, "abc")
+//            recipeMap["totalTime"] = RequestBody.create(MultipartBody.FORM, time.toString())
 //
 //            val iList = arrayListOf<RequestBody>()
 //            val sList = arrayListOf<RequestBody>()
@@ -294,7 +297,6 @@ class AddRecipe : AppCompatActivity() {
 //
 //            recipeMap["ingredient_list"] = RequestBody.create(MultipartBody.FORM,ingredients.toList())
 
-            val d = "chinese"
             Log.d("ingredient list", ingredients.toList().toString())
             Log.d("steps list", steps.toList().toString())
             val recipe = AddNewRecipe(
@@ -303,7 +305,6 @@ class AddRecipe : AppCompatActivity() {
                 "abc",
                 foodType.toString(),
                 "abc",
-                requestFile,
                 ingredients.toList(),
                 desc.toString(),
                 name.toString(),
@@ -329,7 +330,7 @@ class AddRecipe : AppCompatActivity() {
 
                         //adding new recipe
 //                        val newRecipe = rf.addRecipe(
-//                            "Bearer ${response.body()!!.access.toString()}",
+//                            "Bearer ${response.body()!!.access.toString()}"
 //                            img,
 //                            recipe
 //                        )
@@ -339,27 +340,129 @@ class AddRecipe : AppCompatActivity() {
                         )
                         Log.d("data", recipe.toString())
 
+//                        val head = "Bearer ${response.body()!!.access.toString()}"
+//                        val nr = rf.addRecipe2(
+//                            head,
+//                            1,
+//                            "chinese",
+//                            "abc",
+//                            foodType.toString(),
+//                            "abc",
+//                            desc.toString(),
+//                            name.toString(),
+//                            "abc",
+//                            "abc",
+//                            "abc",
+//                            time.toString(),
+//                            0,
+//                            img!!,
+//                            ingredients.toList(),
+//                            steps.toList()
+//                        )
+//                        val nr = rf.addRecipe2(
+//                            head.toString(),
+//                            1,
+//                            0,
+//                            img!!,
+//                            ingredients.toList(),
+//                            steps.toList(),
+//                            recipeMap
+//                        )
+//                        nr.enqueue(object : Callback<String> {
+//                            override fun onResponse(
+//                                call: Call<String>,
+//                                response: Response<String>
+//                            ) {
+//                                if (response.code() == 202 || response.code() == 200) {
+//                                    Log.d("img data", "data stored succesfully")
+//                                    Log.d("img data", response.body().toString())
+//                                } else {
+//                                    Log.d(
+//                                        "img s fail",
+//                                        response.message().toString() + response.code().toString()
+//                                    )
+//                                }
+//                            }
+//
+//                            override fun onFailure(call: Call<String>, t: Throwable) {
+//                                Log.d(
+//                                    "img failure",
+//                                    response.message().toString() + response.code().toString()
+//                                )
+//                            }
+//
+//                        })
+
                         newRecipe.enqueue(object : Callback<ResponseNewRecipe> {
                             override fun onResponse(
                                 call: Call<ResponseNewRecipe>,
-                                response: Response<ResponseNewRecipe>
+                                response1: Response<ResponseNewRecipe>
                             ) {
-                                if (response.code() == 200 || response.code() == 202) {
-                                    binding.addRecipePG.visibility = View.INVISIBLE
+                                if (response1.code() == 200 || response1.code() == 202) {
                                     Toast.makeText(
                                         this@AddRecipe,
-                                        "Ypur recipe has been successfully saved",
+                                        "Your recipe has been successfully saved",
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                    val intent = Intent(this@AddRecipe, MainActivity::class.java)
-                                    startActivity(intent)
-                                    finish()
-                                    Log.d("add recipe success", response.message())
+
+                                    if (img != null) {
+                                        val newImg = rf.addImage(
+                                            "Bearer ${response.body()!!.access.toString()}",
+                                            response1.body()!!.id,
+                                            img!!
+                                        )
+                                        newImg.enqueue(object : Callback<ResponseNewRecipe> {
+                                            override fun onResponse(
+                                                call: Call<ResponseNewRecipe>,
+                                                response2: Response<ResponseNewRecipe>
+                                            ) {
+                                                if(response2.code() == 202 || response2.code() == 200){
+                                                    binding.addRecipePG.visibility = View.INVISIBLE
+                                                    val intent = Intent(this@AddRecipe, MainActivity::class.java)
+                                                    startActivity(intent)
+                                                    finish()
+                                                    Log.d("img s","image uploaded successfully")
+                                                    Log.d("img uri",uri.toString())
+
+                                                }
+                                                else{
+                                                    binding.addRecipePG.visibility = View.INVISIBLE
+                                                    val intent = Intent(this@AddRecipe, MainActivity::class.java)
+                                                    startActivity(intent)
+                                                    finish()
+                                                    Log.d("image upload s f",response2.message().toString()+response2.code().toString())
+                                                    Log.d("add recipe success", response1.message())
+
+                                                }
+                                            }
+
+                                            override fun onFailure(
+                                                call: Call<ResponseNewRecipe>,
+                                                t: Throwable
+                                            ) {
+                                                binding.addRecipePG.visibility = View.INVISIBLE
+                                                val intent = Intent(this@AddRecipe, MainActivity::class.java)
+                                                startActivity(intent)
+                                                finish()
+                                                Log.d("image upload failed add recipe success", t.message.toString())
+                                                Log.d("img uri",uri.toString())
+                                            }
+
+                                        })
+                                    }
+                                    else{
+                                        binding.addRecipePG.visibility = View.INVISIBLE
+                                        val intent = Intent(this@AddRecipe, MainActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                        Log.d("add recipe success", response1.message())
+                                    }
+
                                 } else {
                                     binding.addRecipePG.visibility = View.INVISIBLE
                                     Log.d(
                                         "new recipe success error",
-                                        response.message() + "   " + response.code().toString()
+                                        response1.message() + "   " + response1.code().toString()
                                     )
                                 }
                             }
@@ -402,6 +505,7 @@ class AddRecipe : AppCompatActivity() {
             if (requestCode == 100) {
                 uri = data?.data
                 url = uri.toString()
+                Log.d("image uri",uri.toString())
                 if (url.isNotEmpty()) {
                     binding.textAddImage.visibility = View.INVISIBLE
                     Glide.with(this)

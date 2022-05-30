@@ -15,10 +15,10 @@
         android:icon="@drawable/ic_camera"
         android:title=""/>
 
-    <item
-        android:id="@+id/account"
-        android:icon="@drawable/ic_account"
-        android:title=""/>
+<!--    <item-->
+<!--        android:id="@+id/account"-->
+<!--        android:icon="@drawable/ic_account"-->
+<!--        android:title=""/>-->
     <item
         android:id="@+id/cart"
         android:icon="@drawable/ic_cart"
