@@ -38,13 +38,13 @@ interface RetrofitApi {
     @POST("api/filter-ingredient/")
     fun search_ingredient(
       //  @Body params : filter_ingredients
-         @Body ingredient : HashMap<String,Array<String>>
+         @Body ingredient : HashMap<String,ArrayList<String>>
     ) : Call<ArrayList<SearchList>>
 
     // https://therecipepool.pythonanywhere.com/api/search
     @POST("api/search")
     fun searchRecipe(
-        @Body recipe : HashMap<String,String>
+        @Body recipe : HashMap<String,Any>
     ) : Call<ArrayList<SearchList>>
 
     @POST("api/filter-meal/")

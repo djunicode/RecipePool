@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.constants.ApiConstants.rf
 import com.example.recipepool.data.FoodList
-import com.example.recipepool.data.Trending
 import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
@@ -58,7 +57,7 @@ class HomeFragment : Fragment() {
             searchByMeal("breakfast")
         }
         parentFragment?.activity?.findViewById<Chip>(R.id.lunch_chip)?.setOnClickListener {
-            searchByMeal("breakfast")
+            searchByMeal("lunch")
         }
         parentFragment?.activity?.findViewById<Chip>(R.id.snacks_chip)?.setOnClickListener{
             searchByMeal("snacks")
@@ -99,7 +98,7 @@ class HomeFragment : Fragment() {
 
         }
         )
-        getTrending()
+       // getTrending()
     }
 
     fun searchByMeal ( query : String){
@@ -118,11 +117,10 @@ class HomeFragment : Fragment() {
             ) {
                 if (response.code() == 200){
                     Log.d("meal url","response.raw().request().url();"+response.raw().request().url())
-                    Log.d("data",response.body().toString())
+                   Log.d("data",response.body().toString())
                     binding.recyclerViewFoodCard.adapter = RecyclerAdapterFoodCard(response.body()!!)
                 }
                 else{
-
                     Log.d("error",response.message())
                     Log.d("error",response.code().toString())
                     Log.d("url","response.raw().request().url();"+response.raw().request().url())
@@ -130,14 +128,15 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<ArrayList<FoodList>>, t: Throwable) {
-                TODO("Not yet implemented")
+                Log.d("error",t.message.toString())
             }
 
 
         })
     }
 
-    private fun getTrending() {
+   /* private fun getTrending() {
+        Log.d("getTrending","inside")
         val trendingRecipe = rf.getTrending()
 
         trendingRecipe.enqueue(object : Callback<List<Trending>> {
@@ -146,7 +145,9 @@ class HomeFragment : Fragment() {
                     Log.d("Trending", response.message().toString() + " " + response.code().toString())
 
                     val result = response.body()
-                    Log.d("TrendingResult", result.toString())
+                  //  Log.d("TrendingResult", result.toString())
+                }else{
+                    Log.d("trending",response.message())
                 }
             }
 
@@ -155,5 +156,5 @@ class HomeFragment : Fragment() {
             }
 
         })
-    }
+    }*/
 }
