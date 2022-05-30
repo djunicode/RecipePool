@@ -28,7 +28,7 @@ data class Recipe(
     @SerializedName("calories")
     val calories: Int?,
     @SerializedName("cuisineType")
-    val cuisineType: Int?,
+    val cuisineType: String?,
     @SerializedName("mealType")
     val mealType: String?,
     @SerializedName("dishType")
