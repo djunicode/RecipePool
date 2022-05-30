@@ -6,66 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".screens.Search">
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/search_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         android:background="@color/white"
-        app:collapseIcon="@drawable/ic_vector_back">
+        app:collapseIcon="@drawable/ic_vector_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/as_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="@+id/search_toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_vector_back" />
 
 
         <EditText
             android:id="@+id/search_actsearch"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_search_background"
-            android:hint="Search here"
-            android:textSize="18sp"
-            android:maxLines="1"
-            android:textColor="@color/black"
-            android:fontFamily="@font/poppins"
-            android:layout_marginStart="56dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="30dp"
             android:layout_marginEnd="56dp"
+            android:background="@drawable/ic_search_background"
+            android:focusable="true"
+            android:fontFamily="@font/poppins"
+            android:hint="Search here"
+            android:maxLines="1"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:focusable="true"/>
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/image_filter"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_vector_filter"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="end"
             android:layout_marginStart="13dp"
-            android:layout_marginEnd="13dp"/>
+            android:layout_marginEnd="13dp"
+            android:src="@drawable/ic_vector_filter" />
+
         <ImageView
             android:id="@+id/image_search"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="end"
             android:layout_marginStart="13dp"
-            android:layout_marginEnd="13dp"/>
+            android:layout_marginEnd="13dp"
+            android:src="@drawable/ic_search" />
 
     </androidx.appcompat.widget.Toolbar>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_search"
-        android:layout_marginLeft="27dp"
-        android:layout_marginRight="27dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chipGroup_search"
-        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup_search"
@@ -79,30 +77,96 @@
         app:layout_constraintTop_toBottomOf="@+id/search_toolbar">
 
         <com.google.android.material.chip.Chip
+            android:id="@+id/AS_chip_veg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="yash ranawat"
+            android:clickable="false"
+            android:fontFamily="@font/poppins"
+            android:strokeColor="#FF7A50"
+            android:text="Veg"
+            android:visibility="gone"
+            app:chipBackgroundColor="#FFDBCC"
+            app:closeIconEnabled="true" />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/AS_chip_under30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            app:closeIconEnabled="true"
+            android:fontFamily="@font/poppins"
+            android:text="Under 30 minutes"
+            android:checked="true"
+            app:chipBackgroundColor="#FFDBCC"
+            app:rippleColor="#FF7A50"
+            android:visibility="gone"
+            />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/AS_chip_under20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Under 20 minutes"
             android:fontFamily="@font/poppins"
             android:clickable="false"
             app:closeIconEnabled="true"
             app:chipBackgroundColor="#FFDBCC"
             android:strokeColor="#FF7A50"
+            android:visibility="gone"
             />
         <com.google.android.material.chip.Chip
-            android:id="@+id/chipyash"
+            android:id="@+id/AS_chip_sweet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Sweet"
+            android:fontFamily="@font/poppins"
             android:clickable="false"
             app:closeIconEnabled="true"
-            android:fontFamily="@font/poppins"
-            android:text="yash ranawat"
-            android:checked="true"
             app:chipBackgroundColor="#FFDBCC"
-            app:rippleColor="#FF7A50"
+            android:strokeColor="#FF7A50"
+            android:visibility="gone"
             />
 
 
     </com.google.android.material.chip.ChipGroup>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chipGroup_search"
+        app:layout_constraintVertical_bias="0.038">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup_search"
+            app:layout_constraintVertical_bias="0.0" />
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/noresult_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins"
+        android:text=" No Such Recipe. Try changing the name or filters"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/chipGroup_search"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_toolbar"
+        android:visibility="invisible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

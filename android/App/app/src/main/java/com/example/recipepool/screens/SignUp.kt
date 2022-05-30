@@ -23,8 +23,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,6 +49,8 @@ class SignUp : AppCompatActivity() {
         setContentView(binding.root)
         binding.pBSignUp.visibility = View.INVISIBLE
 
+
+        binding.btSignUpGoogle.visibility = View.INVISIBLE
 
         // shared preferences to store user token
         val pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)

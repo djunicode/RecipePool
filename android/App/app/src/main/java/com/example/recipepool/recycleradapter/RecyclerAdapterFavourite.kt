@@ -28,8 +28,8 @@ class RecyclerAdapterFavourite(private var data: ArrayList<Recipe>?) :
 
 
                 Glide.with(itemView.context)
-                    .load(this?.image.toString())
-                    .apply(RequestOptions().override(150,150))
+                    .load("https://therecipepool.pythonanywhere.com" + this?.image.toString())
+//                    .apply(RequestOptions().override(150,150))
                     .into(binding.searchRvImage)
             }
         }

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.constants.ApiConstants.rf
 import com.example.recipepool.data.FoodList
-import com.example.recipepool.data.Trending
 import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
@@ -17,6 +16,7 @@ import com.example.recipepool.recycleradapter.RecyclerAdapterTrending
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -38,32 +38,44 @@ class HomeFragment : Fragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        binding.homePG.visibility = View.INVISIBLE
+
         binding.recyclerViewFoodCard.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         }
 
+        binding.homePG.visibility = View.VISIBLE
         binding.breakfastChip.isChecked = true
+        searchByMeal("breakfast")
 
         binding.breakfastChip.setOnClickListener {
+            binding.homePG.visibility = View.VISIBLE
             searchByMeal("breakfast")
         }
         binding.lunchChip.setOnClickListener {
+            binding.homePG.visibility = View.VISIBLE
             searchByMeal("lunch")
         }
         binding.snacksChip.setOnClickListener{
+            binding.homePG.visibility = View.VISIBLE
             searchByMeal("snacks")
         }
         binding.dinnerChip.setOnClickListener{
+            binding.homePG.visibility = View.VISIBLE
             searchByMeal("dinner")
         }
 
+
+
         val trendingCuisine = rf.trendingCuisine()
         var a = ArrayList<trendingCuisine>()
+
 
         trendingCuisine.enqueue(object: Callback<ArrayList<trendingCuisine>>{
             override fun onResponse(
@@ -90,7 +102,7 @@ class HomeFragment : Fragment() {
 
         }
         )
-        getTrending()
+       // getTrending()
     }
 
     private fun searchByMeal ( query : String){
@@ -108,12 +120,13 @@ class HomeFragment : Fragment() {
                 response: Response<ArrayList<FoodList>>
             ) {
                 if (response.code() == 200){
+                    binding.homePG.visibility = View.INVISIBLE
                     Log.d("meal url","response.raw().request().url();"+response.raw().request().url())
-                    Log.d("data",response.body().toString())
+                   Log.d("data",response.body().toString())
                     binding.recyclerViewFoodCard.adapter = RecyclerAdapterFoodCard(response.body()!!)
                 }
                 else{
-
+                    binding.homePG.visibility = View.INVISIBLE
                     Log.d("error",response.message())
                     Log.d("error",response.code().toString())
                     Log.d("url","response.raw().request().url();"+response.raw().request().url())
@@ -122,13 +135,16 @@ class HomeFragment : Fragment() {
 
             override fun onFailure(call: Call<ArrayList<FoodList>>, t: Throwable) {
                 Log.d("FoodList Error", t.message.toString())
+                binding.homePG.visibility = View.INVISIBLE
+                Log.d("error",t.message.toString())
             }
 
 
         })
     }
 
-    private fun getTrending() {
+   /* private fun getTrending() {
+        Log.d("getTrending","inside")
         val trendingRecipe = rf.getTrending()
 
         trendingRecipe.enqueue(object : Callback<List<Trending>> {
@@ -137,7 +153,9 @@ class HomeFragment : Fragment() {
                     Log.d("Trending", response.message().toString() + " " + response.code().toString())
 
                     val result = response.body()
-                    Log.d("TrendingResult", result.toString())
+                  //  Log.d("TrendingResult", result.toString())
+                }else{
+                    Log.d("trending",response.message())
                 }
             }
 
@@ -146,5 +164,5 @@ class HomeFragment : Fragment() {
             }
 
         })
-    }
+    }*/
 }

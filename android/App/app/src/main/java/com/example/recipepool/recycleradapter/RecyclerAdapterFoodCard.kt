@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.recipepool.R
 import com.example.recipepool.data.FoodList
 import com.example.recipepool.databinding.CardLayerListBinding
@@ -26,6 +27,10 @@ class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
             with(data[position]) {
                 binding.time.text = this.totalTime
                 binding.foodNameText.text = this.label
+
+                Glide.with(itemView.context)
+                    .load("https://therecipepool.pythonanywhere.com" +this.image)
+                    .into(binding.foodImage)
               //  binding.ratingBar.rating = this.rating!!
 
                 when (position % 3) {
