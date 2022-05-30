@@ -1,12 +1,10 @@
 package com.example.recipepool.fragments
 
-import android.R
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.constants.ApiConstants.rf
@@ -15,7 +13,6 @@ import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
 import com.example.recipepool.recycleradapter.RecyclerAdapterTrending
-import com.example.recipepool.screens.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -108,7 +105,7 @@ class HomeFragment : Fragment() {
        // getTrending()
     }
 
-    fun searchByMeal ( query : String){
+    private fun searchByMeal ( query : String){
 
         val arr = ArrayList<String>()
         arr.add(query)
@@ -137,6 +134,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<ArrayList<FoodList>>, t: Throwable) {
+                Log.d("FoodList Error", t.message.toString())
                 binding.homePG.visibility = View.INVISIBLE
                 Log.d("error",t.message.toString())
             }

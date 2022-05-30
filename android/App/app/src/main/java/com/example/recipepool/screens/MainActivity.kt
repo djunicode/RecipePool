@@ -3,7 +3,6 @@ package com.example.recipepool.screens
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -82,30 +81,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        binding.bottomNavigation.setOnItemReselectedListener { item ->
-            when(item.itemId) {
-                R.id.home -> {
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                }
-
-//                R.id.account -> {
-//                    Log.d("Account", "Working")
-//                    val intent = Intent(this, ProfileActivity::class.java)
-//                    startActivity(intent)
-//                }
-            }
-            true
-        }
-
-
-
-
-
         // recipies
-
-
-
 
     }
 

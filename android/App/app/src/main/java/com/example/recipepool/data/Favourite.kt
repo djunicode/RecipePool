@@ -2,11 +2,13 @@ package com.example.recipepool.data
 
 import com.google.gson.annotations.SerializedName
 
-data class Steps(
+data class Favourite(
     @SerializedName("id")
     val id: Int?,
-    @SerializedName("steps")
-    val step: String?,
+    @SerializedName("user")
+    val userEmail: String?,
     @SerializedName("recipe")
-    val recipeId: Int?
+    val recipeId: Int?,
+    @SerializedName("pk")
+    val pk: Int?
 )

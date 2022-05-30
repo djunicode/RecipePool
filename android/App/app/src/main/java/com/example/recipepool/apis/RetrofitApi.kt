@@ -2,9 +2,9 @@ package com.example.recipepool.apis
 
 import com.example.recipepool.data.*
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
+
 
 interface RetrofitApi {
     @POST("account/signup/")
@@ -51,6 +51,22 @@ interface RetrofitApi {
         @Body meal: HashMap<String, ArrayList<String>>
     ): Call<ArrayList<FoodList>>
 
+    @GET("api/favourite/")
+    fun getFavourite(
+        @Header("Authorization") bearer: String?
+    ): Call<ArrayList<Recipe>>
+
+    @POST("api/favourite/")
+    fun postFavourite(
+        @Header("Authorization") bearer: String?,
+        @Body params: Favourite
+    ): Call<Favourite>
+
+    @HTTP(method = "DELETE", path = "api/favourite/", hasBody = true)
+    fun deleteFavourite(
+        @Header("Authorization") bearer: String?,
+        @Body params: Favourite
+    ): Call<Favourite>
 
 //    @Multipart
 //    @POST("api/recipe/0/")
@@ -85,7 +101,7 @@ interface RetrofitApi {
     fun addImage(
         @Header("Authorization") token: String?,
         @Path("id") id:Int,
-        @Part image:MultipartBody.Part
+        @Part image: MultipartBody.Part
     ):Call<ResponseNewRecipe>
 
     @POST("account/token-refresh/")
@@ -93,4 +109,8 @@ interface RetrofitApi {
         @Body params: refresh
     ):Call<refresh>
 
+    @POST("account/token-refresh/")
+    fun refreshToken(
+        @Body token: TokenRefresh
+    ): Call<TokenRefresh>
 }

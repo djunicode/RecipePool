@@ -274,6 +274,8 @@ class SignUp : AppCompatActivity() {
                 fname = binding.etName.text.toString()
             }
 
+            editor.putString("username", "$fname $lname")
+
             //data class for sign up
             val userDataSignUp = signup(
                 binding.etEmail.text.toString(),
