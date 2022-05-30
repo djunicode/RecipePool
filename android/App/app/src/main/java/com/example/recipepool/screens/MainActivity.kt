@@ -102,9 +102,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
-
-
         // recipies
 
 
