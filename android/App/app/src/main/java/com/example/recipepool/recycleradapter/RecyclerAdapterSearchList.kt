@@ -60,10 +60,17 @@ class RecyclerAdapterSearchList(val data: ArrayList<SearchList>) :
         fun bind(data: SearchList){
             name.text = data.label.toString()
 
-            Glide.with(itemView.context)
-                .load("https://therecipepool.pythonanywhere.com" + data.image.toString())
-               // .apply(RequestOptions().override(150,150))
-                .into(image)
+            if(data.image != null) {
+                Glide.with(itemView.context)
+                    .load("https://therecipepool.pythonanywhere.com" + data.image.toString())
+                    // .apply(RequestOptions().override(150,150))
+                    .into(image)
+            }
+            else {
+                Glide.with(itemView.context)
+                    .load(R.drawable.ic_launcher_background).
+                    into(image)
+            }
         }
     }
 }

@@ -28,10 +28,16 @@ class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
                 binding.time.text = this.totalTime
                 binding.foodNameText.text = this.label
 
-                Glide.with(itemView.context)
-                    .load("https://therecipepool.pythonanywhere.com" +this.image)
-                    .into(binding.foodImage)
-              //  binding.ratingBar.rating = this.rating!!
+                if(this.image != null) {
+                    Glide.with(itemView.context)
+                        .load("https://therecipepool.pythonanywhere.com" + this.image)
+                        .into(binding.foodImage)
+                }
+                else {
+                    Glide.with(itemView.context)
+                        .load(R.drawable.ic_launcher_background).
+                        into(binding.foodImage)
+                }
 
                 when (position % 3) {
                     0 -> binding.foodCard.setCardBackgroundColor(
