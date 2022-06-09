@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".screens.Search">
 
+    <ProgressBar
+        android:id="@+id/pbSearch"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/search_toolbar"
@@ -155,18 +163,18 @@
 
     <TextView
         android:id="@+id/noresult_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="42dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins"
-        android:text=" No Such Recipe. Try changing the name or filters"
-        android:textColor="@color/black"
+        android:text="No Such Recipe.\nTry changing the name or filters"
         android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/chipGroup_search"
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_toolbar"
-        android:visibility="invisible"/>
+        app:layout_constraintTop_toBottomOf="@+id/search_toolbar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

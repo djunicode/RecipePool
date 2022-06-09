@@ -5,8 +5,10 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import android.widget.ViewAnimator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
@@ -34,6 +36,8 @@ class Search : AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.pbSearch.visibility = View.INVISIBLE
+
         setSupportActionBar(binding.searchToolbar)
 
 
@@ -51,9 +55,6 @@ class Search : AppCompatActivity() {
 
 
 
-
-
-
         rv = binding.rvSearch
         rv.apply {
             layoutManager = GridLayoutManager(this@Search,2)
@@ -66,7 +67,10 @@ class Search : AppCompatActivity() {
         searchText = toSearch!!
         Log.d("string", toSearch)
 
-        search(searchText,filters)
+        if(!searchText.isEmpty()){
+            binding.pbSearch.visibility = View.VISIBLE
+            search(searchText,filters)
+        }
 
          binding.imageSearch.setOnClickListener {
              Log.d("button","clicked")
@@ -77,6 +81,13 @@ class Search : AppCompatActivity() {
              if (text.isEmpty()) {
                  return@setOnClickListener
              }
+
+
+             val list = arrayListOf<SearchList>()
+             val adapt = RecyclerAdapterSearchList(list)
+             rv.adapter = adapt
+//             rv.adapter.notifyDataSetChanged()
+             binding.pbSearch.visibility = View.VISIBLE
              search(searchText,filters)
          }
 
@@ -161,9 +172,12 @@ class Search : AppCompatActivity() {
 
                         Log.d("TAG ",response.body().toString())
 
+                        binding.pbSearch.visibility = View.INVISIBLE
+
                     }
                     response.code() == 408 -> {
                         search(query,filter)
+                        binding.pbSearch.visibility = View.INVISIBLE
                     }
                     else -> {
                         Log.d("error",response.message())
@@ -171,6 +185,8 @@ class Search : AppCompatActivity() {
                         Log.d("url","response.raw().request().url();"+response.raw().request().url())
                         Toast.makeText(this@Search,"Check your Internet Connection",Toast.LENGTH_SHORT).show()
                         binding.noresultTv.isVisible = true
+                        binding.pbSearch.visibility = View.INVISIBLE
+
                     }
                 }
             }
@@ -178,6 +194,8 @@ class Search : AppCompatActivity() {
             override fun onFailure(call: Call<ArrayList<SearchList>>, t: Throwable) {
                 Log.d("error",t.message!!)
                 binding.noresultTv.isVisible = true
+                binding.pbSearch.visibility = View.INVISIBLE
+
             }
 
         })
