@@ -1,17 +1,18 @@
 package com.example.recipepool.recycleradapter
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipepool.R
-import com.example.recipepool.data.FoodList
+import com.example.recipepool.data.Recipe
 import com.example.recipepool.databinding.CardLayerListBinding
 import com.example.recipepool.screens.RecipePageActivity
 
-class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
+class RecyclerAdapterFoodCard(private var data: List<Recipe>) :
     RecyclerView.Adapter<RecyclerAdapterFoodCard.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,7 +27,7 @@ class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
         with(holder) {
             with(data[position]) {
                 binding.time.text = this.totalTime
-                binding.foodNameText.text = this.label
+                binding.foodNameText.text = this.recipeName
 
                 if(this.image != null) {
                     Glide.with(itemView.context)
@@ -62,8 +63,15 @@ class RecyclerAdapterFoodCard(private var data: List<FoodList>) :
 
                 binding.foodCard.setOnClickListener {
                     val intent = Intent(itemView.context, RecipePageActivity::class.java)
+                    val bundle = Bundle()
+                    bundle.putParcelableArrayList("ingredient_list", ingredientList)
+                    bundle.putParcelableArrayList("step_list", stepsList)
                     intent.putExtra("recipe_id", this.id)
-                    intent.putExtra("recipe_name", label)
+                    intent.putExtra("recipe_name", recipeName)
+                    intent.putExtra("likes", likes)
+                    intent.putExtra("time", totalTime)
+                    intent.putExtra("images", image)
+                    intent.putExtras(bundle)
                     itemView.context.startActivity(intent)
                 }
             }

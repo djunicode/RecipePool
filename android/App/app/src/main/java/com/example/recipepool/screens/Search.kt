@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipepool.R
 import com.example.recipepool.constants.ApiConstants.rf
-import com.example.recipepool.data.SearchList
+import com.example.recipepool.data.Recipe
 import com.example.recipepool.databinding.ActivitySearchBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterSearchList
 import com.google.android.material.chip.Chip
@@ -48,10 +48,6 @@ class Search : AppCompatActivity() {
         builder.setCanceledOnTouchOutside(false)
         builder.window!!.attributes.verticalMargin = -0.6F
         builder.window!!.attributes.horizontalMargin = 0.2F
-
-
-
-
 
 
         rv = binding.rvSearch
@@ -147,10 +143,10 @@ class Search : AppCompatActivity() {
         Log.d("string",map.toString())
         val search = rf.searchRecipe(map)
 
-        search.enqueue(object : Callback<ArrayList<SearchList>>{
+        search.enqueue(object : Callback<ArrayList<Recipe>>{
             override fun onResponse(
-                call: Call<ArrayList<SearchList>>,
-                response: Response<ArrayList<SearchList>>
+                call: Call<ArrayList<Recipe>>,
+                response: Response<ArrayList<Recipe>>
             ) {
                 when {
                     response.code() == 200 -> {
@@ -175,7 +171,7 @@ class Search : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<ArrayList<SearchList>>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<Recipe>>, t: Throwable) {
                 Log.d("error",t.message!!)
                 binding.noresultTv.isVisible = true
             }

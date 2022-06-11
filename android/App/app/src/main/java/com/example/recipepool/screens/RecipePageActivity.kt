@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.R
 import com.example.recipepool.constants.ApiConstants.rf
 import com.example.recipepool.data.Favourite
-import com.example.recipepool.data.Ingredients
 import com.example.recipepool.data.Recipe
 import com.example.recipepool.data.TokenRefresh
 import com.example.recipepool.databinding.ActivityRecipePageBinding
@@ -22,24 +21,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RecipePageActivity : AppCompatActivity() {
+class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.CallbackImage {
     private lateinit var binding: ActivityRecipePageBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
-
-    private val ingredientList: List<Ingredients> = arrayListOf(
-        Ingredients("5 cups", null, "Flour (All Purpose)"),
-        Ingredients("2 slabs", null, "Chocolate"),
-        Ingredients("2 tea spoons", null, "Vanilla Extract"),
-        Ingredients("3", null, "Eggs")
-    )
-
-    private val stepList: List<String> = arrayListOf(
-        "Crack eggs in a bowl",
-        "Melt Chocolate using double boiler . Keep a vessel with chopped compound over a boiling water vessel",
-        "Bake the cookies at 200 degrees for 20 minutes")
-
-    private val imageList: List<Int> = arrayListOf(R.drawable.ic_account, R.drawable.ic_fav, R.drawable.ic_home)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,16 +40,26 @@ class RecipePageActivity : AppCompatActivity() {
 
         editor = sharedPreferences.edit()
 
-        val recipeId = intent.getStringExtra("recipe_id")?.toInt()
+        val recipeId = intent.getIntExtra("recipe_id", 0)
         val recipeName = intent.getStringExtra("recipe_name")
+        val likes = intent.getIntExtra("likes", 0)
+        val time = intent.getStringExtra("time")
+        val imageList: List<String> = arrayListOf(intent.getStringExtra("images").toString())
+        val ingredientList: ArrayList<Recipe.IngredientList>? = intent.extras?.getParcelableArrayList("ingredient_list")
+        val stepList: ArrayList<Recipe.Steps>? = intent.extras?.getParcelableArrayList("step_list")
         binding.textRecipeName.text = recipeName
+        binding.textIngredients.text = "Ingredients for your $recipeName"
+        binding.textTime.text = time
+        if(likes != null) {
+            binding.recipeLikes.text = likes.toString()
+        }
 
         binding.recyclerViewIngredients.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = RecyclerAdapterIngredients(ingredientList)
         }
 
-        binding.carouselViewRecipeImage.adapter = RecyclerAdapterRecipeImages(imageList)
+        binding.carouselViewRecipeImage.adapter = RecyclerAdapterRecipeImages(imageList, this)
         binding.carouselViewRecipeImage.apply {
             set3DItem(true)
             setAlpha(true)
@@ -93,7 +88,6 @@ class RecipePageActivity : AppCompatActivity() {
             else {
                 binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_fav))
             }
-
         }
 
         checkFavourite(recipeId)
@@ -193,7 +187,7 @@ class RecipePageActivity : AppCompatActivity() {
 
                     markFavourite.enqueue(object : Callback<Favourite> {
                         override fun onResponse(call: Call<Favourite>, response: Response<Favourite>) {
-                            if (response.code() == 200) {
+                            if (response.code() == 200 || response.code() == 202) {
                                 Log.d("Favourite url","response.raw().request().url(): " + response.raw().request().url())
                                 Log.d("Favourite data", response.body().toString())
                                 binding.imageBookmark.setImageDrawable(ContextCompat.getDrawable(this@RecipePageActivity, R.drawable.ic_baseline_bookmark_added_24))
@@ -283,5 +277,9 @@ class RecipePageActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    override fun resultCallback(message: String) {
+        binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24))
     }
 }

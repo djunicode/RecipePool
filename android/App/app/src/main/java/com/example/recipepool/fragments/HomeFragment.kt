@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.constants.ApiConstants.rf
 import com.example.recipepool.data.FoodList
+import com.example.recipepool.data.Recipe
 import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
@@ -114,10 +115,10 @@ class HomeFragment : Fragment() {
         Log.d("meal filter", query)
         val call = rf.filterMealType(map)
 
-        call.enqueue(object : Callback<ArrayList<FoodList>> {
+        call.enqueue(object : Callback<ArrayList<Recipe>> {
             override fun onResponse(
-                call: Call<ArrayList<FoodList>>,
-                response: Response<ArrayList<FoodList>>
+                call: Call<ArrayList<Recipe>>,
+                response: Response<ArrayList<Recipe>>
             ) {
                 if (response.code() == 200) {
                     binding.homePG.visibility = View.INVISIBLE
@@ -136,7 +137,7 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<ArrayList<FoodList>>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<Recipe>>, t: Throwable) {
                 Log.d("FoodList Error", t.message.toString())
                 binding.homePG.visibility = View.INVISIBLE
                 Log.d("error", t.message.toString())
