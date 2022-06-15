@@ -79,7 +79,8 @@
                     android:layout_marginTop="0dp"
                     android:padding="8dp"
                     app:chipSpacingHorizontal="15dp"
-                    app:singleSelection="true">
+                    app:singleSelection="true"
+                    android:foregroundGravity="center_horizontal">
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/breakfast_chip"

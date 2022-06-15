@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipepool.R
 import com.example.recipepool.data.AddRecipeIngredient
-import com.example.recipepool.data.Ingredients
 
 class RecyclerAdapterIngredientsAddRecipe(val data: ArrayList<AddRecipeIngredient>) :
     RecyclerView.Adapter<RecyclerAdapterIngredientsAddRecipe.ViewHolder>() {

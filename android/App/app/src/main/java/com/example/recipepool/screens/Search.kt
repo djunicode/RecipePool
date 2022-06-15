@@ -8,14 +8,13 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
-import android.widget.ViewAnimator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipepool.R
 import com.example.recipepool.constants.ApiConstants.rf
-import com.example.recipepool.data.SearchList
+import com.example.recipepool.data.Recipe
 import com.example.recipepool.databinding.ActivitySearchBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterSearchList
 import com.google.android.material.chip.Chip
@@ -42,7 +41,7 @@ class Search : AppCompatActivity() {
 
 
         var filters = arrayListOf<String>()
-        var searchText = ""
+        var searchText: String
         //popup of FILTER
         val builder = AlertDialog.Builder(this)
             .create()
@@ -52,9 +51,7 @@ class Search : AppCompatActivity() {
         builder.setCanceledOnTouchOutside(false)
         builder.window!!.attributes.verticalMargin = -0.6F
         builder.window!!.attributes.horizontalMargin = 0.2F
-
-
-
+        
         rv = binding.rvSearch
         rv.apply {
             layoutManager = GridLayoutManager(this@Search,2)
@@ -67,7 +64,7 @@ class Search : AppCompatActivity() {
         searchText = toSearch!!
         Log.d("string", toSearch)
 
-        if(!searchText.isEmpty()){
+        if(searchText.isNotEmpty()){
             binding.pbSearch.visibility = View.VISIBLE
             search(searchText,filters)
         }
@@ -83,7 +80,7 @@ class Search : AppCompatActivity() {
              }
 
 
-             val list = arrayListOf<SearchList>()
+             val list = arrayListOf<Recipe>()
              val adapt = RecyclerAdapterSearchList(list)
              rv.adapter = adapt
 //             rv.adapter.notifyDataSetChanged()
@@ -158,10 +155,10 @@ class Search : AppCompatActivity() {
         Log.d("string",map.toString())
         val search = rf.searchRecipe(map)
 
-        search.enqueue(object : Callback<ArrayList<SearchList>>{
+        search.enqueue(object : Callback<ArrayList<Recipe>>{
             override fun onResponse(
-                call: Call<ArrayList<SearchList>>,
-                response: Response<ArrayList<SearchList>>
+                call: Call<ArrayList<Recipe>>,
+                response: Response<ArrayList<Recipe>>
             ) {
                 when {
                     response.code() == 200 -> {
@@ -191,7 +188,7 @@ class Search : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<ArrayList<SearchList>>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<Recipe>>, t: Throwable) {
                 Log.d("error",t.message!!)
                 binding.noresultTv.isVisible = true
                 binding.pbSearch.visibility = View.INVISIBLE

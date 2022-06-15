@@ -4,9 +4,10 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipepool.data.Recipe
 import com.example.recipepool.databinding.LayoutStepsBinding
 
-class RecyclerAdapterSteps(private var data: List<String>) :
+class RecyclerAdapterSteps(private var data: List<Recipe.Steps>?) :
     RecyclerView.Adapter<RecyclerAdapterSteps.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -17,9 +18,9 @@ class RecyclerAdapterSteps(private var data: List<String>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            with(data[position]) {
+            with(data?.get(position)) {
 
-                binding.stepText.text = this
+                binding.stepText.text = this?.step.toString()
                  binding.stepCheck.setOnClickListener {
                     if(binding.stepText.paintFlags ==
                             (binding.stepText.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv())) {
@@ -37,7 +38,7 @@ class RecyclerAdapterSteps(private var data: List<String>) :
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return data!!.size
     }
 
     inner class ViewHolder(val binding: LayoutStepsBinding) : RecyclerView.ViewHolder(binding.root)

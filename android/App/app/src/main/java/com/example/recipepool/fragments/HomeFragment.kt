@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.constants.ApiConstants.rf
 import com.example.recipepool.data.FoodList
+import com.example.recipepool.data.Recipe
 import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
@@ -21,13 +22,13 @@ import retrofit2.Response
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
-   /* private var foodies: List<FoodList> = arrayListOf(
-        FoodList("Salad with Grilled Chicken", "40min", false, 3f),
-        FoodList("Egg Curry", "15min", false, 4f),
-        FoodList("Chocolate Chip Cookies", "50min", false, 4f),
-        FoodList("Chicken Enchiladas", "40min", false, 5f),
-        FoodList("Minestrone Soup", "15min", false, 4f)
-    )*/
+    /* private var foodies: List<FoodList> = arrayListOf(
+         FoodList("Salad with Grilled Chicken", "40min", false, 3f),
+         FoodList("Egg Curry", "15min", false, 4f),
+         FoodList("Chocolate Chip Cookies", "50min", false, 4f),
+         FoodList("Chicken Enchiladas", "40min", false, 5f),
+         FoodList("Minestrone Soup", "15min", false, 4f)
+     )*/
 
     private var trending: List<Int> = arrayListOf(1, 2, 3, 4, 5)
 
@@ -62,39 +63,39 @@ class HomeFragment : Fragment() {
             binding.homePG.visibility = View.VISIBLE
             searchByMeal("lunch")
         }
-        binding.snacksChip.setOnClickListener{
+        binding.snacksChip.setOnClickListener {
             binding.homePG.visibility = View.VISIBLE
             searchByMeal("snacks")
         }
-        binding.dinnerChip.setOnClickListener{
+        binding.dinnerChip.setOnClickListener {
             binding.homePG.visibility = View.VISIBLE
             searchByMeal("dinner")
         }
-
 
 
         val trendingCuisine = rf.trendingCuisine()
         var a = ArrayList<trendingCuisine>()
 
 
-        trendingCuisine.enqueue(object: Callback<ArrayList<trendingCuisine>>{
+        trendingCuisine.enqueue(object : Callback<ArrayList<trendingCuisine>> {
             override fun onResponse(
                 call: Call<ArrayList<trendingCuisine>>,
                 response: Response<ArrayList<trendingCuisine>>
             ) {
-                if (response.code() == 200){
+                if (response.code() == 200) {
                     a = response.body()!!
 
                     binding.recyclerViewTrendingRecipe.apply {
-                        layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        layoutManager =
+                            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
                         adapter = RecyclerAdapterTrending(a)
                     }
-                    Log.d("response",a.toString())
-                }
-                else{
+                    Log.d("response", a.toString())
+                } else {
                     Log.d("response error", response.message().toString())
                 }
             }
+
             override fun onFailure(call: Call<ArrayList<trendingCuisine>>, t: Throwable) {
                 Log.d("Trending Cuisine", t.message.toString())
             }
@@ -102,67 +103,70 @@ class HomeFragment : Fragment() {
 
         }
         )
-       // getTrending()
+        // getTrending()
     }
 
-    private fun searchByMeal ( query : String){
+    private fun searchByMeal(query: String) {
 
         val arr = ArrayList<String>()
         arr.add(query)
-        val map = hashMapOf<String,ArrayList<String>>()
+        val map = hashMapOf<String, ArrayList<String>>()
         map["meal"] = arr
-        Log.d("meal filter",query)
+        Log.d("meal filter", query)
         val call = rf.filterMealType(map)
 
-        call.enqueue( object : Callback<ArrayList<FoodList>>{
+        call.enqueue(object : Callback<ArrayList<Recipe>> {
             override fun onResponse(
-                call: Call<ArrayList<FoodList>>,
-                response: Response<ArrayList<FoodList>>
+                call: Call<ArrayList<Recipe>>,
+                response: Response<ArrayList<Recipe>>
             ) {
-                if (response.code() == 200){
+                if (response.code() == 200) {
                     binding.homePG.visibility = View.INVISIBLE
-                    Log.d("meal url","response.raw().request().url();"+response.raw().request().url())
-                   Log.d("data",response.body().toString())
-                    binding.recyclerViewFoodCard.adapter = RecyclerAdapterFoodCard(response.body()!!)
-                }
-                else{
+                    Log.d(
+                        "meal url",
+                        "response.raw().request().url();" + response.raw().request().url()
+                    )
+                    Log.d("data", response.body().toString())
+                    binding.recyclerViewFoodCard.adapter =
+                        RecyclerAdapterFoodCard(response.body()!!)
+                } else {
                     binding.homePG.visibility = View.INVISIBLE
-                    Log.d("error",response.message())
-                    Log.d("error",response.code().toString())
-                    Log.d("url","response.raw().request().url();"+response.raw().request().url())
+                    Log.d("error", response.message())
+                    Log.d("error", response.code().toString())
+                    Log.d("url", "response.raw().request().url();" + response.raw().request().url())
                 }
             }
 
-            override fun onFailure(call: Call<ArrayList<FoodList>>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<Recipe>>, t: Throwable) {
                 Log.d("FoodList Error", t.message.toString())
                 binding.homePG.visibility = View.INVISIBLE
-                Log.d("error",t.message.toString())
+                Log.d("error", t.message.toString())
             }
 
 
         })
     }
 
-   /* private fun getTrending() {
-        Log.d("getTrending","inside")
-        val trendingRecipe = rf.getTrending()
+    /* private fun getTrending() {
+         Log.d("getTrending","inside")
+         val trendingRecipe = rf.getTrending()
 
-        trendingRecipe.enqueue(object : Callback<List<Trending>> {
-            override fun onResponse(call: Call<List<Trending>>, response: Response<List<Trending>>) {
-                if(response.isSuccessful) {
-                    Log.d("Trending", response.message().toString() + " " + response.code().toString())
+         trendingRecipe.enqueue(object : Callback<List<Trending>> {
+             override fun onResponse(call: Call<List<Trending>>, response: Response<List<Trending>>) {
+                 if(response.isSuccessful) {
+                     Log.d("Trending", response.message().toString() + " " + response.code().toString())
 
-                    val result = response.body()
-                  //  Log.d("TrendingResult", result.toString())
-                }else{
-                    Log.d("trending",response.message())
-                }
-            }
+                     val result = response.body()
+                   //  Log.d("TrendingResult", result.toString())
+                 }else{
+                     Log.d("trending",response.message())
+                 }
+             }
 
-            override fun onFailure(call: Call<List<Trending>>, t: Throwable) {
-                Log.d("Trending", t.message.toString())
-            }
+             override fun onFailure(call: Call<List<Trending>>, t: Throwable) {
+                 Log.d("Trending", t.message.toString())
+             }
 
-        })
-    }*/
+         })
+     }*/
 }

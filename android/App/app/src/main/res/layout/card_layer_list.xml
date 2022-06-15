@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/food_card"
         android:layout_width="177dp"
-        android:layout_height="215dp"
+        android:layout_height="250dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -72,8 +72,9 @@
                 app:layout_constraintTop_toBottomOf="@id/food_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintVertical_bias="0.3"
                 android:layout_marginTop="12dp"
                 android:hint="Food Name"
                 android:gravity="center"
@@ -90,9 +91,12 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.1"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintVertical_bias="0.0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/food_name_text" />
+                app:layout_constraintTop_toBottomOf="@+id/food_name_text"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
