@@ -61,21 +61,20 @@ class RecipeView(APIView):
             content = {'detail': 'No such user exists'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         if pk == '0':
-            recipe = Recipe.objects.filter(createdBy = user)
+            try:
+                recipe = Recipe.objects.filter(createdBy = user)
+            except Recipe.DoesNotExist:
+                content = {'detail': 'No recipes created by this user'}
+                return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         else:
             try:
                 recipe = Recipe.objects.get(id=pk)
             except Recipe.DoesNotExist:
                 content = {'detail': 'No such Recipe'}
                 return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-            try:
-                recipe = Recipe.objects.get(id=int(pk),createdBy = user)
-            except Recipe.DoesNotExist:
-                content = {'detail': 'No such Recipe by this user'}
-                return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-            recipeDetails = RecipeSerializer(recipe, many=False)
+            recipeDetails = RecipeSerializer(recipe, many=False, context={'request': request})
             return JsonResponse(recipeDetails.data,status = status.HTTP_200_OK)
-        recipeDetails = RecipeSerializer(recipe, many=True)
+        recipeDetails = RecipeSerializer(recipe, many=True, context={'request': request})
         return JsonResponse(recipeDetails.data, safe=False,status = status.HTTP_200_OK)
 
 
