@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import (mixins, generics, status, permissions)
+from rest_framework.permissions import IsAuthenticated
 from Recipe.models import Ingredient
 from .models import Inventory
 from rest_framework_simplejwt.tokens import RefreshToken

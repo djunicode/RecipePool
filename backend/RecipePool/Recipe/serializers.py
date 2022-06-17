@@ -29,6 +29,7 @@ class RecipeStepsSerializer(serializers.ModelSerializer):
 class RecipeSerializer(serializers.ModelSerializer):
     ingredient_list = IngredientListSerializer(many=True)
     steps_list = RecipeStepsSerializer(many=True)
+    liked = serializers.SerializerMethodField()
     class Meta:
         model = Recipe
         fields = [
@@ -50,6 +51,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             'likes',             
             'missingIngredients',
             'ingredient_list',
+            'liked',
         ]
     def to_representation(self, instance):
         response = super().to_representation(instance)
@@ -122,6 +124,15 @@ class RecipeSerializer(serializers.ModelSerializer):
         #     ing.quantity = i.get('quantity', ing.quantity)
         #     ing.save()
         return instance
+    
+    def get_liked(self,obj):
+        request = self.context.get('request', None)
+        if obj.createdBy != request.user:
+            liked_obj = Likes.objects.get(user=request.user,recipe=obj)
+            if liked_obj:
+                return True
+        else:
+            return False
 
 
 class LikesSerializer(serializers.ModelSerializer):
