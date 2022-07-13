@@ -127,11 +127,14 @@ class RecipeSerializer(serializers.ModelSerializer):
     
     def get_liked(self,obj):
         request = self.context.get('request', None)
-        if obj.createdBy != request.user:
-            liked_obj = Likes.objects.get(user=request.user,recipe=obj)
-            if liked_obj:
-                return True
-        else:
+        try:
+            if obj.createdBy != request.user:
+                liked_obj = Likes.objects.get(user=request.user,recipe=obj)
+                if liked_obj:
+                    return True
+            else:
+                return False
+        except:
             return False
 
 
