@@ -457,14 +457,14 @@ def filterCuisineType(request):
 @api_view(['POST'])
 def filterMealType(request):
     meal_query = request.data['meal']
-    if 'lunch' in meal_query or 'dinner' in meal_query:
-        serializer = RecipeSerializer(Recipe.objects.filter(mealType = 'lunch/dinner').distinct(), many=True)
+    if 'breakfast' in meal_query:
+        serializer = RecipeSerializer(Recipe.objects.filter(mealType__in = meal_query).distinct()[:20], many=True)
     elif 'dessert' in meal_query:
-        serializer = RecipeSerializer(Recipe.objects.filter(dishType = 'desserts').distinct(), many=True)
+        serializer = RecipeSerializer(Recipe.objects.filter(dishType = 'desserts').distinct()[:20], many=True)
     else:
-        recipe = Recipe.objects.filter(mealType__in = meal_query).distinct() #List the recipes related to the ingredients in the ingredient list
+        recipe = Recipe.objects.filter(mealType = 'lunch/dinner').distinct()[:20] #List the recipes related to the ingredients in the ingredient list
         serializer = RecipeSerializer(recipe, many=True)
-    return JsonResponse(serializer.data, safe = False)
+    return JsonResponse(serializer.data, safe = False)#http://therecipepool.pythonanywhere.com
     
 class TrendingRecipes(generics.ListAPIView):
     """
