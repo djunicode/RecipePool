@@ -141,6 +141,7 @@ class Login : AppCompatActivity() {
                         editor.putString("access token", response.body()!!.access.toString())
                         editor.putString("refresh token", response.body()!!.refresh.toString())
                         editor.putString("email", binding.etEmail.text.toString())
+                        Log.d("token" , response.body()!!.access.toString())
                         editor.apply()
                         binding.btLogin.isEnabled = true
                         binding.pBLogin.visibility = View.INVISIBLE

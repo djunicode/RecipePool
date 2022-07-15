@@ -28,7 +28,7 @@ interface RetrofitApi {
     ): Call<google>
 
     @GET("api/trending/")
-    fun getTrending(): Call<List<Trending>>
+    fun getTrending(): Call<ArrayList<Recipe>>
 
     @GET("api/trending-cuisine/")
     fun trendingCuisine(): Call<ArrayList<trendingCuisine>>
@@ -113,4 +113,9 @@ interface RetrofitApi {
     fun refreshToken(
         @Body token: TokenRefresh
     ): Call<TokenRefresh>
+
+    @POST("api/filter-cuisine/")
+    fun filterCuisine(
+        @Body meal: HashMap<String, ArrayList<String>>
+    ) : Call<ArrayList<Recipe>>
 }

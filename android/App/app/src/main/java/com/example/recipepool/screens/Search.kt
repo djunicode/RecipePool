@@ -61,13 +61,26 @@ class Search : AppCompatActivity() {
         val arr = array as Array<String>
         hit(arr)*/
         val toSearch = intent.getStringExtra("search")
-        searchText = toSearch!!
-        Log.d("string", toSearch)
+        val cuisine = intent.getStringExtra("cuisine")
 
-        if(searchText.isNotEmpty()){
-            binding.pbSearch.visibility = View.VISIBLE
-            search(searchText,filters)
+        if (toSearch.isNullOrEmpty()){
+            val map = hashMapOf<String,ArrayList<String>>()
+            val list  = arrayListOf<String>()
+            list.add(cuisine!!)
+            map["cuisine"] = list
+            filter_by_cuisine(map)
+            searchText = "paneer"
+            Log.d("text" , cuisine)
+        }else{
+            searchText = toSearch
+            Log.d("string", toSearch)
+            if(searchText.isNotEmpty()){
+                binding.pbSearch.visibility = View.VISIBLE
+                search(searchText,filters)
+            }
         }
+
+
 
          binding.imageSearch.setOnClickListener {
              Log.d("button","clicked")
@@ -92,7 +105,6 @@ class Search : AppCompatActivity() {
             Log.d("imagefilter","reached")
             builder.show()
         }
-
 
         // on close of dialog box
         dialogView.findViewById<ImageView>(R.id.filterDialog_cancel).setOnClickListener {
@@ -145,6 +157,53 @@ class Search : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun filter_by_cuisine(map: HashMap<String, ArrayList<String>>) {
+
+
+
+        val search = rf.filterCuisine(map)
+        search.enqueue(object : Callback<ArrayList<Recipe>>{
+            override fun onResponse(
+                call: Call<ArrayList<Recipe>>,
+                response: Response<ArrayList<Recipe>>
+            ) {
+                when {
+                    response.code() == 200 -> {
+                        binding.noresultTv.isVisible = false
+                        val adapt = RecyclerAdapterSearchList(response.body()!!)
+                        adapt.notifyDataSetChanged()
+                        rv.adapter = adapt
+
+                        Log.d("TAG ",response.body().toString())
+
+                        binding.pbSearch.visibility = View.INVISIBLE
+
+                    }
+                    response.code() == 408 -> {
+                        filter_by_cuisine(map)
+                        binding.pbSearch.visibility = View.INVISIBLE
+                    }
+                    else -> {
+                        Log.d("error",response.message())
+                        Log.d("error",response.code().toString())
+                        Log.d("url","response.raw().request().url();"+response.raw().request().url())
+                        Toast.makeText(this@Search,"Check your Internet Connection",Toast.LENGTH_SHORT).show()
+                        binding.noresultTv.isVisible = true
+                        binding.pbSearch.visibility = View.INVISIBLE
+
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ArrayList<Recipe>>, t: Throwable) {
+                Log.d("error",t.message!!)
+                binding.noresultTv.isVisible = true
+                binding.pbSearch.visibility = View.INVISIBLE
+            }
+
+        })
     }
 
 
