@@ -114,17 +114,10 @@ class User(AbstractBaseUser):
             'access': str(refresh.access_token)
         }
 
-
-
-
-
-
-
-
-
 class Inventory(models.Model):
     user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_inventory')
     ingredient      = models.ForeignKey(Ingredient,on_delete=models.CASCADE,related_name='inventory_ingredient')
+    ingredient_name = models.CharField(max_length=255, blank=True, null=True)
     quantity        = models.FloatField(default = 1.0)
 
     class Meta:

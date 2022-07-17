@@ -18,5 +18,5 @@ urlpatterns = [
          PasswordTokenCheckAPI.as_view(), name='password-reset-confirm'),
     path('password-reset-complete', SetNewPasswordAPIView.as_view(),
          name='password-reset-complete'),
-    path('inventory/', views.InventoryView.as_view(),name = "Inventory"),
+    path('inventory/<str:pk>/', views.InventoryView.as_view(),name = "Inventory"),
 ]
