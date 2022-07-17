@@ -183,8 +183,32 @@ def index(request):
 class InventoryView(APIView):
     serializer_class = InventorySerializer
     permission_classes = [IsAuthenticated,]
+
+    def get(self,request,pk):
+        try:
+            user=User.objects.get(email = request.user)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+
+        if pk == '0':
+            inventory_list = Inventory.objects.filter(user=user)
+            if not inventory_list:
+                content = {'message': 'Your Inventory is empty.'}
+                return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        else:
+            try:
+                inventory_item = Inventory.objects.get(user=user,id=pk)
+            except Inventory.DoesNotExist:
+                content = {'detail': 'No such Ingredient added to inventory list.'}
+                return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+            inventoryDetails = InventorySerializer(inventory_item, many=False, context={'request': request})
+            return JsonResponse(inventoryDetails.data,status = status.HTTP_200_OK)
+        inventoryDetails = InventorySerializer(inventory_list, many=True, context={'request': request})
+        return JsonResponse(inventoryDetails.data, safe=False,status = status.HTTP_200_OK)
+
     
-    def post(self, request):
+    def post(self, request,pk):
         try:
             user = User.objects.get(email = request.user)
         except User.DoesNotExist:
@@ -196,33 +220,29 @@ class InventoryView(APIView):
         except Ingredient.DoesNotExist:
             ingredient = Ingredient.objects.create(name = request.data['ingredient'])
         try:
-            inventory_list = Inventory.objects.get(ingredient=ingredient)
+            Inventory.objects.get(user = user,ingredient=ingredient)
         except Inventory.DoesNotExist:
-            Inventory.objects.create(user=user,ingredient = ingredient, quantity = request.data['quantity'])
+            Inventory.objects.create(user=user,ingredient = ingredient,ingredient_name = ingredient.name, quantity = request.data['quantity'])
             return JsonResponse(request.data,safe = False, status = status.HTTP_202_ACCEPTED)
-        content = {'detail': 'Ingredient already for this recipe, edit it in put method'}
+        content = {'detail': 'Ingredient already present in Inventory, edit it in patch method'}
         return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
     
-    def put(self,request,pk):
+    def patch(self,request,pk):
         try:
-            user = User.objects.get(email = request.user)
+            User.objects.get(email = request.user)
         except User.DoesNotExist:
             content = {'detail': 'No such user exists'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         try:
             inventory_list = Inventory.objects.get(id=pk)
         except Inventory.DoesNotExist:
-            content = {'detail': 'No such Ingredient available for this recipe'}
+            content = {'detail': 'No such Ingredient added to inventory list.'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         replace = inventory_list.ingredient
-        replace_name = inventory_list.name
         serializer = InventorySerializer(instance = inventory_list, data=request.data, partial = True)
         if serializer.is_valid():
-            serializer = serializer.save()
-            serializer.ingredient = replace
-            serializer.name = replace_name
             serializer.save()
-            return JsonResponse(request.data,safe = False, status = status.HTTP_202_ACCEPTED)
+            return JsonResponse(serializer.data,safe = False, status = status.HTTP_202_ACCEPTED)
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 
@@ -235,7 +255,7 @@ class InventoryView(APIView):
         try:
             inventory_list = Inventory.objects.get(id=pk)
         except Inventory.DoesNotExist:
-            content = {'detail': 'No such Ingredient available for this recipe'}
+            content = {'message': 'No such Ingredient present in Inventory. Ingredient might have already been deleted'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         inventory_list.delete()
         return JsonResponse("Successfully deleted!",safe = False, status = status.HTTP_202_ACCEPTED)
