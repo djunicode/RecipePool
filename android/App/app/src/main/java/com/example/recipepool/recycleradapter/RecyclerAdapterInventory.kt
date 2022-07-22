@@ -67,7 +67,7 @@ class RecyclerAdapterInventory(val data: ArrayList<Inventory>, val context: Cont
                         data[position].ingredient_name.toString(),
                         quant.text.toString().toFloat(),
                         data[position].ingredient.toString(),
-                        0,
+                        data[position].user,
                     )
                     Log.d("update data",d.toString())
                     data[position] = d
