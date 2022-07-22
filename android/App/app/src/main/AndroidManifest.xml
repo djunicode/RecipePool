@@ -17,7 +17,11 @@
         <activity
             android:name=".screens.ManageInventory"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screens.MainActivity" />
+        </activity>
         <activity
             android:name=".screens.AddRecipe"
             android:exported="false"

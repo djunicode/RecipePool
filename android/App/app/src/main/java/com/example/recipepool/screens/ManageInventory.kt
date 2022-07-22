@@ -2,6 +2,8 @@ package com.example.recipepool.screens
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -36,6 +38,11 @@ class ManageInventory : AppCompatActivity() {
         binding = ActivityInventoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbarInventory)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+
         // shared preferences to store user token
         pref = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
         editor = pref.edit()
@@ -49,16 +56,6 @@ class ManageInventory : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@ManageInventory)
         }
         getInventory()
-
-//        rvInventory.adapter!!.notifyDataSetChanged()
-
-//        if(inventory.isEmpty()){
-//            binding.inventoryStatus.visibility = View.VISIBLE
-//            binding.inventoryPG.visibility = View.INVISIBLE
-//        }else{
-//            binding.inventoryStatus.visibility = View.INVISIBLE
-//            binding.inventoryPG.visibility = View.INVISIBLE
-//        }
 
         binding.addItem.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -80,6 +77,29 @@ class ManageInventory : AppCompatActivity() {
             }
             builder.show()
         }
+
+        binding.searchText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                Log.d("edit text", p0!!.trimEnd().toString())
+                val newList:ArrayList<Inventory> = if(p0.isEmpty()) {
+                    inventory
+                }else{
+                    val list = inventory.filter {
+                        it.ingredient_name!!.lowercase().contains(p0.toString().lowercase())
+                    }
+                    list as ArrayList<Inventory>
+                }
+                inventoryAdapter = RecyclerAdapterInventory(newList,this@ManageInventory)
+                rvInventory.adapter = inventoryAdapter
+                rvInventory.adapter!!.notifyDataSetChanged()
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
 
 
         val swipeDeleteIngredient = object : SwipeDelete() {
