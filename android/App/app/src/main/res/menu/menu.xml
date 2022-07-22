@@ -45,5 +45,10 @@
         android:title="Logout"
         android:icon="@drawable/ic_logout"/>
 
+    <item
+        android:id="@+id/inventory"
+        android:title="Inventory"
+        android:icon="@drawable/ic_cart"/>
+
 
 </menu>
