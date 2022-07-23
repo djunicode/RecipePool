@@ -69,10 +69,15 @@ class RecyclerAdapterFoodCard(private var data: List<Recipe>) :
                     intent.putExtra("recipe_id", this.id)
                     intent.putExtra("recipe_name", recipeName)
                     intent.putExtra("likes", likes)
+                    intent.putExtra("liked", liked)
                     intent.putExtra("time", totalTime)
                     intent.putExtra("images", image)
                     intent.putExtras(bundle)
                     itemView.context.startActivity(intent)
+                }
+
+                binding.favourite.setOnClickListener {
+
                 }
             }
         }

@@ -4,13 +4,12 @@ import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipepool.R
 import com.example.recipepool.databinding.LayoutRecipeImageBinding
 
-class RecyclerAdapterRecipeImages(private var data: List<String>, private val callbackImage: CallbackImage) :
+class RecyclerAdapterRecipeImages(private var data: List<String>, private val callbackImage: CallbackImage, private val recipeId: Int?, private val likes: Int?) :
     RecyclerView.Adapter<RecyclerAdapterRecipeImages.ViewHolder>() {
     private lateinit var handler: Handler
     private var isDoubleClicked = false
@@ -44,7 +43,7 @@ class RecyclerAdapterRecipeImages(private var data: List<String>, private val ca
                 }
 
                 if (isDoubleClicked) {
-                    callbackImage.resultCallback("image_like")
+                    callbackImage.resultCallback("image_like", recipeId, likes)
                     isDoubleClicked = false
                     handler.removeCallbacks(runnable)
                 }
@@ -63,6 +62,6 @@ class RecyclerAdapterRecipeImages(private var data: List<String>, private val ca
     inner class ViewHolder(val binding: LayoutRecipeImageBinding) : RecyclerView.ViewHolder(binding.root)
 
     interface CallbackImage {
-        fun resultCallback(message: String)
+        fun resultCallback(message: String, recipeId: Int?, likes: Int?)
     }
 }
