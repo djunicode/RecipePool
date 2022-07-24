@@ -28,7 +28,7 @@ interface RetrofitApi {
     ): Call<google>
 
     @GET("api/trending/")
-    fun getTrending(): Call<ArrayList<Recipe>>
+    fun getTrending(): Call<List<Trending>>
 
     @GET("api/trending-cuisine/")
     fun trendingCuisine(): Call<ArrayList<trendingCuisine>>
@@ -113,6 +113,32 @@ interface RetrofitApi {
     fun refreshToken(
         @Body token: TokenRefresh
     ): Call<TokenRefresh>
+
+    @GET("account/inventory/{id}/")
+    fun getInventory(
+        @Header("Authorization") token:String?,
+        @Path("id") id:Int,
+    ):Call<ArrayList<Inventory>>
+
+    @POST("account/inventory/{id}/")
+    fun addInventory(
+        @Header("Authorization") token:String?,
+        @Path("id") id:Int,
+        @Body params: Inventory
+    ):Call<Inventory>
+
+    @PATCH("account/inventory/{id}/")
+    fun updateInventory(
+        @Header("Authorization") token:String?,
+        @Path("id") id:Int,
+        @Body params: Inventory
+    ):Call<Inventory>
+
+    @DELETE("account/inventory/{id}/")
+    fun deleteInventory(
+        @Header("Authorization") token:String?,
+        @Path("id") id:Int,
+    ):Call<String>
 
     @POST("api/filter-cuisine/")
     fun filterCuisine(
