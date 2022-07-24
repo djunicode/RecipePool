@@ -31,7 +31,9 @@ import com.example.recipepool.databinding.ActivityAddRecipeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterIngredientsAddRecipe
 import com.example.recipepool.recycleradapter.RecyclerAdapterStepsAddRecipe
 import com.example.recipepool.recycleradapter.SwipeDelete
-import okhttp3.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -483,6 +485,7 @@ class AddRecipe : AppCompatActivity() {
                         Log.d("refresh token", pref.getString("refresh token", null).toString())
                         binding.addRecipePG.visibility = View.INVISIBLE
                         Log.d("token s response", response.body().toString())
+                        Log.d("token s response", response.code().toString())
                     }
                 }
 

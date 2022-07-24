@@ -118,4 +118,9 @@ interface RetrofitApi {
     fun filterCuisine(
         @Body meal: HashMap<String, ArrayList<String>>
     ) : Call<ArrayList<Recipe>>
+
+    @POST("/recipe/0/")
+    fun userRecipes(
+        @Body token: String?
+    ) : Call<ArrayList<Recipe>>
 }
