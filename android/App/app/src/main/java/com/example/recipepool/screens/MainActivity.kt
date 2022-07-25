@@ -96,6 +96,11 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 }
+
+                R.id.inventory -> {
+                    val intent = Intent(this,ManageInventory::class.java)
+                    startActivity(intent)
+                }
             }
             true
         }

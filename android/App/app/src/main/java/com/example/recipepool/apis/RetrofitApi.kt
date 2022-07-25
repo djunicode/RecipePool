@@ -68,28 +68,6 @@ interface RetrofitApi {
         @Body params: Favourite
     ): Call<Favourite>
 
-//    @Multipart
-//    @POST("api/recipe/0/")
-//    fun addRecipe2(
-//        @Header("Authorization") token: String?,
-//        @Part("calories") calorie:Int?,
-//        @Part("cuisine") cuisine:String?,
-//        @Part("cuisineType") cuisineType: String?,
-//        @Part("dishType") dishTyp: String?,
-//        @Part("healthLabels") healthLabels: String?,
-//        @Part("instructions") instructions: String?,
-//        @Part("label") label: String?,
-//        @Part("mealType") mealType: String?,
-//        @Part("missingIngredients") missingIngredients: String?,
-//        @Part("totalNutrients") totalNutrients: String?,
-//        @Part("totalTime") totalTime: String?,
-//        @Part("likes") like:Int?,
-//        @Part image: MultipartBody.Part,
-//        @Query("ingredient_list") ingredient:List<AddRecipeIngredient>,
-//        @Query("steps_list") steps: List<AddRecipeSteps>,
-////        @PartMap body : Map<String,RequestBody>
-//    ):Call<String>
-
     @POST("api/recipe/0/")
     fun addRecipe(
         @Header("Authorization") token: String?,
@@ -113,4 +91,30 @@ interface RetrofitApi {
     fun refreshToken(
         @Body token: TokenRefresh
     ): Call<TokenRefresh>
+
+    @GET("account/inventory/{id}/")
+    fun getInventory(
+        @Header("Authorization") token:String?,
+        @Path("id") id:Int,
+    ):Call<ArrayList<Inventory>>
+
+    @POST("account/inventory/{id}/")
+    fun addInventory(
+        @Header("Authorization") token:String?,
+        @Path("id") id:Int,
+        @Body params: Inventory
+    ):Call<Inventory>
+
+    @PATCH("account/inventory/{id}/")
+    fun updateInventory(
+        @Header("Authorization") token:String?,
+        @Path("id") id:Int,
+        @Body params: Inventory
+    ):Call<Inventory>
+
+    @DELETE("account/inventory/{id}/")
+    fun deleteInventory(
+        @Header("Authorization") token:String?,
+        @Path("id") id:Int,
+    ):Call<String>
 }
