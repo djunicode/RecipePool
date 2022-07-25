@@ -25,8 +25,6 @@ class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.Call
     private lateinit var binding: ActivityRecipePageBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
-    var likes: Int? = 0
-    var isLiked: Boolean? = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +42,7 @@ class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.Call
 
         val recipeId = intent.getIntExtra("recipe_id", 0)
         val recipeName = intent.getStringExtra("recipe_name")
-        likes = intent.getIntExtra("likes", 0)
-        isLiked = intent.getBooleanExtra("liked", false)
+        val likes = intent.getIntExtra("likes", 0)
         val time = intent.getStringExtra("time")
         val imageList: List<String> = arrayListOf(intent.getStringExtra("images").toString())
         val ingredientList: ArrayList<Recipe.IngredientList>? = intent.extras?.getParcelableArrayList("ingredient_list")
@@ -56,21 +53,13 @@ class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.Call
         if(likes != null) {
             binding.recipeLikes.text = likes.toString()
         }
-        else {
-            binding.recipeLikes.text = "0"
-        }
-
-        Log.d("Liked", isLiked.toString())
-        if(isLiked == true) {
-            binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this@RecipePageActivity, R.drawable.ic_baseline_favorite_24))
-        }
 
         binding.recyclerViewIngredients.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = RecyclerAdapterIngredients(ingredientList)
         }
 
-        binding.carouselViewRecipeImage.adapter = RecyclerAdapterRecipeImages(imageList, this, recipeId, likes)
+        binding.carouselViewRecipeImage.adapter = RecyclerAdapterRecipeImages(imageList, this)
         binding.carouselViewRecipeImage.apply {
             set3DItem(true)
             setAlpha(true)
@@ -92,15 +81,12 @@ class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.Call
             }
         }
 
-//        checkLiked(recipeId)
-
         binding.imageFavourite.setOnClickListener {
             if(binding.imageFavourite.drawable.constantState == ContextCompat.getDrawable(this, R.drawable.ic_fav)?.constantState) {
                 binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24))
-                increaseLikes(recipeId)
-            } else {
+            }
+            else {
                 binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_fav))
-                decreaseLikes(recipeId)
             }
         }
 
@@ -150,7 +136,6 @@ class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.Call
                                 Log.d("Get Successful", response.code().toString())
                             }
                             else {
-                                Log.d("Check Favourite", "Error")
                                 Log.d("Get error", response.message().toString())
                                 Log.d("Get error", response.code().toString())
                                 Log.d("Get url", "response.raw().request().url(): " + response.raw().request().url())
@@ -165,7 +150,6 @@ class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.Call
 
                 }
                 else {
-                    Log.d("Check Favourite", "Access Error")
                     Log.d("Get token error",response.message())
                     Log.d("Get token error",response.code().toString())
                     Log.d("Get token url","response.raw().request().url(): " + response.raw().request().url())
@@ -210,7 +194,6 @@ class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.Call
                                 Toast.makeText(this@RecipePageActivity, "Added to Favourites", Toast.LENGTH_SHORT).show()
                             }
                             else {
-                                Log.d("Post Favourite", "Error")
                                 Log.d("error", response.message())
                                 Log.d("error", response.code().toString())
                                 Log.d("url", "response.raw().request().url(): " + response.raw().request().url())
@@ -225,7 +208,6 @@ class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.Call
 
                 }
                 else {
-                    Log.d("Post Favourite", "Access Error")
                     Log.d("error",response.message())
                     Log.d("error",response.code().toString())
                     Log.d("url","response.raw().request().url(): " + response.raw().request().url())
@@ -270,7 +252,6 @@ class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.Call
                                 Toast.makeText(this@RecipePageActivity, "Deleted from Favourites", Toast.LENGTH_SHORT).show()
                             }
                             else {
-                                Log.d("Delete Favourite", "Error")
                                 Log.d("error", response.message())
                                 Log.d("error", response.code().toString())
                                 Log.d("url", "response.raw().request().url(): " + response.raw().request().url())
@@ -285,7 +266,6 @@ class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.Call
 
                 }
                 else {
-                    Log.d("Delete Favourite", "Access Error")
                     Log.d("error",response.message())
                     Log.d("error",response.code().toString())
                     Log.d("url","response.raw().request().url(): " + response.raw().request().url())
@@ -299,192 +279,7 @@ class RecipePageActivity : AppCompatActivity(), RecyclerAdapterRecipeImages.Call
         })
     }
 
-    override fun resultCallback(message: String, recipeId: Int?, likes: Int?) {
-        if(binding.imageFavourite.drawable.constantState == ContextCompat.getDrawable(this, R.drawable.ic_fav)?.constantState) {
-            binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24))
-            increaseLikes(recipeId)
-        }
-    }
-
-    private fun checkLiked(recipeId: Int?) {
-        Log.d("recipeId", recipeId.toString())
-
-        // Getting new access-token
-        val tokenData = TokenRefresh("", sharedPreferences.getString("refresh token", null))
-        Log.d("Token", tokenData.refresh.toString())
-        val accessToken = rf.refreshToken(tokenData)
-
-        accessToken.enqueue(object : Callback<TokenRefresh> {
-            override fun onResponse(call: Call<TokenRefresh>, response: Response<TokenRefresh>) {
-                if(response.code() == 200 || response.code() == 202) {
-                    val access = response.body()?.access.toString()
-                    val refresh = response.body()?.refresh.toString()
-                    Log.d("Access", access)
-                    Log.d("Refresh", refresh)
-                    editor.putString("access token", access)
-                    editor.putString("refresh token", refresh)
-                    editor.apply()
-
-                    val likesIncrease = rf.checkLiked("Bearer $access", recipeId)
-
-                    likesIncrease.enqueue(object : Callback<Recipe> {
-                        override fun onResponse(call: Call<Recipe>, response: Response<Recipe>) {
-                            if (response.code() == 200 || response.code() == 202) {
-                                Log.d("Is Liked", response.body()?.liked.toString())
-                            }
-                            else {
-                                Log.d("Check Liked", "Error")
-                                Log.d("error", response.message())
-                                Log.d("error", response.code().toString())
-                                Log.d("url", "response.raw().request().url(): " + response.raw().request().url())
-                            }
-                        }
-
-                        override fun onFailure(call: Call<Recipe>, t: Throwable) {
-                            Log.d("Error", t.message.toString())
-                        }
-
-                    })
-
-                }
-                else {
-                    Log.d("Check Liked", "Access Error")
-                    Log.d("error",response.message())
-                    Log.d("error",response.code().toString())
-                    Log.d("url","response.raw().request().url(): " + response.raw().request().url())
-                }
-            }
-
-            override fun onFailure(call: Call<TokenRefresh>, t: Throwable) {
-                Log.d("Access Error", t.message.toString())
-            }
-
-        })
-    }
-
-    private fun increaseLikes(recipeId: Int?) {
-        var increasedLikes: Int? = 0
-        Log.d("recipeId", recipeId.toString())
-
-        // Getting new access-token
-        val tokenData = TokenRefresh("", sharedPreferences.getString("refresh token", null))
-        Log.d("Token", tokenData.refresh.toString())
-        val accessToken = rf.refreshToken(tokenData)
-
-        accessToken.enqueue(object : Callback<TokenRefresh> {
-            override fun onResponse(call: Call<TokenRefresh>, response: Response<TokenRefresh>) {
-                if(response.code() == 200 || response.code() == 202) {
-                    val access = response.body()?.access.toString()
-                    val refresh = response.body()?.refresh.toString()
-                    Log.d("Access", access)
-                    Log.d("Refresh", refresh)
-                    editor.putString("access token", access)
-                    editor.putString("refresh token", refresh)
-                    editor.apply()
-
-                    // Increasing likes
-                    increasedLikes = likes?.plus(1)
-                    isLiked = true
-                    val likesIncrease = rf.updateLikes("Bearer $access", recipeId, Recipe(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, increasedLikes, isLiked, null, null))
-
-                    likesIncrease.enqueue(object : Callback<Recipe> {
-                        override fun onResponse(call: Call<Recipe>, response: Response<Recipe>) {
-                            if (response.code() == 200 || response.code() == 202) {
-                                Log.d("Increased Likes", response.body()?.likes.toString())
-                                binding.recipeLikes.text = response.body()?.likes.toString()
-                                likes = response.body()?.likes
-                                checkLiked(recipeId)
-                            }
-                            else {
-                                Log.d("Increase Likes", "Error")
-                                Log.d("error", response.message())
-                                Log.d("error", response.code().toString())
-                                Log.d("url", "response.raw().request().url(): " + response.raw().request().url())
-                            }
-                        }
-
-                        override fun onFailure(call: Call<Recipe>, t: Throwable) {
-                            Log.d("Error", t.message.toString())
-                        }
-
-                    })
-
-                }
-                else {
-                    Log.d("Increase Likes", "Access Error")
-                    Log.d("error",response.message())
-                    Log.d("error",response.code().toString())
-                    Log.d("url","response.raw().request().url(): " + response.raw().request().url())
-                }
-            }
-
-            override fun onFailure(call: Call<TokenRefresh>, t: Throwable) {
-                Log.d("Access Error", t.message.toString())
-            }
-
-        })
-    }
-
-    private fun decreaseLikes(recipeId: Int?) {
-        var decreasedLikes: Int? = 0
-        Log.d("recipeId", recipeId.toString())
-
-        // Getting new access-token
-        val tokenData = TokenRefresh("", sharedPreferences.getString("refresh token", null))
-        Log.d("Token", tokenData.refresh.toString())
-        val accessToken = rf.refreshToken(tokenData)
-
-        accessToken.enqueue(object : Callback<TokenRefresh> {
-            override fun onResponse(call: Call<TokenRefresh>, response: Response<TokenRefresh>) {
-                if(response.code() == 200 || response.code() == 202) {
-                    val access = response.body()?.access.toString()
-                    val refresh = response.body()?.refresh.toString()
-                    Log.d("Access", access)
-                    Log.d("Refresh", refresh)
-                    editor.putString("access token", access)
-                    editor.putString("refresh token", refresh)
-                    editor.apply()
-
-                    // Decreasing likes
-                    decreasedLikes = likes?.minus(1)
-                    isLiked = false
-                    val likesDecrease = rf.updateLikes("Bearer $access", recipeId, Recipe(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, decreasedLikes, isLiked, null, null))
-
-                    likesDecrease.enqueue(object : Callback<Recipe> {
-                        override fun onResponse(call: Call<Recipe>, response: Response<Recipe>) {
-                            if (response.code() == 200 || response.code() == 202) {
-                                Log.d("Decreased Likes", response.body()?.likes.toString())
-                                binding.recipeLikes.text = response.body()?.likes.toString()
-                                likes = response.body()?.likes
-                                checkLiked(recipeId)
-                            }
-                            else {
-                                Log.d("Decrease Likes", "Error")
-                                Log.d("error", response.message())
-                                Log.d("error", response.code().toString())
-                                Log.d("url", "response.raw().request().url(): " + response.raw().request().url())
-                            }
-                        }
-
-                        override fun onFailure(call: Call<Recipe>, t: Throwable) {
-                            Log.d("Error", t.message.toString())
-                        }
-
-                    })
-
-                }
-                else {
-                    Log.d("Decrease Likes", "Access Error")
-                    Log.d("error",response.message())
-                    Log.d("error",response.code().toString())
-                    Log.d("url","response.raw().request().url(): " + response.raw().request().url())
-                }
-            }
-
-            override fun onFailure(call: Call<TokenRefresh>, t: Throwable) {
-                Log.d("Access Error", t.message.toString())
-            }
-
-        })
+    override fun resultCallback(message: String) {
+        binding.imageFavourite.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24))
     }
 }

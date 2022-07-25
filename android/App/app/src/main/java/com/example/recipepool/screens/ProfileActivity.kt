@@ -31,10 +31,5 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.textProfileName.setText(userName)
         binding.textProfileUsername.setText(userEmail)
-
-        binding.profileSettings.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
-        }
     }
 }

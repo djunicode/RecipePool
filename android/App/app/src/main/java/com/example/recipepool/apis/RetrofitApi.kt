@@ -104,19 +104,6 @@ interface RetrofitApi {
         @Part image: MultipartBody.Part
     ):Call<ResponseNewRecipe>
 
-    @PATCH("api/recipe/{id}/")
-    fun checkLiked(
-        @Header("Authorization") token: String?,
-        @Path("id") id: Int?,
-    ): Call<Recipe>
-
-    @PATCH("api/recipe/{id}/")
-    fun updateLikes(
-        @Header("Authorization") token: String?,
-        @Path("id") id: Int?,
-        @Body params: Recipe
-    ): Call<Recipe>
-
     @POST("account/token-refresh/")
     fun  refresh(
         @Body params: refresh

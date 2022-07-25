@@ -2,9 +2,15 @@ package com.example.recipepool.screens
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Paint.Style
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -18,6 +24,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.recipepool.R
 import com.example.recipepool.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import de.hdodenhof.circleimageview.CircleImageView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -27,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var nav: NavigationView
     private lateinit var navController: NavController
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +50,17 @@ class MainActivity : AppCompatActivity() {
         val editor: SharedPreferences.Editor = pref.edit()
 
         nav = binding.leftNav
+
+        val header = nav.getHeaderView(0)
+        val headerImage: CircleImageView = header.findViewById(R.id.left_nav_header_image)
+        val headerName: TextView = header.findViewById(R.id.left_nav_header_name)
+        val headerEmail: TextView = header.findViewById(R.id.left_nav_header_email)
+
+        sharedPreferences = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
+        val name = sharedPreferences.getString("username", null).toString()
+        headerName.text = name
+        headerEmail.text = sharedPreferences.getString("email", null).toString()
+
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
                 as NavHostFragment
@@ -95,11 +114,11 @@ class MainActivity : AppCompatActivity() {
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-              //  val array = query?.split("\\s".toRegex())?.toTypedArray()
+                //  val array = query?.split("\\s".toRegex())?.toTypedArray()
 
                 val intent = Intent(this@MainActivity,Search::class.java)
 
-               // intent.putExtra("search",array)
+                // intent.putExtra("search",array)
                 intent.putExtra("search",query)
                 startActivity(intent)
 

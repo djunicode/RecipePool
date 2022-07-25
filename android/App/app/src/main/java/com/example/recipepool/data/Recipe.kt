@@ -3,6 +3,7 @@ package com.example.recipepool.data
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import java.util.ArrayList
 
 
 data class Recipe(
@@ -38,8 +39,6 @@ data class Recipe(
     val dishType: String?,
     @SerializedName("likes")
     val likes: Int?,
-    @SerializedName("liked")
-    val liked: Boolean?,
     @SerializedName("missingIngredients")
     val missingIngredients: String?,
     @SerializedName("ingredient_list")
@@ -58,7 +57,8 @@ data class Recipe(
             parcel.readString(),
             parcel.readString(),
             parcel.readValue(Int::class.java.classLoader) as? Int
-        )
+        ) {
+        }
 
         override fun describeContents(): Int {
             TODO("Not yet implemented")
@@ -92,7 +92,8 @@ data class Recipe(
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readString(),
             parcel.readValue(Int::class.java.classLoader) as? Int
-        )
+        ) {
+        }
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
             parcel.writeValue(id)
@@ -134,7 +135,8 @@ data class Recipe(
             parcel.readValue(Double::class.java.classLoader) as? Double,
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readValue(Int::class.java.classLoader) as? Int
-        )
+        ) {
+        }
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
             parcel.writeValue(id)
@@ -176,10 +178,10 @@ data class Recipe(
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
         parcel.readString(),
         parcel.createTypedArrayList(IngredientList.CREATOR)
-    )
+    ) {
+    }
 
     override fun describeContents(): Int {
         TODO("Not yet implemented")
