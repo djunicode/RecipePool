@@ -626,3 +626,10 @@ def StoreRecipes(q):
             recipe.save()
     #return JsonResponse(response.json(), safe = False)
     return 1
+
+
+class GetAllRecipes(generics.ListAPIView):
+    def get(self, request):
+        recipe = Recipe.objects.all()
+        recipeDetails = RecipeSerializer(recipe, many=True, context={'request': request})
+        return JsonResponse(recipeDetails.data, safe=False,status = status.HTTP_200_OK)
