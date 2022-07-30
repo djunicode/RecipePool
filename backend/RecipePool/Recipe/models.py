@@ -15,7 +15,7 @@ class Ingredient(models.Model):
         return self.name
 
 def upload_path_handler(instance, filename):
-    return "images/recipes/{label}/{file}".format(
+    return "images/cuisine/{label}/{file}".format(
         label=instance.cuisine_name, file=filename
     )
 
@@ -27,6 +27,12 @@ class Cuisine(models.Model):
 
     def __str__(self):
         return self.cuisine_name
+
+
+def upload_path_handler(instance, filename):
+    return "images/recipes/{label}/{file}".format(
+        label=instance.label, file=filename
+    )
 
 
 class Recipe(models.Model):
