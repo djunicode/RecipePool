@@ -15,9 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RecipePool">
         <activity
+            android:name=".Camera"
+            android:exported="false" />
+        <activity
             android:name=".screens.ManageInventory"
             android:exported="false"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".screens.MainActivity" />
@@ -41,7 +44,6 @@
             android:name=".screens.TaggedRecipes"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".screens.Search"
             android:exported="false"
