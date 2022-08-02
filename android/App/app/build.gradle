@@ -81,5 +81,5 @@ dependencies {
 
     // Thumbnail
     // https://mvnrepository.com/artifact/com.hbb20/gthumb
-//    implementation 'com.hbb20:gthumb:1.4'
+//    implementation 'com.hbb20:gthumb:1.5'
 }
