@@ -15,6 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RecipePool">
         <activity
+            android:name=".screens.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".screens.ProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".Camera"
             android:exported="false" />
         <activity

@@ -28,7 +28,7 @@
         android:id="@+id/inventoryPG"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/add_item"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_inventory"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_your_inventory" />
@@ -37,12 +37,15 @@
         android:id="@+id/inventory_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="308dp"
         android:text="Your inventory is empty"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/add_item"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_inventory"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_your_inventory" />
+        app:layout_constraintTop_toBottomOf="@+id/text_your_inventory"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/text_your_inventory"
@@ -80,21 +83,24 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_inventory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/add_item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInput"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textInput" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/add_item"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:background="#FF8352"
         android:fontFamily="@font/poppins"
         android:text="Add Item"
@@ -103,12 +109,11 @@
         android:textColor="@color/black"
         android:textSize="19sp"
         app:cornerRadius="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_inventory"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_inventory"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_inventory"
-        app:layout_constraintVertical_bias="0.971" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_inventory"
@@ -124,5 +129,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/bottom_nav" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

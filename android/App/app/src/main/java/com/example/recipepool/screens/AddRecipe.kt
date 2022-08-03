@@ -229,9 +229,8 @@ class AddRecipe : AppCompatActivity() {
                     val file = File(filePath)
                     val reqFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
                     img = MultipartBody.Part.createFormData("image", file.name, reqFile)
-                    Log.d("image ",img.toString())
+                    Log.d("image ", img.toString())
                 }
-
             }
 
             Log.d("ingredient list", ingredients.toList().toString())
@@ -304,7 +303,10 @@ class AddRecipe : AppCompatActivity() {
                                                     finish()
                                                     Log.d("img s", "image uploaded successfully")
                                                     Log.d("img uri", uri.toString())
-                                                    Log.d("recipe id",response1.body()!!.id.toString())
+                                                    Log.d(
+                                                        "recipe id",
+                                                        response1.body()!!.id.toString()
+                                                    )
 
                                                 } else {
                                                     binding.addRecipePG.visibility = View.INVISIBLE
@@ -321,7 +323,10 @@ class AddRecipe : AppCompatActivity() {
                                                             .toString()
                                                     )
                                                     Log.d("add recipe success", response1.message())
-                                                    Log.d("recipe id",response1.body()!!.id.toString())
+                                                    Log.d(
+                                                        "recipe id",
+                                                        response1.body()!!.id.toString()
+                                                    )
 
                                                 }
                                             }
@@ -340,7 +345,7 @@ class AddRecipe : AppCompatActivity() {
                                                     t.message.toString()
                                                 )
                                                 Log.d("img uri", uri.toString())
-                                                Log.d("recipe id",response1.body()!!.id.toString())
+                                                Log.d("recipe id", response1.body()!!.id.toString())
                                             }
 
                                         })
@@ -400,9 +405,10 @@ class AddRecipe : AppCompatActivity() {
             Glide.with(this)
                 .load(selectedImage)
                 .into(binding.imageAddRecipe)
+            binding.textAddImage.visibility = View.INVISIBLE
 
-            Log.d("uri",selectedImage.toString())
-            Log.d("image path",filePath)
+            Log.d("uri", selectedImage.toString())
+            Log.d("image path", filePath)
 
         }
     }
