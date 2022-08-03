@@ -325,6 +325,7 @@ class SignUp : AppCompatActivity() {
                                                 editor.putString("access token", response.body()!!.access.toString())
                                                 editor.putString("refresh token", response.body()!!.refresh.toString())
                                                 editor.putString("email", binding.etEmail.text.toString())
+                                                editor.putString("name" , binding.etName.text.toString())
                                                 editor.apply()
                                                 val intent = Intent(this@SignUp, MainActivity::class.java)
                                                 binding.viewSignUP.isEnabled = true

@@ -119,7 +119,10 @@ class HomeFragment : Fragment() {
                 call: Call<ArrayList<Recipe>>,
                 response: Response<ArrayList<Recipe>>
             ) {
-                TimeUnit.SECONDS.sleep(2L)
+                if (query == "dinner" || query == "lunch"){
+                    TimeUnit.SECONDS.sleep(2L)
+                }
+
                 if (response.code() == 200) {
                     binding.homePG.visibility = View.INVISIBLE
                     Log.d(

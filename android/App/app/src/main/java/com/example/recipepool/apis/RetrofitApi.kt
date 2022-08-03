@@ -28,10 +28,10 @@ interface RetrofitApi {
     ): Call<google>
 
     @GET("api/trending/")
-    fun getTrending(): Call<List<Trending>>
+    fun getTrending():  Call<ArrayList<Recipe>>
 
     @GET("api/trending-cuisine/")
-    fun trendingCuisine(): Call<ArrayList<trendingCuisine>>
+    fun trendingCuisine(): Call<ArrayList<Recipe>>
 
 
     @POST("api/filter-ingredient/")
@@ -145,8 +145,8 @@ interface RetrofitApi {
         @Body meal: HashMap<String, ArrayList<String>>
     ) : Call<ArrayList<Recipe>>
 
-    @POST("/recipe/0/")
+    @GET("api/recipe/0/")
     fun userRecipes(
-        @Body token: String?
+        @Header("Authorization") token: String?
     ) : Call<ArrayList<Recipe>>
 }
