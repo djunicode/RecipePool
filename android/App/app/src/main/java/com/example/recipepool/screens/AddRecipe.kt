@@ -1,13 +1,10 @@
 package com.example.recipepool.screens
 
-import android.content.ContentUris
 import android.content.Intent
 import android.content.SharedPreferences
+import android.database.Cursor
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -20,11 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipepool.R
-import com.example.recipepool.RealPathUtil.RealPathUtil.getDataColumn
-import com.example.recipepool.RealPathUtil.RealPathUtil.isDownloadsDocument
-import com.example.recipepool.RealPathUtil.RealPathUtil.isExternalStorageDocument
-import com.example.recipepool.RealPathUtil.RealPathUtil.isGooglePhotosUri
-import com.example.recipepool.RealPathUtil.RealPathUtil.isMediaDocument
 import com.example.recipepool.constants.ApiConstants.rf
 import com.example.recipepool.data.*
 import com.example.recipepool.databinding.ActivityAddRecipeBinding
@@ -50,10 +42,8 @@ class AddRecipe : AppCompatActivity() {
     private lateinit var rvSteps: RecyclerView
     private lateinit var editor: SharedPreferences.Editor
     private var uri: Uri? = null
-    private var postPath: String = ""
-    private var requestFile: RequestBody? = null
+    private var filePath: String = ""
     private var img: MultipartBody.Part? = null
-    private var mediaPath = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,27 +82,12 @@ class AddRecipe : AppCompatActivity() {
             adapter = stepAdapter
         }
 
-//        binding.textNameRecipe.visibility = View.INVISIBLE
-//        binding.textAboutAddRecipe.visibility = View.INVISIBLE
-//        binding.editTimeAddRecipe.isEnabled = false
-//        binding.editNameRecipe.isEnabled = false
-//        binding.editAboutAddRecipe.isEnabled = false
-
-
-//        binding.editNameRecipe.setOnClickListener {
-//            binding.editNameRecipe.isEnabled = true
-//        }
 
         binding.imageAddRecipe.setOnClickListener {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Select Recipe Image"), 100)
+            val photoPickerIntent = Intent(Intent.ACTION_PICK)
+            photoPickerIntent.type = "image/*"
+            startActivityForResult(photoPickerIntent, 1)
         }
-
-//        binding.editAboutAddRecipe.setOnClickListener {
-//            binding.editAboutAddRecipe.isEnabled = true
-//        }
 
         binding.addIconAddRecipe.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -137,10 +112,6 @@ class AddRecipe : AppCompatActivity() {
             }
             builder.show()
         }
-
-//        binding.editTimeAddRecipe.setOnClickListener {
-//            binding.editTimeAddRecipe.isEnabled = true
-//        }
 
         binding.addIcon2AddRecipe.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -191,7 +162,7 @@ class AddRecipe : AppCompatActivity() {
 
             var add = true
 
-            var name = binding.editNameRecipe.text.toString().trim()
+            val name = binding.editNameRecipe.text.toString().trim()
             if (name.isEmpty()) {
                 binding.editNameRecipe.error = "Add recipe name"
                 binding.editNameRecipe.requestFocus()
@@ -254,50 +225,13 @@ class AddRecipe : AppCompatActivity() {
 
 
             if (url != "") {
-                val file = File(postPath)
-//                requestFile = RequestBody.create(
-//                    MediaType.parse(contentResolver.getType(uri!!)),
-//                    file
-//                )
-
-//                requestFile = RequestBody.create(
-//                    MediaType.parse(contentResolver.getType(uri!!)),
-//                    file
-//                )
-
-                requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                img = MultipartBody.Part.createFormData("image", file.name, requestFile!!)
+                if (!filePath.equals("", ignoreCase = true)) {
+                    val file = File(filePath)
+                    val reqFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    img = MultipartBody.Part.createFormData("image", file.name, reqFile)
+                    Log.d("image ", img.toString())
+                }
             }
-
-
-//            val recipeMap = HashMap<String, RequestBody>()
-//            recipeMap["cuisine"] = RequestBody.create(MultipartBody.FORM, "chinese")
-//            recipeMap["cuisineType"] = RequestBody.create(MultipartBody.FORM, "abc")
-//            recipeMap["dishType"] = RequestBody.create(MultipartBody.FORM, "abc")
-//            recipeMap["healthLabels"] = RequestBody.create(MultipartBody.FORM, "abc")
-//            recipeMap["instructions"] = RequestBody.create(MultipartBody.FORM, desc.toString())
-//            recipeMap["label"] = RequestBody.create(MultipartBody.FORM, name.toString())
-//            recipeMap["mealType"] = RequestBody.create(MultipartBody.FORM, foodType.toString())
-//            recipeMap["missingIngredients"] = RequestBody.create(MultipartBody.FORM, "abc")
-//            recipeMap["totalNutrients"] = RequestBody.create(MultipartBody.FORM, "abc")
-//            recipeMap["totalTime"] = RequestBody.create(MultipartBody.FORM, time.toString())
-//
-//            val iList = arrayListOf<RequestBody>()
-//            val sList = arrayListOf<RequestBody>()
-//
-//            for (i in 0 until ingredients.size) {
-//                val ig = AddRecipeIngredient(ingredients[i].name,ingredients[i].quantity)
-//                iList.add(RequestBody.create(MediaType.parse("text/plain"), ig))
-//            }
-//
-//            for (i in 0 until steps.size) {
-//                sList.add(RequestBody.create(MediaType.parse("text/plain"), steps[i].steps!!))
-//            }
-
-
-//            recipeMap["steps_list"] = RequestBody.create(MultipartBody.FORM,"")
-//
-//            recipeMap["ingredient_list"] = RequestBody.create(MultipartBody.FORM,ingredients.toList())
 
             Log.d("ingredient list", ingredients.toList().toString())
             Log.d("steps list", steps.toList().toString())
@@ -305,17 +239,17 @@ class AddRecipe : AppCompatActivity() {
                 1,
                 "chinese",
                 "abc",
-                foodType.toString(),
+                foodType,
                 "abc",
                 ingredients.toList(),
-                desc.toString(),
-                name.toString(),
+                desc,
+                name,
                 0,
                 "abc",
                 "abc",
                 steps.toList(),
                 "abc",
-                time.toString(),
+                time,
             )
 
             val rdata = refresh("", pref.getString("refresh token", null))
@@ -330,70 +264,11 @@ class AddRecipe : AppCompatActivity() {
                         Log.d("refresh token", pref.getString("refresh token", null).toString())
                         Log.d("access token", pref.getString("access token", null).toString())
 
-                        //adding new recipe
-//                        val newRecipe = rf.addRecipe(
-//                            "Bearer ${response.body()!!.access.toString()}"
-//                            img,
-//                            recipe
-//                        )
 
                         val newRecipe = rf.addRecipe(
                             "Bearer ${response.body()!!.access.toString()}", recipe
                         )
                         Log.d("data", recipe.toString())
-
-//                        val head = "Bearer ${response.body()!!.access.toString()}"
-//                        val nr = rf.addRecipe2(
-//                            head,
-//                            1,
-//                            "chinese",
-//                            "abc",
-//                            foodType.toString(),
-//                            "abc",
-//                            desc.toString(),
-//                            name.toString(),
-//                            "abc",
-//                            "abc",
-//                            "abc",
-//                            time.toString(),
-//                            0,
-//                            img!!,
-//                            ingredients.toList(),
-//                            steps.toList()
-//                        )
-//                        val nr = rf.addRecipe2(
-//                            head.toString(),
-//                            1,
-//                            0,
-//                            img!!,
-//                            ingredients.toList(),
-//                            steps.toList(),
-//                            recipeMap
-//                        )
-//                        nr.enqueue(object : Callback<String> {
-//                            override fun onResponse(
-//                                call: Call<String>,
-//                                response: Response<String>
-//                            ) {
-//                                if (response.code() == 202 || response.code() == 200) {
-//                                    Log.d("img data", "data stored succesfully")
-//                                    Log.d("img data", response.body().toString())
-//                                } else {
-//                                    Log.d(
-//                                        "img s fail",
-//                                        response.message().toString() + response.code().toString()
-//                                    )
-//                                }
-//                            }
-//
-//                            override fun onFailure(call: Call<String>, t: Throwable) {
-//                                Log.d(
-//                                    "img failure",
-//                                    response.message().toString() + response.code().toString()
-//                                )
-//                            }
-//
-//                        })
 
                         newRecipe.enqueue(object : Callback<ResponseNewRecipe> {
                             override fun onResponse(
@@ -418,22 +293,40 @@ class AddRecipe : AppCompatActivity() {
                                                 call: Call<ResponseNewRecipe>,
                                                 response2: Response<ResponseNewRecipe>
                                             ) {
-                                                if(response2.code() == 202 || response2.code() == 200){
+                                                if (response2.code() == 202 || response2.code() == 200) {
                                                     binding.addRecipePG.visibility = View.INVISIBLE
-                                                    val intent = Intent(this@AddRecipe, MainActivity::class.java)
+                                                    val intent = Intent(
+                                                        this@AddRecipe,
+                                                        MainActivity::class.java
+                                                    )
                                                     startActivity(intent)
                                                     finish()
-                                                    Log.d("img s","image uploaded successfully")
-                                                    Log.d("img uri",uri.toString())
+                                                    Log.d("img s", "image uploaded successfully")
+                                                    Log.d("img uri", uri.toString())
+                                                    Log.d(
+                                                        "recipe id",
+                                                        response1.body()!!.id.toString()
+                                                    )
 
-                                                }
-                                                else{
+                                                } else {
                                                     binding.addRecipePG.visibility = View.INVISIBLE
-                                                    val intent = Intent(this@AddRecipe, MainActivity::class.java)
+                                                    val intent = Intent(
+                                                        this@AddRecipe,
+                                                        MainActivity::class.java
+                                                    )
                                                     startActivity(intent)
                                                     finish()
-                                                    Log.d("image upload s f",response2.message().toString()+response2.code().toString())
+                                                    Log.d(
+                                                        "image upload s f",
+                                                        response2.message()
+                                                            .toString() + response2.code()
+                                                            .toString()
+                                                    )
                                                     Log.d("add recipe success", response1.message())
+                                                    Log.d(
+                                                        "recipe id",
+                                                        response1.body()!!.id.toString()
+                                                    )
 
                                                 }
                                             }
@@ -443,18 +336,23 @@ class AddRecipe : AppCompatActivity() {
                                                 t: Throwable
                                             ) {
                                                 binding.addRecipePG.visibility = View.INVISIBLE
-                                                val intent = Intent(this@AddRecipe, MainActivity::class.java)
+                                                val intent =
+                                                    Intent(this@AddRecipe, MainActivity::class.java)
                                                 startActivity(intent)
                                                 finish()
-                                                Log.d("image upload failed add recipe success", t.message.toString())
-                                                Log.d("img uri",uri.toString())
+                                                Log.d(
+                                                    "image upload failed add recipe success",
+                                                    t.message.toString()
+                                                )
+                                                Log.d("img uri", uri.toString())
+                                                Log.d("recipe id", response1.body()!!.id.toString())
                                             }
 
                                         })
-                                    }
-                                    else{
+                                    } else {
                                         binding.addRecipePG.visibility = View.INVISIBLE
-                                        val intent = Intent(this@AddRecipe, MainActivity::class.java)
+                                        val intent =
+                                            Intent(this@AddRecipe, MainActivity::class.java)
                                         startActivity(intent)
                                         finish()
                                         Log.d("add recipe success", response1.message())
@@ -495,98 +393,34 @@ class AddRecipe : AppCompatActivity() {
                 }
             })
 
-//            val addRecipeRequest = rf.addRecipe()
-//            addRecipeRequest.enqueue(object : Callback<>)
-
         }
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) if (resultCode == RESULT_OK) {
+            val selectedImage: Uri? = data?.data
+            filePath = getPath(selectedImage)
+            url = uri.toString()
+            Glide.with(this)
+                .load(selectedImage)
+                .into(binding.imageAddRecipe)
+            binding.textAddImage.visibility = View.INVISIBLE
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 100) {
-                uri = data?.data
-                url = uri.toString()
-                Log.d("image uri",uri.toString())
-                if (url.isNotEmpty()) {
-                    binding.textAddImage.visibility = View.INVISIBLE
-                    Glide.with(this)
-                        .load(uri)
-                        .into(binding.imageAddRecipe)
+            Log.d("uri", selectedImage.toString())
+            Log.d("image path", filePath)
 
-//                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-//                    val cursor =
-//                        contentResolver.query(data?.data!!, filePathColumn, null, null, null)
-//                    assert(cursor != null)
-//                    cursor!!.moveToFirst()
-
-//                    val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-//                    mediaPath = cursor.getString(columnIndex)
-//                    cursor.close()
-                    postPath = getRealPathFromUri(uri!!).toString()
-                    Log.d("image path", postPath.toString())
-
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Unable to load the image please try again",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
         }
     }
 
-    fun getRealPathFromUri(uri: Uri): String? { // function for file path from uri,
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(
-                this, uri
-            )
-        ) {
-            // ExternalStorageProvider
-            if (isExternalStorageDocument(uri)) {
-                val docId = DocumentsContract.getDocumentId(uri)
-                val split = docId.split(":").toTypedArray()
-                val type = split[0]
-                if ("primary".equals(type, ignoreCase = true)) {
-                    return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
-                }
-            } else if (isDownloadsDocument(uri)) {
-                val id = DocumentsContract.getDocumentId(uri)
-                val contentUri = ContentUris.withAppendedId(
-                    Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)
-                )
-                return getDataColumn(this, contentUri, null, null)
-            } else if (isMediaDocument(uri)) {
-                val docId = DocumentsContract.getDocumentId(uri)
-                val split = docId.split(":").toTypedArray()
-                val type = split[0]
-                var contentUri: Uri? = null
-                if ("image" == type) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                } else if ("video" == type) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                } else if ("audio" == type) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-                }
-                val selection = "_id=?"
-                val selectionArgs = arrayOf(
-                    split[1]
-                )
-                return getDataColumn(this, contentUri, selection, selectionArgs)
-            }
-        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
 
-            // Return the remote address
-            return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
-                this,
-                uri,
-                null,
-                null
-            )
-        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
-            return uri.path
-        }
-        return null
+    fun getPath(uri: Uri?): String {
+        val projection = arrayOf(MediaStore.MediaColumns.DATA)
+        val cursor: Cursor = managedQuery(uri, projection, null, null, null)
+        val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+        cursor.moveToFirst()
+        return cursor.getString(columnIndex)
     }
+
 }

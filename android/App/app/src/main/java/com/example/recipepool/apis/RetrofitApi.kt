@@ -101,7 +101,7 @@ interface RetrofitApi {
     fun addImage(
         @Header("Authorization") token: String?,
         @Path("id") id:Int,
-        @Part image: MultipartBody.Part
+        @Part image: MultipartBody.Part?
     ):Call<ResponseNewRecipe>
 
     @POST("account/token-refresh/")
