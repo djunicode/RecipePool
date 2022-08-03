@@ -1,5 +1,6 @@
 package com.example.recipepool.screens
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -39,13 +40,20 @@ class ProfileActivityNew : AppCompatActivity() {
 //        val token = pref.getString("access token", null)
 //        Log.d("access token" , token.toString())
 
+        binding.nameProfileNew.text = pref.getString("name", null)
         rv = binding.profileRv
         rv.apply {
             layoutManager = GridLayoutManager(this@ProfileActivityNew,2)
         }
 
+        binding.profileSettings.setOnClickListener {
+
+            val intent  = Intent(this , SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
          cookBooksClicked = true
-          //recycler()
+          recycler()
 
         binding.buttonCookBooks.setOnClickListener {
             Log.d("button","clicked")

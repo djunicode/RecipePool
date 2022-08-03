@@ -137,6 +137,7 @@ class HomeFragment : Fragment() {
                     Log.d("error", response.message())
                     Log.d("error", response.code().toString())
                     Log.d("url", "response.raw().request().url();" + response.raw().request().url())
+                    searchByMeal(query)
                 }
             }
 
@@ -145,6 +146,7 @@ class HomeFragment : Fragment() {
                 Log.d("FoodList Error", t.message.toString())
                 binding.homePG.visibility = View.INVISIBLE
                 Log.d("error", t.message.toString())
+                searchByMeal(query)
             }
 
 

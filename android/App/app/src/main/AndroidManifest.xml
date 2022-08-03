@@ -18,13 +18,17 @@
 
         <activity
             android:name=".screens.ProfileActivityNew"
-            android:exported="true" >
-
+            android:exported="false"
+            android:parentActivityName=".screens.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screens.MainActivity" />
         </activity>
+
         <activity
             android:name=".screens.SettingsActivity"
             android:exported="false"
-            android:parentActivityName=".screens.ProfileActivity"
+            android:parentActivityName=".screens.ProfileActivityNew"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".Camera"
