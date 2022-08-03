@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc60d85b-5bd1-493c-9f33-fada14d1677d" name="Default Changelist" comment="" />
+    <list default="true" id="bc60d85b-5bd1-493c-9f33-fada14d1677d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/android/App/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/App/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/App/app/src/main/java/com/example/recipepool/apis/RetrofitApi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/App/app/src/main/java/com/example/recipepool/apis/RetrofitApi.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/App/app/src/main/java/com/example/recipepool/fragments/HomeFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/App/app/src/main/java/com/example/recipepool/fragments/HomeFragment.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

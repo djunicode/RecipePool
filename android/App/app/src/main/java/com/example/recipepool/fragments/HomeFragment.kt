@@ -8,15 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipepool.constants.ApiConstants.rf
-import com.example.recipepool.data.FoodList
 import com.example.recipepool.data.Recipe
-import com.example.recipepool.data.trendingCuisine
 import com.example.recipepool.databinding.FragmentHomeBinding
 import com.example.recipepool.recycleradapter.RecyclerAdapterFoodCard
 import com.example.recipepool.recycleradapter.RecyclerAdapterTrending
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.concurrent.TimeUnit
 
 
 class HomeFragment : Fragment() {
@@ -65,7 +64,7 @@ class HomeFragment : Fragment() {
         }
         binding.snacksChip.setOnClickListener {
             binding.homePG.visibility = View.VISIBLE
-            searchByMeal("snacks")
+            searchByMeal("dessert")
         }
         binding.dinnerChip.setOnClickListener {
             binding.homePG.visibility = View.VISIBLE
@@ -73,18 +72,17 @@ class HomeFragment : Fragment() {
         }
 
 
-        val trendingCuisine = rf.trendingCuisine()
-        var a = ArrayList<trendingCuisine>()
+        val trendingCuisine = rf.getTrending()
+        var a = ArrayList<Recipe>()
 
 
-        trendingCuisine.enqueue(object : Callback<ArrayList<trendingCuisine>> {
+        trendingCuisine.enqueue(object : Callback<ArrayList<Recipe>> {
             override fun onResponse(
-                call: Call<ArrayList<trendingCuisine>>,
-                response: Response<ArrayList<trendingCuisine>>
+                call: Call<ArrayList<Recipe>>,
+                response: Response<ArrayList<Recipe>>
             ) {
                 if (response.code() == 200) {
                     a = response.body()!!
-
                     binding.recyclerViewTrendingRecipe.apply {
                         layoutManager =
                             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
@@ -96,7 +94,7 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<ArrayList<trendingCuisine>>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<Recipe>>, t: Throwable) {
                 Log.d("Trending Cuisine", t.message.toString())
             }
 
@@ -115,18 +113,23 @@ class HomeFragment : Fragment() {
         Log.d("meal filter", query)
         val call = rf.filterMealType(map)
 
+
         call.enqueue(object : Callback<ArrayList<Recipe>> {
             override fun onResponse(
                 call: Call<ArrayList<Recipe>>,
                 response: Response<ArrayList<Recipe>>
             ) {
+                if (query == "dinner" || query == "lunch"){
+                    TimeUnit.SECONDS.sleep(2L)
+                }
+
                 if (response.code() == 200) {
                     binding.homePG.visibility = View.INVISIBLE
                     Log.d(
-                        "meal url",
-                        "response.raw().request().url();" + response.raw().request().url()
+                        "chip",
+                        "success"
                     )
-                    Log.d("data", response.body().toString())
+                    Log.d("data", response.body()?.size.toString())
                     binding.recyclerViewFoodCard.adapter =
                         RecyclerAdapterFoodCard(response.body()!!)
                 } else {
@@ -134,13 +137,16 @@ class HomeFragment : Fragment() {
                     Log.d("error", response.message())
                     Log.d("error", response.code().toString())
                     Log.d("url", "response.raw().request().url();" + response.raw().request().url())
+                    searchByMeal(query)
                 }
             }
+
 
             override fun onFailure(call: Call<ArrayList<Recipe>>, t: Throwable) {
                 Log.d("FoodList Error", t.message.toString())
                 binding.homePG.visibility = View.INVISIBLE
                 Log.d("error", t.message.toString())
+                searchByMeal(query)
             }
 
 

@@ -14,10 +14,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RecipePool">
+
+
+        <activity
+            android:name=".screens.ProfileActivityNew"
+            android:exported="false"
+            android:parentActivityName=".screens.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screens.MainActivity" />
+        </activity>
+
         <activity
             android:name=".screens.SettingsActivity"
             android:exported="false"
-            android:parentActivityName=".screens.ProfileActivity"
+            android:parentActivityName=".screens.ProfileActivityNew"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".Camera"
@@ -25,7 +36,7 @@
         <activity
             android:name=".screens.ManageInventory"
             android:exported="false"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".screens.MainActivity" />
@@ -49,6 +60,7 @@
             android:name=".screens.TaggedRecipes"
             android:exported="false"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".screens.Search"
             android:exported="false"

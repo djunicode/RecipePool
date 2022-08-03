@@ -383,6 +383,7 @@ class AddRecipe : AppCompatActivity() {
                         Log.d("refresh token", pref.getString("refresh token", null).toString())
                         binding.addRecipePG.visibility = View.INVISIBLE
                         Log.d("token s response", response.body().toString())
+                        Log.d("token s response", response.code().toString())
                     }
                 }
 

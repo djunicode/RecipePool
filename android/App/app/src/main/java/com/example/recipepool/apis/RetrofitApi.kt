@@ -28,10 +28,10 @@ interface RetrofitApi {
     ): Call<google>
 
     @GET("api/trending/")
-    fun getTrending(): Call<List<Trending>>
+    fun getTrending():  Call<ArrayList<Recipe>>
 
     @GET("api/trending-cuisine/")
-    fun trendingCuisine(): Call<ArrayList<trendingCuisine>>
+    fun trendingCuisine(): Call<ArrayList<Recipe>>
 
 
     @POST("api/filter-ingredient/")
@@ -67,6 +67,28 @@ interface RetrofitApi {
         @Header("Authorization") bearer: String?,
         @Body params: Favourite
     ): Call<Favourite>
+
+//    @Multipart
+//    @POST("api/recipe/0/")
+//    fun addRecipe2(
+//        @Header("Authorization") token: String?,
+//        @Part("calories") calorie:Int?,
+//        @Part("cuisine") cuisine:String?,
+//        @Part("cuisineType") cuisineType: String?,
+//        @Part("dishType") dishTyp: String?,
+//        @Part("healthLabels") healthLabels: String?,
+//        @Part("instructions") instructions: String?,
+//        @Part("label") label: String?,
+//        @Part("mealType") mealType: String?,
+//        @Part("missingIngredients") missingIngredients: String?,
+//        @Part("totalNutrients") totalNutrients: String?,
+//        @Part("totalTime") totalTime: String?,
+//        @Part("likes") like:Int?,
+//        @Part image: MultipartBody.Part,
+//        @Query("ingredient_list") ingredient:List<AddRecipeIngredient>,
+//        @Query("steps_list") steps: List<AddRecipeSteps>,
+////        @PartMap body : Map<String,RequestBody>
+//    ):Call<String>
 
     @POST("api/recipe/0/")
     fun addRecipe(
@@ -117,4 +139,14 @@ interface RetrofitApi {
         @Header("Authorization") token:String?,
         @Path("id") id:Int,
     ):Call<String>
+
+    @POST("api/filter-cuisine/")
+    fun filterCuisine(
+        @Body meal: HashMap<String, ArrayList<String>>
+    ) : Call<ArrayList<Recipe>>
+
+    @GET("api/recipe/0/")
+    fun userRecipes(
+        @Header("Authorization") token: String?
+    ) : Call<ArrayList<Recipe>>
 }

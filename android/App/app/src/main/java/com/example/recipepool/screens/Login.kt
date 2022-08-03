@@ -44,6 +44,7 @@ class Login : AppCompatActivity() {
 
         // Check if user is signed in (non-null) and update UI accordingly.
         if (!token.isNullOrEmpty()) {
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -141,6 +142,7 @@ class Login : AppCompatActivity() {
                         editor.putString("access token", response.body()!!.access.toString())
                         editor.putString("refresh token", response.body()!!.refresh.toString())
                         editor.putString("email", binding.etEmail.text.toString())
+                        Log.d("token" , response.body()!!.access.toString())
                         editor.apply()
                         binding.btLogin.isEnabled = true
                         binding.pBLogin.visibility = View.INVISIBLE

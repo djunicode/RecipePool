@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.profile_left -> {
-                    val intent = Intent(this, ProfileActivity::class.java)
+                    val intent = Intent(this, ProfileActivityNew::class.java)
                     startActivity(intent)
                     finish()
                 }
