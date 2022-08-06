@@ -180,6 +180,49 @@ def index(request):
     content = {'GOOGLE_CLIENT_ID': GOOGLE_CLIENT_ID}
     return render(request, 'index.html', content)
 
+
+class UserView(APIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def get(self,request):
+        try:
+            user=User.objects.get(email = request.user)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        userProfile = UserSerializer(user, many=False, context={'request': request})
+        return JsonResponse(userProfile.data,safe=False,status = status.HTTP_200_OK)
+
+
+    def patch(self,request):
+        try:
+            user=User.objects.get(email = request.user)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        email = user.email
+        serializer = UserSerializer(instance = user, data=request.data, partial = True)
+        if serializer.is_valid(): 
+            if(serializer.validated_data.get('email',user.email) != email):
+                serializer.validated_data['email'] = email
+            serializer.save()
+            return JsonResponse(serializer.data,safe=False,status = status.HTTP_200_OK)
+        return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self,request):
+        try:
+            user = User.objects.get(email = request.user)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        user.delete()
+        content = {'detail': 'User Deleted'}
+        return JsonResponse(content, status = status.HTTP_202_ACCEPTED)
+
+
+
 class InventoryView(APIView):
     serializer_class = InventorySerializer
     permission_classes = [IsAuthenticated,]
