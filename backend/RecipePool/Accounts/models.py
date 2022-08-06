@@ -43,7 +43,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, firstname, lastname, password,phone_number,gender,DOB):
+    def create_user(self, email, firstname, lastname, password,phone_number,gender,DOB, image, role):
         user = self.create_superuser(
             email,
             firstname,
@@ -56,6 +56,8 @@ class UserManager(BaseUserManager):
         user.staff = False
         user.admin = False
         user.is_active = False
+        user.role = role
+        user.image = image
         user.save(using=self._db)
         return user
 
@@ -67,6 +69,11 @@ GENDER = (
     ('Female', 'Female'),
 )
 
+def upload_path_handler(instance, filename):
+    return "images/profile/{label}/{file}".format(
+        label=instance.firstname + '_' + instance.lastname, file=filename
+    )
+
 class User(AbstractBaseUser):
     email = models.EmailField(
         verbose_name='email address',
@@ -76,6 +83,8 @@ class User(AbstractBaseUser):
     firstname         = models.CharField(max_length=60)
     lastname          = models.CharField(max_length=60)
     phone_number      = models.DecimalField(max_digits = 10, decimal_places = 0,null = True,blank=True)
+    role              = models.CharField(max_length=200, null = True, blank = True)
+    image             = models.ImageField(upload_to = upload_path_handler,null = True, blank = True)
     gender            = models.CharField(max_length = 100,choices = GENDER, default = '--')
     DOB               = models.DateField(null=True,blank=True)
     is_active         = models.BooleanField(default=False)

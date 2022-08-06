@@ -22,8 +22,13 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'password', 'firstname', 'lastname','phone_number','gender','DOB']
-       
+        fields = ['email', 'password', 'firstname', 'lastname','phone_number','gender','DOB','role','image']
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response.pop('password',None)
+        return response
+     
     def save_user(self, validated_data):
         user = User.objects.create_user( 
                                 password=validated_data.get('password'), 
@@ -32,10 +37,14 @@ class UserSerializer(serializers.ModelSerializer):
                                 lastname=validated_data.get('lastname'),
                                 phone_number=validated_data.get('phone_number'),
                                 gender=validated_data.get('gender'),
-                                DOB=validated_data.get('DOB')
+                                DOB=validated_data.get('DOB'),
+                                role=validated_data.get('role'),
+                                image=validated_data.get('image'),
                                 )
         user.save()
         return user
+
+        
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
