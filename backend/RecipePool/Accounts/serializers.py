@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
-from django.contrib import auth
+from django.contrib.auth import get_user_model, authenticate
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 # for reseting password
@@ -26,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
-        response.pop('password',None)
+        # response.pop('password',None)
         return response
      
     def save_user(self, validated_data):
