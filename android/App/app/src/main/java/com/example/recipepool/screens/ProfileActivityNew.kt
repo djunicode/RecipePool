@@ -51,6 +51,11 @@ class ProfileActivityNew : AppCompatActivity() {
             val intent  = Intent(this , SettingsActivity::class.java)
             startActivity(intent)
         }
+        binding.edtPrfButton.setOnClickListener {
+
+            val intent  = Intent(this , ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
          cookBooksClicked = true
           recycler()
@@ -145,7 +150,7 @@ class ProfileActivityNew : AppCompatActivity() {
 
                     }
                     else{
-                        Log.d("response code", response.code().toString())
+                        Log.d("response code not 200 ", response.code().toString())
                     }
                 }
 
