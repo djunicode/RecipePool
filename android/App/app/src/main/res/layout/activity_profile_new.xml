@@ -62,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@+id/name_profile_new" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/edt_prf_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -89,7 +89,7 @@
         android:weightSum="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button">
+        app:layout_constraintTop_toBottomOf="@+id/edt_prf_button">
 
 
         <com.google.android.material.button.MaterialButton
