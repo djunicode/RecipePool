@@ -10,10 +10,10 @@
         android:icon="@drawable/ic_fav"
         android:title=""/>
 
-    <item
-        android:id="@+id/camera"
-        android:icon="@drawable/ic_camera"
-        android:title=""/>
+<!--    <item-->
+<!--        android:id="@+id/camera"-->
+<!--        android:icon="@drawable/ic_camera"-->
+<!--        android:title=""/>-->
 
 <!--    <item-->
 <!--        android:id="@+id/account"-->

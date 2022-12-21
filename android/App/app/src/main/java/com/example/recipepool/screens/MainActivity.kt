@@ -2,11 +2,6 @@ package com.example.recipepool.screens
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Paint.Style
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -94,7 +89,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.profile_left -> {
                     val intent = Intent(this, ProfileActivityNew::class.java)
                     startActivity(intent)
-                    finish()
                 }
 
                 R.id.inventory -> {
