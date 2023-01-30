@@ -82,21 +82,21 @@
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="11sp"/>
 
-            <RatingBar
-                android:id="@+id/rating_bar"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="78dp"
-                android:layout_height="wrap_content"
-                android:elevation="5dp"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:stepSize="0.1"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintVertical_bias="0.0"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/food_name_text"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+<!--            <RatingBar-->
+<!--                android:id="@+id/rating_bar"-->
+<!--                style="@style/Widget.AppCompat.RatingBar.Small"-->
+<!--                android:layout_width="78dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:elevation="5dp"-->
+<!--                android:isIndicator="true"-->
+<!--                android:numStars="5"-->
+<!--                android:stepSize="0.1"-->
+<!--                app:layout_constraintHorizontal_bias="0.5"-->
+<!--                app:layout_constraintVertical_bias="0.0"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/food_name_text"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

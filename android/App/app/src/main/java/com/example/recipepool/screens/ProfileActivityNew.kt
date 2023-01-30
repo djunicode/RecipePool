@@ -40,15 +40,27 @@ class ProfileActivityNew : AppCompatActivity() {
 //        val token = pref.getString("access token", null)
 //        Log.d("access token" , token.toString())
 
+        val userEmail = pref.getString("email", null).toString()
+        val userName = pref.getString("username", null).toString()
+        Log.d("Email", userEmail)
+
+        binding.nameProfileNew.setText(userName)
+        binding.emailProfileNew.setText(userEmail)
+
         binding.nameProfileNew.text = pref.getString("name", null)
         rv = binding.profileRv
         rv.apply {
             layoutManager = GridLayoutManager(this@ProfileActivityNew,2)
         }
 
-        binding.profileSettings.setOnClickListener {
+//        binding.profileSettings.setOnClickListener {
+//
+//            val intent  = Intent(this , SettingsActivity::class.java)
+//            startActivity(intent)
+//        }
+        binding.edtPrfButton.setOnClickListener {
 
-            val intent  = Intent(this , SettingsActivity::class.java)
+            val intent  = Intent(this , ProfileActivity::class.java)
             startActivity(intent)
         }
 
@@ -145,7 +157,7 @@ class ProfileActivityNew : AppCompatActivity() {
 
                     }
                     else{
-                        Log.d("response code", response.code().toString())
+                        Log.d("response code not 200 ", response.code().toString())
                     }
                 }
 

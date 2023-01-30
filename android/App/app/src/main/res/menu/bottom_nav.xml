@@ -16,11 +16,12 @@
 <!--        android:title=""/>-->
 
 <!--    <item-->
-<!--        android:id="@+id/account"-->
+<!--        android:id="@+id/"-->
 <!--        android:icon="@drawable/ic_account"-->
 <!--        android:title=""/>-->
-    <item
-        android:id="@+id/cart"
-        android:icon="@drawable/ic_cart"
-        android:title=""/>
+
+<!--    <item-->
+<!--        android:id="@+id/cart"-->
+<!--        android:icon="@drawable/ic_cart"-->
+<!--        android:title=""/>-->
 </menu>

@@ -3,37 +3,37 @@
     app:cnb_unselectedColor = "#ffffff"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/breakfast"
-        android:title="Breakfast"
-        app:backgroundColor="#FF9800"
-        app:icon="@color/white"
-        app:cnb_iconColor="@color/white"
-        app:cnb_textColor="@color/black" />
+<!--    <item-->
+<!--        android:id="@+id/breakfast"-->
+<!--        android:title="Breakfast"-->
+<!--        app:backgroundColor="#FF9800"-->
+<!--        app:icon="@color/white"-->
+<!--        app:cnb_iconColor="@color/white"-->
+<!--        app:cnb_textColor="@color/black" />-->
 
-    <item
-        android:id="@+id/lunch"
-        android:title="Lunch"
-        app:backgroundColor="#FF9800"
-        app:icon="@color/white"
-        app:cnb_iconColor="@color/white"
-        app:cnb_textColor="@color/black" />
+<!--    <item-->
+<!--        android:id="@+id/lunch"-->
+<!--        android:title="Lunch"-->
+<!--        app:backgroundColor="#FF9800"-->
+<!--        app:icon="@color/white"-->
+<!--        app:cnb_iconColor="@color/white"-->
+<!--        app:cnb_textColor="@color/black" />-->
 
-    <item
-        android:id="@+id/snacks"
-        android:title="Snacks"
-        app:backgroundColor="#FF9800"
-        app:icon="@color/white"
-        app:cnb_iconColor="@color/white"
-        app:cnb_textColor="@color/black" />
+<!--    <item-->
+<!--        android:id="@+id/snacks"-->
+<!--        android:title="Snacks"-->
+<!--        app:backgroundColor="#FF9800"-->
+<!--        app:icon="@color/white"-->
+<!--        app:cnb_iconColor="@color/white"-->
+<!--        app:cnb_textColor="@color/black" />-->
 
-    <item
-        android:id="@+id/dinner"
-        android:title="Dinner"
-        app:backgroundColor="#FF9800"
-        app:icon="@color/white"
-        app:cnb_iconColor="@color/white"
-        app:cnb_textColor="@color/black" />
+<!--    <item-->
+<!--        android:id="@+id/dinner"-->
+<!--        android:title="Dinner"-->
+<!--        app:backgroundColor="#FF9800"-->
+<!--        app:icon="@color/white"-->
+<!--        app:cnb_iconColor="@color/white"-->
+<!--        app:cnb_textColor="@color/black" />-->
 
     <item
         android:id="@+id/profile_left"

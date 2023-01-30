@@ -10,6 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc60d85b-5bd1-493c-9f33-fada14d1677d" name="Default Changelist" comment="">
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/android/App/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/App/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/App/app/src/main/java/com/example/recipepool/apis/RetrofitApi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/App/app/src/main/java/com/example/recipepool/apis/RetrofitApi.kt" afterDir="false" />
@@ -17,6 +18,10 @@
 =======
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 >>>>>>> Stashed changes
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/App/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/App/.idea/gradle.xml" afterDir="false" />
+>>>>>>> bf9c8bda0029866393251bb25d9186688d78e805
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +31,9 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[035491187N007441]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="27YdDXHW5RFtl0NjhCC2uOEPKkd" />
   <component name="ProjectViewState">

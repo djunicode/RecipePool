@@ -16,10 +16,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.recipepool.R
 import com.example.recipepool.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import de.hdodenhof.circleimageview.CircleImageView
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //code for setting status bar white
-        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+        window.statusBarColor = ContextCompat.getColor(this, com.example.recipepool.R.color.white)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
         // shared preferences to
@@ -47,17 +47,22 @@ class MainActivity : AppCompatActivity() {
         nav = binding.leftNav
 
         val header = nav.getHeaderView(0)
-        val headerImage: CircleImageView = header.findViewById(R.id.left_nav_header_image)
-        val headerName: TextView = header.findViewById(R.id.left_nav_header_name)
-        val headerEmail: TextView = header.findViewById(R.id.left_nav_header_email)
+        val headerImage: CircleImageView = header.findViewById(com.example.recipepool.R.id.left_nav_header_image)
+        val headerName: TextView = header.findViewById(com.example.recipepool.R.id.left_nav_header_name)
+        val headerEmail: TextView = header.findViewById(com.example.recipepool.R.id.left_nav_header_email)
 
         sharedPreferences = applicationContext.getSharedPreferences("SharedPref", MODE_PRIVATE)
         val name = sharedPreferences.getString("username", null).toString()
         headerName.text = name
         headerEmail.text = sharedPreferences.getString("email", null).toString()
 
+        // image
+        /*val drawable: TextDrawable = TextDrawable.builder()
+            .buildRect("A", Color.RED)*/
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+
+
+        val navHostFragment = supportFragmentManager.findFragmentById(com.example.recipepool.R.id.fragmentContainerView)
                 as NavHostFragment
         navController = navHostFragment.navController
 
@@ -66,11 +71,11 @@ class MainActivity : AppCompatActivity() {
         toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         drawer = binding.drawer
-        toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(this, drawer, toolbar, com.example.recipepool.R.string.open, com.example.recipepool.R.string.close)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toggle.isDrawerIndicatorEnabled = true
-        toggle.drawerArrowDrawable.color = ContextCompat.getColor(this, R.color.black)
+        toggle.drawerArrowDrawable.color = ContextCompat.getColor(this, com.example.recipepool.R.color.black)
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -78,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         nav.setNavigationItemSelectedListener {
             drawer.closeDrawer(GravityCompat.START)
             when(it.itemId){
-                R.id.Logout -> {
+                com.example.recipepool.R.id.Logout -> {
                     val intent = Intent(this,Login::class.java)
                     editor.clear()
                     editor.apply()
@@ -86,12 +91,12 @@ class MainActivity : AppCompatActivity() {
                     finish()
                 }
 
-                R.id.profile_left -> {
+                com.example.recipepool.R.id.profile_left -> {
                     val intent = Intent(this, ProfileActivityNew::class.java)
                     startActivity(intent)
                 }
 
-                R.id.inventory -> {
+                com.example.recipepool.R.id.inventory -> {
                     val intent = Intent(this,ManageInventory::class.java)
                     startActivity(intent)
                 }
@@ -105,8 +110,8 @@ class MainActivity : AppCompatActivity() {
 
     // search bar
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.search, menu)
-        val searchBtn = menu.findItem(R.id.search)
+        menuInflater.inflate(com.example.recipepool.R.menu.search, menu)
+        val searchBtn = menu.findItem(com.example.recipepool.R.id.search)
         val search = searchBtn?.actionView as SearchView
         search.queryHint = "Search Here"
 
