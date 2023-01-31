@@ -17,13 +17,13 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
-        <ImageView
-            android:id="@+id/profile_settings"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="23dp"
-            android:src="@drawable/ic_settings" />
+<!--        <ImageView-->
+<!--            android:id="@+id/profile_settings"-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:layout_gravity="end"-->
+<!--            android:layout_marginEnd="23dp"-->
+<!--            android:src="@drawable/ic_settings" />-->
     </androidx.appcompat.widget.Toolbar>
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="@+id/profile_image" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/email_profile_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"

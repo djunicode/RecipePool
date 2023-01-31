@@ -94,7 +94,6 @@ class MainActivity : AppCompatActivity() {
                 com.example.recipepool.R.id.profile_left -> {
                     val intent = Intent(this, ProfileActivityNew::class.java)
                     startActivity(intent)
-                    finish()
                 }
 
                 com.example.recipepool.R.id.inventory -> {

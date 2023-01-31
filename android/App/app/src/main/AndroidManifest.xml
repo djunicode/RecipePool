@@ -19,10 +19,8 @@
         <activity
             android:name=".screens.ProfileActivityNew"
             android:exported="false"
-            android:parentActivityName=".screens.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".screens.MainActivity" />
+            android:parentActivityName=".screens.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
